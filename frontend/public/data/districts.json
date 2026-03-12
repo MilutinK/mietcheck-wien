@@ -1,0 +1,999 @@
+{
+  "districts": [
+    {
+      "id": 1,
+      "name": "Innere Stadt",
+      "name_full": "1. Innere Stadt",
+      "wohnungen_gesamt": 8433,
+      "bevoelkerung": 16500,
+      "flaeche_km2": 3.01,
+      "einwohner_pro_km2": 5482,
+      "rechtsverhaeltnis": {
+        "eigentum": 244,
+        "hauptmiete": 1238,
+        "gemeinde": 13299,
+        "genossenschaft": 1169,
+        "sonstige": 550
+      },
+      "nutzflaechen": {
+        "unter_35m2": 1005,
+        "von_35_bis_60m2": 1608,
+        "von_60_bis_90m2": 3915,
+        "von_90_bis_130m2": 4165,
+        "ueber_130m2": 5257
+      },
+      "bauperioden": {
+        "vor_1919": 12229,
+        "von_1919_bis_1944": 801,
+        "von_1945_bis_1960": 2128,
+        "von_1961_bis_1980": 911,
+        "von_1981_bis_2000": 195,
+        "nach_2001": 236
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 43,
+        "haltestellen_pro_km2": 14.29,
+        "score": 8.8
+      },
+      "gebaeude_anzahl": 1514,
+      "baujahr_stats": {
+        "median": 1880,
+        "aeltestes": 1220,
+        "juengstes": 1999,
+        "anzahl_mit_baujahr": 1324
+      }
+    },
+    {
+      "id": 2,
+      "name": "Leopoldstadt",
+      "name_full": "2. Leopoldstadt",
+      "wohnungen_gesamt": 51921,
+      "bevoelkerung": 109518,
+      "flaeche_km2": 19.27,
+      "einwohner_pro_km2": 5683,
+      "rechtsverhaeltnis": {
+        "eigentum": 2675,
+        "hauptmiete": 11435,
+        "gemeinde": 86009,
+        "genossenschaft": 4356,
+        "sonstige": 5043
+      },
+      "nutzflaechen": {
+        "unter_35m2": 11143,
+        "von_35_bis_60m2": 21169,
+        "von_60_bis_90m2": 45073,
+        "von_90_bis_130m2": 23017,
+        "ueber_130m2": 4073
+      },
+      "bauperioden": {
+        "vor_1919": 42598,
+        "von_1919_bis_1944": 6368,
+        "von_1945_bis_1960": 11461,
+        "von_1961_bis_1980": 18794,
+        "von_1981_bis_2000": 6473,
+        "nach_2001": 23819
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 80,
+        "haltestellen_pro_km2": 4.15,
+        "score": 2.6
+      },
+      "gebaeude_anzahl": 2594,
+      "baujahr_stats": {
+        "median": 1888,
+        "aeltestes": 190,
+        "juengstes": 1989,
+        "anzahl_mit_baujahr": 321
+      }
+    },
+    {
+      "id": 3,
+      "name": "Landstraße",
+      "name_full": "3. Landstraße",
+      "wohnungen_gesamt": 50401,
+      "bevoelkerung": 98161,
+      "flaeche_km2": 7.42,
+      "einwohner_pro_km2": 13229,
+      "rechtsverhaeltnis": {
+        "eigentum": 1198,
+        "hauptmiete": 10929,
+        "gemeinde": 79314,
+        "genossenschaft": 4193,
+        "sonstige": 2527
+      },
+      "nutzflaechen": {
+        "unter_35m2": 11874,
+        "von_35_bis_60m2": 20043,
+        "von_60_bis_90m2": 36308,
+        "von_90_bis_130m2": 19832,
+        "ueber_130m2": 7577
+      },
+      "bauperioden": {
+        "vor_1919": 43151,
+        "von_1919_bis_1944": 9065,
+        "von_1945_bis_1960": 10761,
+        "von_1961_bis_1980": 11332,
+        "von_1981_bis_2000": 7546,
+        "nach_2001": 16298
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 61,
+        "haltestellen_pro_km2": 8.22,
+        "score": 5.1
+      },
+      "gebaeude_anzahl": 3157,
+      "baujahr_stats": {
+        "median": 1905,
+        "aeltestes": 1700,
+        "juengstes": 1989,
+        "anzahl_mit_baujahr": 898
+      }
+    },
+    {
+      "id": 4,
+      "name": "Wieden",
+      "name_full": "4. Wieden",
+      "wohnungen_gesamt": 16476,
+      "bevoelkerung": 33124,
+      "flaeche_km2": 1.78,
+      "einwohner_pro_km2": 18609,
+      "rechtsverhaeltnis": {
+        "eigentum": 458,
+        "hauptmiete": 4109,
+        "gemeinde": 25414,
+        "genossenschaft": 1565,
+        "sonstige": 1578
+      },
+      "nutzflaechen": {
+        "unter_35m2": 2531,
+        "von_35_bis_60m2": 4929,
+        "von_60_bis_90m2": 10661,
+        "von_90_bis_130m2": 8613,
+        "ueber_130m2": 4812
+      },
+      "bauperioden": {
+        "vor_1919": 19720,
+        "von_1919_bis_1944": 1463,
+        "von_1945_bis_1960": 4523,
+        "von_1961_bis_1980": 3989,
+        "von_1981_bis_2000": 1676,
+        "nach_2001": 1752
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 17,
+        "haltestellen_pro_km2": 9.55,
+        "score": 5.9
+      },
+      "gebaeude_anzahl": 1464,
+      "baujahr_stats": {
+        "median": 1887,
+        "aeltestes": 1615,
+        "juengstes": 2002,
+        "anzahl_mit_baujahr": 748
+      }
+    },
+    {
+      "id": 5,
+      "name": "Margareten",
+      "name_full": "5. Margareten",
+      "wohnungen_gesamt": 28398,
+      "bevoelkerung": 54364,
+      "flaeche_km2": 2.03,
+      "einwohner_pro_km2": 26780,
+      "rechtsverhaeltnis": {
+        "eigentum": 734,
+        "hauptmiete": 5658,
+        "gemeinde": 43860,
+        "genossenschaft": 2749,
+        "sonstige": 1363
+      },
+      "nutzflaechen": {
+        "unter_35m2": 9677,
+        "von_35_bis_60m2": 13050,
+        "von_60_bis_90m2": 20794,
+        "von_90_bis_130m2": 7824,
+        "ueber_130m2": 1656
+      },
+      "bauperioden": {
+        "vor_1919": 27502,
+        "von_1919_bis_1944": 6770,
+        "von_1945_bis_1960": 6507,
+        "von_1961_bis_1980": 7051,
+        "von_1981_bis_2000": 3437,
+        "nach_2001": 3097
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 33,
+        "haltestellen_pro_km2": 16.26,
+        "score": 10
+      },
+      "gebaeude_anzahl": 2071,
+      "baujahr_stats": {
+        "median": 1890,
+        "aeltestes": 1770,
+        "juengstes": 2006,
+        "anzahl_mit_baujahr": 150
+      }
+    },
+    {
+      "id": 6,
+      "name": "Mariahilf",
+      "name_full": "6. Mariahilf",
+      "wohnungen_gesamt": 16110,
+      "bevoelkerung": 31181,
+      "flaeche_km2": 1.48,
+      "einwohner_pro_km2": 21068,
+      "rechtsverhaeltnis": {
+        "eigentum": 497,
+        "hauptmiete": 3114,
+        "gemeinde": 24174,
+        "genossenschaft": 1638,
+        "sonstige": 1758
+      },
+      "nutzflaechen": {
+        "unter_35m2": 2876,
+        "von_35_bis_60m2": 5408,
+        "von_60_bis_90m2": 10747,
+        "von_90_bis_130m2": 7438,
+        "ueber_130m2": 2954
+      },
+      "bauperioden": {
+        "vor_1919": 17702,
+        "von_1919_bis_1944": 1436,
+        "von_1945_bis_1960": 1785,
+        "von_1961_bis_1980": 4364,
+        "von_1981_bis_2000": 3838,
+        "nach_2001": 2056
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 16,
+        "haltestellen_pro_km2": 10.81,
+        "score": 6.6
+      },
+      "gebaeude_anzahl": 1405,
+      "baujahr_stats": {
+        "median": 1891,
+        "aeltestes": 1774,
+        "juengstes": 2011,
+        "anzahl_mit_baujahr": 557
+      }
+    },
+    {
+      "id": 7,
+      "name": "Neubau",
+      "name_full": "7. Neubau",
+      "wohnungen_gesamt": 16946,
+      "bevoelkerung": 31452,
+      "flaeche_km2": 1.61,
+      "einwohner_pro_km2": 19535,
+      "rechtsverhaeltnis": {
+        "eigentum": 481,
+        "hauptmiete": 3497,
+        "gemeinde": 25131,
+        "genossenschaft": 1459,
+        "sonstige": 884
+      },
+      "nutzflaechen": {
+        "unter_35m2": 2934,
+        "von_35_bis_60m2": 4748,
+        "von_60_bis_90m2": 11473,
+        "von_90_bis_130m2": 8221,
+        "ueber_130m2": 3192
+      },
+      "bauperioden": {
+        "vor_1919": 22001,
+        "von_1919_bis_1944": 1074,
+        "von_1945_bis_1960": 762,
+        "von_1961_bis_1980": 2298,
+        "von_1981_bis_2000": 2997,
+        "nach_2001": 2320
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 23,
+        "haltestellen_pro_km2": 14.29,
+        "score": 8.8
+      },
+      "gebaeude_anzahl": 1461,
+      "baujahr_stats": {
+        "median": 1889,
+        "aeltestes": 1712,
+        "juengstes": 2000,
+        "anzahl_mit_baujahr": 590
+      }
+    },
+    {
+      "id": 8,
+      "name": "Josefstadt",
+      "name_full": "8. Josefstadt",
+      "wohnungen_gesamt": 12273,
+      "bevoelkerung": 24387,
+      "flaeche_km2": 1.09,
+      "einwohner_pro_km2": 22373,
+      "rechtsverhaeltnis": {
+        "eigentum": 466,
+        "hauptmiete": 2536,
+        "gemeinde": 18029,
+        "genossenschaft": 1364,
+        "sonstige": 1992
+      },
+      "nutzflaechen": {
+        "unter_35m2": 1777,
+        "von_35_bis_60m2": 3274,
+        "von_60_bis_90m2": 7733,
+        "von_90_bis_130m2": 6479,
+        "ueber_130m2": 3132
+      },
+      "bauperioden": {
+        "vor_1919": 17543,
+        "von_1919_bis_1944": 1195,
+        "von_1945_bis_1960": 1240,
+        "von_1961_bis_1980": 2398,
+        "von_1981_bis_2000": 1246,
+        "nach_2001": 765
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 13,
+        "haltestellen_pro_km2": 11.93,
+        "score": 7.3
+      },
+      "gebaeude_anzahl": 1100,
+      "baujahr_stats": {
+        "median": 1897,
+        "aeltestes": 1704,
+        "juengstes": 1993,
+        "anzahl_mit_baujahr": 452
+      }
+    },
+    {
+      "id": 9,
+      "name": "Alsergrund",
+      "name_full": "9. Alsergrund",
+      "wohnungen_gesamt": 21824,
+      "bevoelkerung": 41637,
+      "flaeche_km2": 2.96,
+      "einwohner_pro_km2": 14067,
+      "rechtsverhaeltnis": {
+        "eigentum": 762,
+        "hauptmiete": 4120,
+        "gemeinde": 32906,
+        "genossenschaft": 2217,
+        "sonstige": 1632
+      },
+      "nutzflaechen": {
+        "unter_35m2": 4501,
+        "von_35_bis_60m2": 6964,
+        "von_60_bis_90m2": 13593,
+        "von_90_bis_130m2": 10137,
+        "ueber_130m2": 4810
+      },
+      "bauperioden": {
+        "vor_1919": 28466,
+        "von_1919_bis_1944": 3462,
+        "von_1945_bis_1960": 2467,
+        "von_1961_bis_1980": 2923,
+        "von_1981_bis_2000": 2349,
+        "nach_2001": 1970
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 27,
+        "haltestellen_pro_km2": 9.12,
+        "score": 5.6
+      },
+      "gebaeude_anzahl": 1930,
+      "baujahr_stats": {
+        "median": 1890,
+        "aeltestes": 192,
+        "juengstes": 1997,
+        "anzahl_mit_baujahr": 1185
+      }
+    },
+    {
+      "id": 10,
+      "name": "Favoriten",
+      "name_full": "10. Favoriten",
+      "wohnungen_gesamt": 98521,
+      "bevoelkerung": 219500,
+      "flaeche_km2": 31.82,
+      "einwohner_pro_km2": 6898,
+      "rechtsverhaeltnis": {
+        "eigentum": 8521,
+        "hauptmiete": 18852,
+        "gemeinde": 178957,
+        "genossenschaft": 6776,
+        "sonstige": 6394
+      },
+      "nutzflaechen": {
+        "unter_35m2": 28931,
+        "von_35_bis_60m2": 46372,
+        "von_60_bis_90m2": 100402,
+        "von_90_bis_130m2": 33486,
+        "ueber_130m2": 3915
+      },
+      "bauperioden": {
+        "vor_1919": 34889,
+        "von_1919_bis_1944": 19598,
+        "von_1945_bis_1960": 25646,
+        "von_1961_bis_1980": 51262,
+        "von_1981_bis_2000": 32174,
+        "nach_2001": 55905
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 135,
+        "haltestellen_pro_km2": 4.24,
+        "score": 2.6
+      },
+      "gebaeude_anzahl": 3362,
+      "baujahr_stats": {
+        "median": 1925,
+        "aeltestes": 1857,
+        "juengstes": 1985,
+        "anzahl_mit_baujahr": 486
+      }
+    },
+    {
+      "id": 11,
+      "name": "Simmering",
+      "name_full": "11. Simmering",
+      "wohnungen_gesamt": 49194,
+      "bevoelkerung": 110114,
+      "flaeche_km2": 23.25,
+      "einwohner_pro_km2": 4736,
+      "rechtsverhaeltnis": {
+        "eigentum": 5109,
+        "hauptmiete": 10010,
+        "gemeinde": 90069,
+        "genossenschaft": 2606,
+        "sonstige": 2320
+      },
+      "nutzflaechen": {
+        "unter_35m2": 9834,
+        "von_35_bis_60m2": 21128,
+        "von_60_bis_90m2": 53804,
+        "von_90_bis_130m2": 20910,
+        "ueber_130m2": 2118
+      },
+      "bauperioden": {
+        "vor_1919": 9035,
+        "von_1919_bis_1944": 6320,
+        "von_1945_bis_1960": 10741,
+        "von_1961_bis_1980": 29809,
+        "von_1981_bis_2000": 24575,
+        "nach_2001": 29612
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 120,
+        "haltestellen_pro_km2": 5.16,
+        "score": 3.2
+      },
+      "gebaeude_anzahl": 911,
+      "baujahr_stats": {
+        "median": 1926,
+        "aeltestes": 1780,
+        "juengstes": 1980,
+        "anzahl_mit_baujahr": 139
+      }
+    },
+    {
+      "id": 12,
+      "name": "Meidling",
+      "name_full": "12. Meidling",
+      "wohnungen_gesamt": 48098,
+      "bevoelkerung": 101245,
+      "flaeche_km2": 8.21,
+      "einwohner_pro_km2": 12332,
+      "rechtsverhaeltnis": {
+        "eigentum": 3392,
+        "hauptmiete": 9903,
+        "gemeinde": 80363,
+        "genossenschaft": 4027,
+        "sonstige": 3560
+      },
+      "nutzflaechen": {
+        "unter_35m2": 14031,
+        "von_35_bis_60m2": 21983,
+        "von_60_bis_90m2": 43238,
+        "von_90_bis_130m2": 16088,
+        "ueber_130m2": 2345
+      },
+      "bauperioden": {
+        "vor_1919": 21145,
+        "von_1919_bis_1944": 14913,
+        "von_1945_bis_1960": 14784,
+        "von_1961_bis_1980": 19917,
+        "von_1981_bis_2000": 11664,
+        "nach_2001": 18810
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 79,
+        "haltestellen_pro_km2": 9.62,
+        "score": 5.9
+      },
+      "gebaeude_anzahl": 3729,
+      "baujahr_stats": {
+        "median": 1911,
+        "aeltestes": 1180,
+        "juengstes": 1976,
+        "anzahl_mit_baujahr": 97
+      }
+    },
+    {
+      "id": 13,
+      "name": "Hietzing",
+      "name_full": "13. Hietzing",
+      "wohnungen_gesamt": 26565,
+      "bevoelkerung": 55478,
+      "flaeche_km2": 37.7,
+      "einwohner_pro_km2": 1472,
+      "rechtsverhaeltnis": {
+        "eigentum": 10032,
+        "hauptmiete": 10279,
+        "gemeinde": 30880,
+        "genossenschaft": 2372,
+        "sonstige": 1915
+      },
+      "nutzflaechen": {
+        "unter_35m2": 3359,
+        "von_35_bis_60m2": 7846,
+        "von_60_bis_90m2": 18578,
+        "von_90_bis_130m2": 13610,
+        "ueber_130m2": 10170
+      },
+      "bauperioden": {
+        "vor_1919": 8480,
+        "von_1919_bis_1944": 7180,
+        "von_1945_bis_1960": 10111,
+        "von_1961_bis_1980": 15465,
+        "von_1981_bis_2000": 6998,
+        "nach_2001": 7212
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 78,
+        "haltestellen_pro_km2": 2.07,
+        "score": 1.3
+      },
+      "gebaeude_anzahl": 4265,
+      "baujahr_stats": {
+        "median": 1913,
+        "aeltestes": 1589,
+        "juengstes": 2001,
+        "anzahl_mit_baujahr": 964
+      }
+    },
+    {
+      "id": 14,
+      "name": "Penzing",
+      "name_full": "14. Penzing",
+      "wohnungen_gesamt": 48281,
+      "bevoelkerung": 97869,
+      "flaeche_km2": 33.76,
+      "einwohner_pro_km2": 2899,
+      "rechtsverhaeltnis": {
+        "eigentum": 12048,
+        "hauptmiete": 14697,
+        "gemeinde": 65816,
+        "genossenschaft": 3277,
+        "sonstige": 2031
+      },
+      "nutzflaechen": {
+        "unter_35m2": 11978,
+        "von_35_bis_60m2": 18268,
+        "von_60_bis_90m2": 37665,
+        "von_90_bis_130m2": 20363,
+        "ueber_130m2": 7564
+      },
+      "bauperioden": {
+        "vor_1919": 22985,
+        "von_1919_bis_1944": 11199,
+        "von_1945_bis_1960": 11372,
+        "von_1961_bis_1980": 19066,
+        "von_1981_bis_2000": 15023,
+        "nach_2001": 18192
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 121,
+        "haltestellen_pro_km2": 3.58,
+        "score": 2.2
+      },
+      "gebaeude_anzahl": 3020,
+      "baujahr_stats": {
+        "median": 1911,
+        "aeltestes": 1639,
+        "juengstes": 1997,
+        "anzahl_mit_baujahr": 444
+      }
+    },
+    {
+      "id": 15,
+      "name": "Rudolfsheim-Fünfhaus",
+      "name_full": "15. Rudolfsheim-Fünfhaus",
+      "wohnungen_gesamt": 37709,
+      "bevoelkerung": 76013,
+      "flaeche_km2": 3.92,
+      "einwohner_pro_km2": 19391,
+      "rechtsverhaeltnis": {
+        "eigentum": 1408,
+        "hauptmiete": 5573,
+        "gemeinde": 62695,
+        "genossenschaft": 3638,
+        "sonstige": 2699
+      },
+      "nutzflaechen": {
+        "unter_35m2": 14929,
+        "von_35_bis_60m2": 18401,
+        "von_60_bis_90m2": 29186,
+        "von_90_bis_130m2": 9291,
+        "ueber_130m2": 1507
+      },
+      "bauperioden": {
+        "vor_1919": 38209,
+        "von_1919_bis_1944": 8046,
+        "von_1945_bis_1960": 4737,
+        "von_1961_bis_1980": 11733,
+        "von_1981_bis_2000": 6607,
+        "nach_2001": 6681
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 35,
+        "haltestellen_pro_km2": 8.93,
+        "score": 5.5
+      },
+      "gebaeude_anzahl": 2998,
+      "baujahr_stats": {
+        "median": 1919,
+        "aeltestes": 1857,
+        "juengstes": 1933,
+        "anzahl_mit_baujahr": 129
+      }
+    },
+    {
+      "id": 16,
+      "name": "Ottakring",
+      "name_full": "16. Ottakring",
+      "wohnungen_gesamt": 50968,
+      "bevoelkerung": 102536,
+      "flaeche_km2": 8.67,
+      "einwohner_pro_km2": 11827,
+      "rechtsverhaeltnis": {
+        "eigentum": 4387,
+        "hauptmiete": 10687,
+        "gemeinde": 80475,
+        "genossenschaft": 5045,
+        "sonstige": 1942
+      },
+      "nutzflaechen": {
+        "unter_35m2": 20210,
+        "von_35_bis_60m2": 23518,
+        "von_60_bis_90m2": 39876,
+        "von_90_bis_130m2": 14079,
+        "ueber_130m2": 2911
+      },
+      "bauperioden": {
+        "vor_1919": 41883,
+        "von_1919_bis_1944": 10420,
+        "von_1945_bis_1960": 10734,
+        "von_1961_bis_1980": 18865,
+        "von_1981_bis_2000": 10826,
+        "nach_2001": 9791
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 56,
+        "haltestellen_pro_km2": 6.46,
+        "score": 4.0
+      },
+      "gebaeude_anzahl": 3600,
+      "baujahr_stats": {
+        "median": 1904,
+        "aeltestes": 1804,
+        "juengstes": 1991,
+        "anzahl_mit_baujahr": 191
+      }
+    },
+    {
+      "id": 17,
+      "name": "Hernals",
+      "name_full": "17. Hernals",
+      "wohnungen_gesamt": 27725,
+      "bevoelkerung": 56317,
+      "flaeche_km2": 11.35,
+      "einwohner_pro_km2": 4962,
+      "rechtsverhaeltnis": {
+        "eigentum": 5220,
+        "hauptmiete": 7105,
+        "gemeinde": 40435,
+        "genossenschaft": 2453,
+        "sonstige": 1104
+      },
+      "nutzflaechen": {
+        "unter_35m2": 9093,
+        "von_35_bis_60m2": 11465,
+        "von_60_bis_90m2": 21518,
+        "von_90_bis_130m2": 9616,
+        "ueber_130m2": 3521
+      },
+      "bauperioden": {
+        "vor_1919": 21811,
+        "von_1919_bis_1944": 4697,
+        "von_1945_bis_1960": 5615,
+        "von_1961_bis_1980": 10795,
+        "von_1981_bis_2000": 7000,
+        "nach_2001": 6392
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 56,
+        "haltestellen_pro_km2": 4.93,
+        "score": 3.0
+      },
+      "gebaeude_anzahl": 2986,
+      "baujahr_stats": {
+        "median": 1892,
+        "aeltestes": 1787,
+        "juengstes": 1990,
+        "anzahl_mit_baujahr": 154
+      }
+    },
+    {
+      "id": 18,
+      "name": "Währing",
+      "name_full": "18. Währing",
+      "wohnungen_gesamt": 25946,
+      "bevoelkerung": 51460,
+      "flaeche_km2": 6.28,
+      "einwohner_pro_km2": 8194,
+      "rechtsverhaeltnis": {
+        "eigentum": 3903,
+        "hauptmiete": 8908,
+        "gemeinde": 34752,
+        "genossenschaft": 2667,
+        "sonstige": 1230
+      },
+      "nutzflaechen": {
+        "unter_35m2": 5666,
+        "von_35_bis_60m2": 8496,
+        "von_60_bis_90m2": 17731,
+        "von_90_bis_130m2": 12225,
+        "ueber_130m2": 6112
+      },
+      "bauperioden": {
+        "vor_1919": 24896,
+        "von_1919_bis_1944": 4805,
+        "von_1945_bis_1960": 4926,
+        "von_1961_bis_1980": 8242,
+        "von_1981_bis_2000": 4210,
+        "nach_2001": 4362
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 39,
+        "haltestellen_pro_km2": 6.21,
+        "score": 3.8
+      },
+      "gebaeude_anzahl": 3648,
+      "baujahr_stats": {
+        "median": 1903,
+        "aeltestes": 1736,
+        "juengstes": 1993,
+        "anzahl_mit_baujahr": 738
+      }
+    },
+    {
+      "id": 19,
+      "name": "Döbling",
+      "name_full": "19. Döbling",
+      "wohnungen_gesamt": 36149,
+      "bevoelkerung": 75191,
+      "flaeche_km2": 24.94,
+      "einwohner_pro_km2": 3015,
+      "rechtsverhaeltnis": {
+        "eigentum": 6904,
+        "hauptmiete": 12274,
+        "gemeinde": 49077,
+        "genossenschaft": 3549,
+        "sonstige": 3387
+      },
+      "nutzflaechen": {
+        "unter_35m2": 6281,
+        "von_35_bis_60m2": 12166,
+        "von_60_bis_90m2": 25820,
+        "von_90_bis_130m2": 16230,
+        "ueber_130m2": 11307
+      },
+      "bauperioden": {
+        "vor_1919": 13591,
+        "von_1919_bis_1944": 8265,
+        "von_1945_bis_1960": 13545,
+        "von_1961_bis_1980": 20637,
+        "von_1981_bis_2000": 9562,
+        "nach_2001": 9530
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 87,
+        "haltestellen_pro_km2": 3.49,
+        "score": 2.1
+      },
+      "gebaeude_anzahl": 5935,
+      "baujahr_stats": {
+        "median": 1909,
+        "aeltestes": 1700,
+        "juengstes": 2006,
+        "anzahl_mit_baujahr": 732
+      }
+    },
+    {
+      "id": 20,
+      "name": "Brigittenau",
+      "name_full": "20. Brigittenau",
+      "wohnungen_gesamt": 41664,
+      "bevoelkerung": 86423,
+      "flaeche_km2": 5.67,
+      "einwohner_pro_km2": 15242,
+      "rechtsverhaeltnis": {
+        "eigentum": 717,
+        "hauptmiete": 8193,
+        "gemeinde": 71170,
+        "genossenschaft": 3624,
+        "sonstige": 2719
+      },
+      "nutzflaechen": {
+        "unter_35m2": 15217,
+        "von_35_bis_60m2": 22043,
+        "von_60_bis_90m2": 35304,
+        "von_90_bis_130m2": 10345,
+        "ueber_130m2": 795
+      },
+      "bauperioden": {
+        "vor_1919": 26297,
+        "von_1919_bis_1944": 8889,
+        "von_1945_bis_1960": 10251,
+        "von_1961_bis_1980": 23514,
+        "von_1981_bis_2000": 9199,
+        "nach_2001": 8273
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 37,
+        "haltestellen_pro_km2": 6.53,
+        "score": 4.0
+      },
+      "gebaeude_anzahl": 1618,
+      "baujahr_stats": {
+        "median": 1912,
+        "aeltestes": 1872,
+        "juengstes": 1975,
+        "anzahl_mit_baujahr": 218
+      }
+    },
+    {
+      "id": 21,
+      "name": "Floridsdorf",
+      "name_full": "21. Floridsdorf",
+      "wohnungen_gesamt": 85555,
+      "bevoelkerung": 185659,
+      "flaeche_km2": 44.46,
+      "einwohner_pro_km2": 4176,
+      "rechtsverhaeltnis": {
+        "eigentum": 19491,
+        "hauptmiete": 19663,
+        "gemeinde": 139720,
+        "genossenschaft": 4100,
+        "sonstige": 2685
+      },
+      "nutzflaechen": {
+        "unter_35m2": 14761,
+        "von_35_bis_60m2": 29411,
+        "von_60_bis_90m2": 85871,
+        "von_90_bis_130m2": 43226,
+        "ueber_130m2": 9705
+      },
+      "bauperioden": {
+        "vor_1919": 11537,
+        "von_1919_bis_1944": 11033,
+        "von_1945_bis_1960": 14701,
+        "von_1961_bis_1980": 52850,
+        "von_1981_bis_2000": 34961,
+        "nach_2001": 60509
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 162,
+        "haltestellen_pro_km2": 3.64,
+        "score": 2.2
+      },
+      "gebaeude_anzahl": 2962,
+      "baujahr_stats": {
+        "median": 1929,
+        "aeltestes": 1865,
+        "juengstes": 1989,
+        "anzahl_mit_baujahr": 349
+      }
+    },
+    {
+      "id": 22,
+      "name": "Donaustadt",
+      "name_full": "22. Donaustadt",
+      "wohnungen_gesamt": 98538,
+      "bevoelkerung": 219082,
+      "flaeche_km2": 102.34,
+      "einwohner_pro_km2": 2141,
+      "rechtsverhaeltnis": {
+        "eigentum": 29756,
+        "hauptmiete": 29066,
+        "gemeinde": 152567,
+        "genossenschaft": 3697,
+        "sonstige": 3996
+      },
+      "nutzflaechen": {
+        "unter_35m2": 11330,
+        "von_35_bis_60m2": 27010,
+        "von_60_bis_90m2": 101315,
+        "von_90_bis_130m2": 60156,
+        "ueber_130m2": 15275
+      },
+      "bauperioden": {
+        "vor_1919": 5296,
+        "von_1919_bis_1944": 11254,
+        "von_1945_bis_1960": 8966,
+        "von_1961_bis_1980": 53675,
+        "von_1981_bis_2000": 48784,
+        "nach_2001": 91026
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 314,
+        "haltestellen_pro_km2": 3.07,
+        "score": 1.9
+      },
+      "gebaeude_anzahl": 1389,
+      "baujahr_stats": {
+        "median": 1935,
+        "aeltestes": 1670,
+        "juengstes": 1994,
+        "anzahl_mit_baujahr": 153
+      }
+    },
+    {
+      "id": 23,
+      "name": "Liesing",
+      "name_full": "23. Liesing",
+      "wohnungen_gesamt": 55391,
+      "bevoelkerung": 120755,
+      "flaeche_km2": 32.06,
+      "einwohner_pro_km2": 3767,
+      "rechtsverhaeltnis": {
+        "eigentum": 15200,
+        "hauptmiete": 18786,
+        "gemeinde": 81675,
+        "genossenschaft": 2542,
+        "sonstige": 2552
+      },
+      "nutzflaechen": {
+        "unter_35m2": 5263,
+        "von_35_bis_60m2": 16972,
+        "von_60_bis_90m2": 54618,
+        "von_90_bis_130m2": 31191,
+        "ueber_130m2": 10159
+      },
+      "bauperioden": {
+        "vor_1919": 6990,
+        "von_1919_bis_1944": 3446,
+        "von_1945_bis_1960": 9478,
+        "von_1961_bis_1980": 38241,
+        "von_1981_bis_2000": 22915,
+        "nach_2001": 39648
+      },
+      "oeffi": {
+        "haltestellen_anzahl": 166,
+        "haltestellen_pro_km2": 5.18,
+        "score": 3.2
+      },
+      "gebaeude_anzahl": 1137,
+      "baujahr_stats": {
+        "median": 1910,
+        "aeltestes": 1478,
+        "juengstes": 1990,
+        "anzahl_mit_baujahr": 267
+      }
+    }
+  ],
+  "meta": {
+    "source": "Datenquelle: Stadt Wien – data.wien.gv.at",
+    "stand": "Registerzählung 2023, Gebäudeinformation 2025",
+    "lizenz": "CC BY 4.0",
+    "generiert_mit": "mietcheck-wien ETL Pipeline"
+  }
+}
