@@ -16,6 +16,7 @@ License: CC BY 4.0 – Datenquelle: Stadt Wien – data.wien.gv.at
 import os
 import json
 import csv
+import re
 import sys
 
 # ── Pfade ──────────────────────────────────────────────────────
@@ -55,15 +56,26 @@ BEZIRKE = {
 
 # ── Hilfsfunktionen ───────────────────────────────────────────
 
-def raw_path(filename: str) -> str:
+def raw_path(filename):
     return os.path.join(RAW_DIR, filename)
 
 
-def point_in_polygon(lat: float, lon: float, polygon_coords: list) -> bool:
+def parse_wkt_point(shape_str):
     """
-    Ray-Casting Algorithmus: Prüft ob ein Punkt in einem Polygon liegt.
-    polygon_coords ist eine Liste von [lon, lat] Paaren.
+    Parst WKT POINT aus WFS-CSV SHAPE-Spalte.
+    Format: 'POINT (16.3719577 48.1901468)' → (lat, lon)
+    Achtung: WKT ist (lon, lat), wir geben (lat, lon) zurück.
     """
+    match = re.search(r"POINT\s*\(\s*([-\d.]+)\s+([-\d.]+)\s*\)", shape_str)
+    if match:
+        lon = float(match.group(1))
+        lat = float(match.group(2))
+        return (lat, lon)
+    return None
+
+
+def point_in_polygon(lat, lon, polygon_coords):
+    """Ray-Casting: Prüft ob ein Punkt in einem Polygon liegt."""
     n = len(polygon_coords)
     inside = False
     x, y = lon, lat
@@ -80,7 +92,7 @@ def point_in_polygon(lat: float, lon: float, polygon_coords: list) -> bool:
     return inside
 
 
-def find_bezirk_for_point(lat: float, lon: float, bezirk_polygons: dict) -> int | None:
+def find_bezirk_for_point(lat, lon, bezirk_polygons):
     """Findet den Bezirk für einen Punkt via Point-in-Polygon."""
     for bez_nr, polygons in bezirk_polygons.items():
         for polygon in polygons:
@@ -91,8 +103,8 @@ def find_bezirk_for_point(lat: float, lon: float, bezirk_polygons: dict) -> int 
 
 # ── 1. Bezirksgrenzen laden ────────────────────────────────────
 
-def load_bezirksgrenzen() -> dict:
-    """Lädt Bezirksgrenzen und gibt ein Dict {bezirk_nr: [polygon_coords]} zurück."""
+def load_bezirksgrenzen():
+    """Lädt Bezirksgrenzen als Dict {district_code: [polygon_coords]}."""
     print("  📍 Lade Bezirksgrenzen...")
 
     with open(raw_path("bezirksgrenzen.json"), "r", encoding="utf-8") as f:
@@ -104,25 +116,19 @@ def load_bezirksgrenzen() -> dict:
         props = feature.get("properties", {})
         geom = feature.get("geometry", {})
 
-        # Bezirksnummer finden
         bez_nr = props.get("BEZNR", props.get("BEZ"))
         if bez_nr is None:
             continue
         bez_nr = int(bez_nr)
-
-        # District-Code erstellen (z.B. 1 → 901)
         district_code = 900 + bez_nr
 
-        # Polygon-Koordinaten extrahieren
         geom_type = geom.get("type", "")
         coords = geom.get("coordinates", [])
 
         polygons = []
         if geom_type == "Polygon":
-            # coords = [[[lon, lat], ...]]
             polygons.append(coords[0])
         elif geom_type == "MultiPolygon":
-            # coords = [[[[lon, lat], ...]], ...]
             for poly in coords:
                 polygons.append(poly[0])
 
@@ -134,11 +140,8 @@ def load_bezirksgrenzen() -> dict:
 
 # ── 2. Registerzählung aggregieren ─────────────────────────────
 
-def load_registerzaehlung() -> dict:
-    """
-    Aggregiert Registerzählung von 250 Zählbezirken auf 23 Bezirke.
-    Gibt Dict {district_code: {...}} zurück.
-    """
+def load_registerzaehlung():
+    """Aggregiert 250 Zählbezirke auf 23 Bezirke."""
     print("  📊 Lade Registerzählung 2023...")
 
     with open(raw_path("registerzaehlung_2023.csv"), "r", encoding="utf-8") as f:
@@ -146,7 +149,6 @@ def load_registerzaehlung() -> dict:
 
     lines = content.strip().split("\n")
 
-    # Header-Zeile finden
     header_line = None
     data_start = 0
     for i, line in enumerate(lines):
@@ -167,18 +169,15 @@ def load_registerzaehlung() -> dict:
         except ValueError:
             return None
 
-    # Spalten-Indizes
     idx = {
         "district": col_idx("DISTRICT_CODE"),
         "whg_total": col_idx("WHG_WSA_TOTAL"),
         "pop_total": col_idx("WHG_POP_TOTAL"),
-        # Rechtsverhältnis
         "rv_eigentum": col_idx("WHG_RECHTSVERH_1"),
         "rv_hauptmiete": col_idx("WHG_RECHTSVERH_2"),
         "rv_gemeinde": col_idx("WHG_RECHTSVERH_3"),
         "rv_genossen": col_idx("WHG_RECHTSVERH_4"),
         "rv_sonstige": col_idx("WHG_RECHTSVERH_0"),
-        # Nutzfläche
         "nf_unter35": col_idx("WHG_NTZFL_1"),
         "nf_35_60": col_idx("WHG_NTZFL_2"),
         "nf_60_90": col_idx("WHG_NTZFL_3"),
@@ -186,7 +185,6 @@ def load_registerzaehlung() -> dict:
         "nf_ueber130": col_idx("WHG_NTZFL_5"),
     }
 
-    # Bauperioden-Spalten suchen (OBJ_BAUP_0 bis OBJ_BAUP_10)
     baup_indices = []
     for i in range(15):
         ci = col_idx(f"OBJ_BAUP_{i}")
@@ -249,82 +247,128 @@ def load_registerzaehlung() -> dict:
 
 # ── 3. Gebäudeinformation zählen ───────────────────────────────
 
-def count_gebaeude_per_bezirk(bezirk_polygons: dict) -> dict:
+def count_gebaeude_per_bezirk(bezirk_polygons):
     """
-    Zählt Gebäude pro Bezirk via Point-in-Polygon.
-    Gibt Dict {district_code: count} zurück.
+    Zählt Gebäude pro Bezirk.
+    Nutzt BEZ-Spalte für direkte Zuordnung (kein Point-in-Polygon nötig).
+    Sammelt Baujahr-Statistiken pro Bezirk.
     """
     print("  🏠 Zähle Gebäude pro Bezirk...")
-    print("     (Das kann 1-2 Minuten dauern...)")
 
     counts = {code: 0 for code in BEZIRKE}
+    baujahr_data = {code: [] for code in BEZIRKE}
 
     with open(raw_path("gebaeudeinformation.csv"), "r", encoding="utf-8") as f:
         reader = csv.reader(f)
         headers = next(reader)
 
-    # Koordinaten-Spalten finden
-    lat_col = None
-    lon_col = None
+    # Spalten finden
+    bez_col = None
+    baujahr_col = None
     for i, h in enumerate(headers):
         h_upper = h.upper().strip()
-        if h_upper in ("LAT", "LATITUDE", "WGS84_LAT", "Y"):
-            lat_col = i
-        if h_upper in ("LON", "LONGITUDE", "LNG", "WGS84_LON", "X"):
-            lon_col = i
+        if h_upper == "BEZ":
+            bez_col = i
+        if h_upper == "BAUJAHR":
+            baujahr_col = i
 
-    # Manchmal heißen die Spalten bei WFS-Output anders
-    if lat_col is None or lon_col is None:
-        for i, h in enumerate(headers):
-            h_lower = h.lower()
-            if "lat" in h_lower or "breite" in h_lower:
-                lat_col = lat_col or i
-            if "lon" in h_lower or "lng" in h_lower or "laenge" in h_lower:
-                lon_col = lon_col or i
+    if bez_col is not None:
+        # Direkte Zuordnung über BEZ-Spalte
+        print(f"     BEZ-Spalte gefunden (Index {bez_col}) → direkte Zuordnung")
 
-    if lat_col is None or lon_col is None:
-        print(f"     ⚠️  Koordinaten-Spalten nicht gefunden!")
-        print(f"     Spalten: {headers}")
-        print("     → Überspringe Gebäude-Zählung, verwende Fallback")
-        return counts
+        total = 0
+        assigned = 0
 
-    # Alle Gebäude durchgehen
-    total = 0
-    assigned = 0
+        with open(raw_path("gebaeudeinformation.csv"), "r", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            next(reader)
 
-    with open(raw_path("gebaeudeinformation.csv"), "r", encoding="utf-8") as f:
-        reader = csv.reader(f)
-        next(reader)  # Header überspringen
+            for row in reader:
+                total += 1
+                try:
+                    bez_str = row[bez_col].strip()
+                    if not bez_str:
+                        continue
+                    bez_nr = int(float(bez_str))
+                    district_code = 900 + bez_nr
 
-        for row in reader:
-            total += 1
-            try:
-                lat = float(row[lat_col])
-                lon = float(row[lon_col])
+                    if district_code in counts:
+                        counts[district_code] += 1
+                        assigned += 1
 
-                if not (48.1 < lat < 48.4 and 16.1 < lon < 16.6):
+                        if baujahr_col is not None and baujahr_col < len(row):
+                            bj = row[baujahr_col].strip()
+                            if bj:
+                                try:
+                                    baujahr_data[district_code].append(int(float(bj)))
+                                except ValueError:
+                                    pass
+                except (ValueError, IndexError):
                     continue
 
-                bez = find_bezirk_for_point(lat, lon, bezirk_polygons)
-                if bez and bez in counts:
-                    counts[bez] += 1
-                    assigned += 1
-            except (ValueError, IndexError):
-                continue
+        print(f"     {total:,} Gebäude gesamt, {assigned:,} zugeordnet")
 
-            if total % 5000 == 0:
-                print(f"     ... {total:,} Gebäude verarbeitet, {assigned:,} zugeordnet")
+    else:
+        # Fallback: SHAPE-Spalte mit Point-in-Polygon
+        print("     Keine BEZ-Spalte → versuche SHAPE (Point-in-Polygon)")
 
-    print(f"     {total:,} Gebäude gesamt, {assigned:,} zugeordnet")
-    return counts
+        shape_col = None
+        for i, h in enumerate(headers):
+            if h.upper().strip() == "SHAPE":
+                shape_col = i
+                break
+
+        if shape_col is None:
+            print("     ⚠️  Weder BEZ noch SHAPE gefunden → überspringe")
+            return counts, {}
+
+        total = 0
+        assigned = 0
+
+        with open(raw_path("gebaeudeinformation.csv"), "r", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            next(reader)
+
+            for row in reader:
+                total += 1
+                try:
+                    coords = parse_wkt_point(row[shape_col])
+                    if coords is None:
+                        continue
+                    lat, lon = coords
+                    bez = find_bezirk_for_point(lat, lon, bezirk_polygons)
+                    if bez and bez in counts:
+                        counts[bez] += 1
+                        assigned += 1
+                except (ValueError, IndexError):
+                    continue
+
+                if total % 5000 == 0:
+                    print(f"     ... {total:,} verarbeitet")
+
+        print(f"     {total:,} Gebäude gesamt, {assigned:,} zugeordnet")
+
+    # Baujahr-Statistik pro Bezirk
+    baujahr_stats = {}
+    for code in BEZIRKE:
+        jahre = baujahr_data.get(code, [])
+        if jahre:
+            baujahr_stats[code] = {
+                "median": sorted(jahre)[len(jahre) // 2],
+                "aeltestes": min(jahre),
+                "juengstes": max(jahre),
+                "anzahl_mit_baujahr": len(jahre),
+            }
+
+    return counts, baujahr_stats
 
 
 # ── 4. Haltestellen → Öffi-Score ──────────────────────────────
 
-def calculate_oeffi_score(bezirk_polygons: dict) -> dict:
+def calculate_oeffi_score(bezirk_polygons):
     """
-    Zählt Haltestellen pro Bezirk und berechnet einen Öffi-Score.
-    Gibt Dict {district_code: {anzahl, pro_km2, score}} zurück.
+    Zählt Haltestellen pro Bezirk und berechnet Öffi-Score.
+    Parst WKT POINT aus der SHAPE-Spalte der WFS-CSV.
     """
     print("  🚇 Berechne Öffi-Score...")
 
@@ -334,22 +378,22 @@ def calculate_oeffi_score(bezirk_polygons: dict) -> dict:
         reader = csv.reader(f)
         headers = next(reader)
 
-    # Koordinaten-Spalten finden
-    lat_col = None
-    lon_col = None
+    # SHAPE-Spalte finden
+    shape_col = None
     for i, h in enumerate(headers):
-        h_upper = h.upper().strip()
-        if "LAT" in h_upper:
-            lat_col = i
-        if "LON" in h_upper or "LNG" in h_upper:
-            lon_col = i
+        if h.upper().strip() == "SHAPE":
+            shape_col = i
+            break
 
-    if lat_col is None or lon_col is None:
-        print(f"     ⚠️  Koordinaten-Spalten nicht gefunden: {headers}")
-        return {}
+    if shape_col is None:
+        print(f"     ⚠️  SHAPE-Spalte nicht gefunden: {headers}")
+        return {code: {"anzahl": 0, "pro_km2": 0, "score": 1} for code in BEZIRKE}
+
+    print(f"     SHAPE-Spalte gefunden (Index {shape_col})")
 
     total = 0
     assigned = 0
+    parse_errors = 0
 
     with open(raw_path("wienerlinien_haltestellen.csv"), "r", encoding="utf-8") as f:
         reader = csv.reader(f)
@@ -358,9 +402,12 @@ def calculate_oeffi_score(bezirk_polygons: dict) -> dict:
         for row in reader:
             total += 1
             try:
-                lat = float(row[lat_col])
-                lon = float(row[lon_col])
+                coords = parse_wkt_point(row[shape_col])
+                if coords is None:
+                    parse_errors += 1
+                    continue
 
+                lat, lon = coords
                 if not (48.1 < lat < 48.4 and 16.1 < lon < 16.6):
                     continue
 
@@ -372,6 +419,8 @@ def calculate_oeffi_score(bezirk_polygons: dict) -> dict:
                 continue
 
     print(f"     {total:,} Haltestellen, {assigned:,} zugeordnet")
+    if parse_errors > 0:
+        print(f"     ({parse_errors} nicht parsebar)")
 
     # Dichte und Score berechnen
     oeffi_data = {}
@@ -384,7 +433,6 @@ def calculate_oeffi_score(bezirk_polygons: dict) -> dict:
         max_dichte = max(max_dichte, dichte)
         oeffi_data[code] = {"anzahl": anzahl, "pro_km2": round(dichte, 2)}
 
-    # Score normalisieren auf 1-10
     for code in oeffi_data:
         if max_dichte > 0:
             raw_score = oeffi_data[code]["pro_km2"] / max_dichte * 10
@@ -397,8 +445,7 @@ def calculate_oeffi_score(bezirk_polygons: dict) -> dict:
 
 # ── 5. Alles zusammenbauen ─────────────────────────────────────
 
-def build_districts_json(reg_data: dict, gebaeude_counts: dict,
-                          oeffi_data: dict) -> list:
+def build_districts_json(reg_data, gebaeude_counts, baujahr_stats, oeffi_data):
     """Baut die finale District-Liste."""
     print("  🔧 Baue districts.json...")
 
@@ -409,18 +456,13 @@ def build_districts_json(reg_data: dict, gebaeude_counts: dict,
         reg = reg_data.get(code, {})
         oeffi = oeffi_data.get(code, {"anzahl": 0, "pro_km2": 0, "score": 1})
         geb_count = gebaeude_counts.get(code, 0)
+        bj_stats = baujahr_stats.get(code, {})
 
         bevoelkerung = reg.get("bevoelkerung", 0)
         flaeche = bez["flaeche_km2"]
 
-        # Bauperioden zuordnen
-        # Die Reihenfolge der OBJ_BAUP Spalten in der Registerzählung 2023:
-        # 0=unbekannt, 1=vor 1919, 2=1919-1944, 3=1945-1960,
-        # 4=1961-1970, 5=1971-1980, 6=1981-1990, 7=1991-2000,
-        # 8=2001-2010, 9=2011-2020, 10=nach 2021
         baup = reg.get("baup_values", [0] * 11)
 
-        # Gruppierung für übersichtliche Darstellung
         def safe_baup(i):
             return baup[i] if i < len(baup) else 0
 
@@ -460,6 +502,7 @@ def build_districts_json(reg_data: dict, gebaeude_counts: dict,
                 "score": oeffi["score"],
             },
             "gebaeude_anzahl": geb_count,
+            "baujahr_stats": bj_stats,
         }
 
         districts.append(district)
@@ -476,22 +519,13 @@ def main():
     print("╚══════════════════════════════════════════════════════════╝")
     print()
 
-    # 1. Bezirksgrenzen laden (für Point-in-Polygon)
     bezirk_polygons = load_bezirksgrenzen()
-
-    # 2. Registerzählung aggregieren
     reg_data = load_registerzaehlung()
-
-    # 3. Gebäude pro Bezirk zählen
-    gebaeude_counts = count_gebaeude_per_bezirk(bezirk_polygons)
-
-    # 4. Öffi-Score berechnen
+    gebaeude_counts, baujahr_stats = count_gebaeude_per_bezirk(bezirk_polygons)
     oeffi_data = calculate_oeffi_score(bezirk_polygons)
+    districts = build_districts_json(reg_data, gebaeude_counts, baujahr_stats, oeffi_data)
 
-    # 5. Alles zusammenbauen
-    districts = build_districts_json(reg_data, gebaeude_counts, oeffi_data)
-
-    # 6. Ausgabe
+    # Ausgabe speichern
     os.makedirs(OUT_DIR, exist_ok=True)
     output_path = os.path.join(OUT_DIR, "districts.json")
 
@@ -512,33 +546,30 @@ def main():
     print(f"  💾 Gespeichert: {output_path}")
     print(f"     {len(districts)} Bezirke")
 
-    # Kurze Zusammenfassung
+    # Zusammenfassung
     print()
-    print("  📊 Zusammenfassung:")
-    print(f"  {'Bezirk':<28} {'Whg':>7} {'Bev':>8} {'Öffi':>5} {'Geb':>6}")
-    print(f"  {'-'*28} {'-'*7} {'-'*8} {'-'*5} {'-'*6}")
+    print(f"  {'Bezirk':<28} {'Whg':>7} {'Bev':>8} {'Öffi':>5} {'Geb':>6} {'Bj.Med':>7}")
+    print(f"  {'-'*28} {'-'*7} {'-'*8} {'-'*5} {'-'*6} {'-'*7}")
 
     for d in districts:
+        median_bj = d.get("baujahr_stats", {}).get("median", "–")
         print(
             f"  {d['name_full']:<28} "
             f"{d['wohnungen_gesamt']:>7,} "
             f"{d['bevoelkerung']:>8,} "
             f"{d['oeffi']['score']:>5.1f} "
-            f"{d['gebaeude_anzahl']:>6,}"
+            f"{d['gebaeude_anzahl']:>6,} "
+            f"{str(median_bj):>7}"
         )
 
     total_whg = sum(d["wohnungen_gesamt"] for d in districts)
     total_pop = sum(d["bevoelkerung"] for d in districts)
     total_geb = sum(d["gebaeude_anzahl"] for d in districts)
-    print(f"  {'-'*28} {'-'*7} {'-'*8} {'-'*5} {'-'*6}")
+    print(f"  {'-'*28} {'-'*7} {'-'*8} {'-'*5} {'-'*6} {'-'*7}")
     print(f"  {'GESAMT Wien':<28} {total_whg:>7,} {total_pop:>8,} {'':>5} {total_geb:>6,}")
 
     print()
     print("  ✅ ETL Pipeline abgeschlossen!")
-    print()
-    print("  Nächste Schritte:")
-    print("    1. FastAPI Backend: data/processed/districts.json einlesen")
-    print("    2. React Frontend: Bezirkskarte + Vergleichsansicht")
 
 
 if __name__ == "__main__":
