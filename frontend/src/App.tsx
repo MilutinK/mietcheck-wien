@@ -14,13 +14,25 @@ function App() {
   const [selected, setSelected] = useState<District | null>(null);
   const [compareA, setCompareA] = useState<District | null>(null);
   const [compareB, setCompareB] = useState<District | null>(null);
-  const [metric, setMetric] = useState<MetricKey>("einwohner_pro_km2");
+  const [metric, setMetric] = useState<MetricKey>("bruttomiete_m2");
   const [showCompare, setShowCompare] = useState(false);
 
   useEffect(() => {
-    fetch("/data/districts.json")
-      .then((r) => r.json())
-      .then((data) => setDistricts(data.districts));
+    Promise.all([
+      fetch("/data/districts.json").then((r) => r.json()),
+      fetch("/data/mietpreise.json").then((r) => r.json()),
+    ]).then(([distData, mietData]) => {
+      const merged = distData.districts.map((d: District) => {
+        const miet = mietData.bezirke.find((m: any) => m.id === d.id);
+        return {
+          ...d,
+          bruttomiete_m2: miet?.bruttomiete_m2 ?? null,
+          miete_veraenderung_prozent: miet?.veraenderung_prozent ?? null,
+          miete_confirmed: miet?.confirmed ?? false,
+        };
+      });
+      setDistricts(merged);
+    });
   }, []);
 
   const handleDistrictClick = (district: District) => {

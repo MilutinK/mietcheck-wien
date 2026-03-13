@@ -19,6 +19,27 @@ export default function DistrictPanel({ district }: Props) {
         <div className="district-panel">
             <h2>{district.name_full}</h2>
 
+            {district.bruttomiete_m2 && (
+                <div className="panel-section" style={{ marginBottom: 16 }}>
+                    <div className="stat-card" style={{ background: "#e8f4fd", textAlign: "center" }}>
+                        <span className="stat-value" style={{ fontSize: "1.6rem", color: "#2e86c1" }}>
+                            {district.bruttomiete_m2.toFixed(1)} €/m²
+                        </span>
+                        <span className="stat-label">
+                            Bruttomiete (Median)
+                            {district.miete_veraenderung_prozent !== undefined && (
+                                <span style={{ color: district.miete_veraenderung_prozent >= 0 ? "#e74c3c" : "#27ae60" }}>
+                                    {" "}({district.miete_veraenderung_prozent >= 0 ? "+" : ""}{district.miete_veraenderung_prozent}% gg. Vorjahr)
+                                </span>
+                            )}
+                        </span>
+                        <span className="stat-label" style={{ fontSize: "0.65rem", marginTop: 4 }}>
+                            Quelle: ImmoScout24, Jan–Okt 2025{!district.miete_confirmed && " (geschätzt)"}
+                        </span>
+                    </div>
+                </div>
+            )}
+
             <div className="stat-grid">
                 <div className="stat-card">
                     <span className="stat-value">

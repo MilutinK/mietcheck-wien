@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "quelle": "ImmoScout24 Datenanalyse, November 2025",
+    "zeitraum": "Jänner – Oktober 2025",
+    "methode": "Median der Bruttomieten (Nettomiete + Betriebskosten, exkl. Heizung/Strom)",
+    "datenpunkte": 183216,
+    "wien_durchschnitt_eur_m2": 21.0,
+    "veraenderung_vorjahr": "+10%",
+    "url": "https://www.immobilienscout24.at/unternehmen/presse/presseaussendungen/2025/25-11-2025-mietpreise.html",
+    "hinweis": "Werte mit confirmed=true stammen direkt aus der Presseaussendung. Werte mit confirmed=false sind Schätzungen basierend auf genannten Veränderungsraten, dem Wien-Durchschnitt und der Bezirkslage."
+  },
+  "bezirke": [
+    { "id": 1,  "name": "Innere Stadt",          "bruttomiete_m2": 28.5, "veraenderung_prozent": 8,   "confirmed": false },
+    { "id": 2,  "name": "Leopoldstadt",           "bruttomiete_m2": 22.4, "veraenderung_prozent": 15,  "confirmed": false },
+    { "id": 3,  "name": "Landstraße",             "bruttomiete_m2": 23.8, "veraenderung_prozent": 23,  "confirmed": false },
+    { "id": 4,  "name": "Wieden",                 "bruttomiete_m2": 23.0, "veraenderung_prozent": 12,  "confirmed": false },
+    { "id": 5,  "name": "Margareten",             "bruttomiete_m2": 21.2, "veraenderung_prozent": 10,  "confirmed": false },
+    { "id": 6,  "name": "Mariahilf",              "bruttomiete_m2": 24.0, "veraenderung_prozent": 15,  "confirmed": false },
+    { "id": 7,  "name": "Neubau",                 "bruttomiete_m2": 26.3, "veraenderung_prozent": 41,  "confirmed": true  },
+    { "id": 8,  "name": "Josefstadt",             "bruttomiete_m2": 23.5, "veraenderung_prozent": 12,  "confirmed": false },
+    { "id": 9,  "name": "Alsergrund",             "bruttomiete_m2": 20.3, "veraenderung_prozent": -1,  "confirmed": true  },
+    { "id": 10, "name": "Favoriten",              "bruttomiete_m2": 19.3, "veraenderung_prozent": 10,  "confirmed": true  },
+    { "id": 11, "name": "Simmering",              "bruttomiete_m2": 18.5, "veraenderung_prozent": 10,  "confirmed": true  },
+    { "id": 12, "name": "Meidling",               "bruttomiete_m2": 21.3, "veraenderung_prozent": 13,  "confirmed": false },
+    { "id": 13, "name": "Hietzing",               "bruttomiete_m2": 22.0, "veraenderung_prozent": 22,  "confirmed": false },
+    { "id": 14, "name": "Penzing",                "bruttomiete_m2": 20.2, "veraenderung_prozent": 2,   "confirmed": false },
+    { "id": 15, "name": "Rudolfsheim-Fünfhaus",   "bruttomiete_m2": 17.1, "veraenderung_prozent": 10,  "confirmed": true  },
+    { "id": 16, "name": "Ottakring",              "bruttomiete_m2": 20.0, "veraenderung_prozent": 10,  "confirmed": false },
+    { "id": 17, "name": "Hernals",                "bruttomiete_m2": 22.0, "veraenderung_prozent": 22,  "confirmed": false },
+    { "id": 18, "name": "Währing",                "bruttomiete_m2": 23.0, "veraenderung_prozent": 12,  "confirmed": false },
+    { "id": 19, "name": "Döbling",                "bruttomiete_m2": 23.2, "veraenderung_prozent": 10,  "confirmed": false },
+    { "id": 20, "name": "Brigittenau",            "bruttomiete_m2": 22.5, "veraenderung_prozent": 25,  "confirmed": false },
+    { "id": 21, "name": "Floridsdorf",            "bruttomiete_m2": 18.4, "veraenderung_prozent": 0,   "confirmed": true  },
+    { "id": 22, "name": "Donaustadt",             "bruttomiete_m2": 20.6, "veraenderung_prozent": -5,  "confirmed": true  },
+    { "id": 23, "name": "Liesing",                "bruttomiete_m2": 18.3, "veraenderung_prozent": 10,  "confirmed": true  }
+  ]
+}

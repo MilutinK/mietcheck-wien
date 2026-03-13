@@ -50,9 +50,13 @@ export interface District {
     oeffi: OeffiScore;
     gebaeude_anzahl: number;
     baujahr_stats: BaujahrStats;
+    bruttomiete_m2?: number;
+    miete_veraenderung_prozent?: number;
+    miete_confirmed?: boolean;
 }
 
 export type MetricKey =
+    | "bruttomiete_m2"
     | "einwohner_pro_km2"
     | "wohnungen_gesamt"
     | "oeffi_score"
@@ -61,6 +65,7 @@ export type MetricKey =
     | "gebaeude_anzahl";
 
 export const METRIC_LABELS: Record<MetricKey, string> = {
+    bruttomiete_m2: "Bruttomiete €/m²",
     einwohner_pro_km2: "Einwohner/km²",
     wohnungen_gesamt: "Wohnungen gesamt",
     oeffi_score: "Öffi-Score",
@@ -91,6 +96,8 @@ export function getMetricValue(district: District, metric: MetricKey): number {
         }
         case "gebaeude_anzahl":
             return district.gebaeude_anzahl;
+        case "bruttomiete_m2":
+            return district.bruttomiete_m2 ?? 0;
     }
 }
 
@@ -101,6 +108,8 @@ export function formatMetricValue(value: number, metric: MetricKey): string {
             return `${value}%`;
         case "oeffi_score":
             return value.toFixed(1);
+        case "bruttomiete_m2":
+            return `${value.toFixed(1)} €`;
         default:
             return value.toLocaleString("de-AT");
     }
