@@ -5,6 +5,7 @@ import CompareBar from "./components/CompareBar";
 import FilterBar from "./components/FilterBar";
 import CompareView from "./components/CompareView";
 import type { District, MetricKey } from "./types/district";
+import { loadDistricts } from "./services/api";
 
 import "leaflet/dist/leaflet.css";
 import "./App.css";
@@ -18,21 +19,7 @@ function App() {
   const [showCompare, setShowCompare] = useState(false);
 
   useEffect(() => {
-    Promise.all([
-      fetch("/data/districts.json").then((r) => r.json()),
-      fetch("/data/mietpreise.json").then((r) => r.json()),
-    ]).then(([distData, mietData]) => {
-      const merged = distData.districts.map((d: District) => {
-        const miet = mietData.bezirke.find((m: any) => m.id === d.id);
-        return {
-          ...d,
-          bruttomiete_m2: miet?.bruttomiete_m2 ?? null,
-          miete_veraenderung_prozent: miet?.veraenderung_prozent ?? null,
-          miete_confirmed: miet?.confirmed ?? false,
-        };
-      });
-      setDistricts(merged);
-    });
+    loadDistricts().then(setDistricts);
   }, []);
 
   const handleDistrictClick = (district: District) => {
