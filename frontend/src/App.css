@@ -465,18 +465,27 @@ body {
 
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 768px) {
+  .app {
+    height: auto;
+    overflow: auto;
+  }
+
   .app-main {
     flex-direction: column;
+    overflow: visible;
   }
 
   .map-container {
     height: 50vh;
+    flex: none;
   }
 
   .side-panel {
     width: 100%;
     border-left: none;
     border-top: 1px solid var(--border);
+    overflow: visible;
+    min-height: auto;
   }
 
   .header-subtitle {
@@ -485,6 +494,12 @@ body {
 
   .filter-label {
     display: none;
+  }
+
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
   }
 
   :root {
