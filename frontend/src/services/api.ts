@@ -1,7 +1,6 @@
 import type { District } from "../types/district";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
-
+const API_BASE = import.meta.env.VITE_API_URL || "";
 interface DistrictsResponse {
   districts: District[];
   meta: Record<string, unknown>;
@@ -19,16 +18,19 @@ async function fetchWithFallback<T>(
   apiPath: string,
   staticPath: string
 ): Promise<T> {
-  try {
-    const res = await fetch(`${API_BASE}${apiPath}`, { signal: AbortSignal.timeout(3000) });
-    if (!res.ok) throw new Error(`API ${res.status}`);
-    return await res.json();
-  } catch {
-    console.info(`API nicht erreichbar → lade ${staticPath}`);
-    const res = await fetch(staticPath);
-    if (!res.ok) throw new Error(`Static fallback failed: ${res.status}`);
-    return await res.json();
+  if (API_BASE) {
+    try {
+      const res = await fetch(`${API_BASE}${apiPath}`, { signal: AbortSignal.timeout(3000) });
+      if (!res.ok) throw new Error(`API ${res.status}`);
+      return await res.json();
+    } catch {
+      console.info(`API nicht erreichbar → lade ${staticPath}`);
+    }
   }
+
+  const res = await fetch(staticPath);
+  if (!res.ok) throw new Error(`Static fallback failed: ${res.status}`);
+  return await res.json();
 }
 
 /**
