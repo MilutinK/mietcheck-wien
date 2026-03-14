@@ -141,3 +141,5 @@ vite.config.ts.timestamp-*
 # Data files
 data/raw/
 !data/raw/README.md
+backend/app/__pycache__/__init__.cpython-313.pyc
+backend/app/__pycache__/main.cpython-313.pyc
