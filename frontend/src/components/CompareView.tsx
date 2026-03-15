@@ -47,6 +47,22 @@ export default function CompareView({ districtA, districtB }: Props) {
 
     const rows: CompareRow[] = [
         {
+            label: "Bruttomiete €/m²",
+            valueA: districtA.bruttomiete_m2 ? `${districtA.bruttomiete_m2.toFixed(1)} €` : "–",
+            valueB: districtB.bruttomiete_m2 ? `${districtB.bruttomiete_m2.toFixed(1)} €` : "–",
+            winner:
+                (districtA.bruttomiete_m2 ?? 99) < (districtB.bruttomiete_m2 ?? 99)
+                    ? "a"
+                    : (districtB.bruttomiete_m2 ?? 99) < (districtA.bruttomiete_m2 ?? 99)
+                        ? "b"
+                        : "none",
+        },
+        {
+            label: "Miete 70m² Wohnung",
+            valueA: districtA.bruttomiete_m2 ? `${(districtA.bruttomiete_m2 * 70).toFixed(0)} €` : "–",
+            valueB: districtB.bruttomiete_m2 ? `${(districtB.bruttomiete_m2 * 70).toFixed(0)} €` : "–",
+        },
+        {
             label: "Einwohner",
             valueA: districtA.bevoelkerung.toLocaleString("de-AT"),
             valueB: districtB.bevoelkerung.toLocaleString("de-AT"),
