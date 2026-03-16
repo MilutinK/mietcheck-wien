@@ -60,8 +60,14 @@ Datenquelle: Stadt Wien – data.wien.gv.at
 - Node.js 22+
 - Python 3.11+
 
-### Frontend starten
+### Setup (ein Befehl)
+```bash
+git clone https://github.com/MilutinK/mietcheck-wien.git
+cd mietcheck-wien
+python setup.py
+```
 
+### Frontend starten
 ```bash
 cd frontend
 npm install
@@ -70,31 +76,14 @@ npm run dev
 
 → Öffnet auf http://localhost:5173
 
-### Daten herunterladen & aufbereiten
-
-```bash
-python backend/scripts/download_data.py    # Daten von data.wien.gv.at laden
-python backend/scripts/etl.py              # ETL: Rohdaten → districts.json
-```
-
-Die aufbereiteten Daten werden in `data/processed/districts.json` gespeichert und müssen ins Frontend kopiert werden:
-
-```bash
-cp data/processed/districts.json frontend/public/data/
-cp data/raw/bezirksgrenzen.json frontend/public/data/
-```
-
 ### Backend starten (optional)
-
 ```bash
 cd backend
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-→ API auf http://localhost:8000 – Swagger-Docs auf http://localhost:8000/docs
-
-Das Frontend nutzt die API automatisch wenn verfügbar und fällt auf statische JSON-Dateien zurück.
+→ API auf http://localhost:8000
 
 ---
 
