@@ -173,11 +173,11 @@ def load_registerzaehlung():
         "district": col_idx("DISTRICT_CODE"),
         "whg_total": col_idx("WHG_WSA_TOTAL"),
         "pop_total": col_idx("WHG_POP_TOTAL"),
-        "rv_eigentum": col_idx("WHG_RECHTSVERH_1"),
-        "rv_hauptmiete": col_idx("WHG_RECHTSVERH_2"),
-        "rv_gemeinde": col_idx("WHG_RECHTSVERH_3"),
-        "rv_genossen": col_idx("WHG_RECHTSVERH_4"),
-        "rv_sonstige": col_idx("WHG_RECHTSVERH_0"),
+        "rv_hauseigentum": col_idx("WHG_RECHTSVERH_1"),
+        "rv_wohnungseigentum": col_idx("WHG_RECHTSVERH_2"),
+        "rv_hauptmiete": col_idx("WHG_RECHTSVERH_3"),
+        "rv_sonstige": col_idx("WHG_RECHTSVERH_4"),
+        "rv_unbekannt": col_idx("WHG_RECHTSVERH_0"),
         "nf_unter35": col_idx("WHG_NTZFL_1"),
         "nf_35_60": col_idx("WHG_NTZFL_2"),
         "nf_60_90": col_idx("WHG_NTZFL_3"),
@@ -208,8 +208,8 @@ def load_registerzaehlung():
             if district_code not in bezirke:
                 bezirke[district_code] = {
                     "wohnungen": 0, "bevoelkerung": 0,
-                    "rv_eigentum": 0, "rv_hauptmiete": 0,
-                    "rv_gemeinde": 0, "rv_genossen": 0, "rv_sonstige": 0,
+                    "rv_hauseigentum": 0, "rv_wohnungseigentum": 0,
+                    "rv_hauptmiete": 0, "rv_sonstige": 0, "rv_unbekannt": 0,
                     "nf_unter35": 0, "nf_35_60": 0, "nf_60_90": 0,
                     "nf_90_130": 0, "nf_ueber130": 0,
                     "baup_values": [0] * len(baup_indices),
@@ -224,11 +224,11 @@ def load_registerzaehlung():
             b = bezirke[district_code]
             b["wohnungen"] += safe_int(idx["whg_total"])
             b["bevoelkerung"] += safe_int(idx["pop_total"])
-            b["rv_eigentum"] += safe_int(idx["rv_eigentum"])
+            b["rv_hauseigentum"] += safe_int(idx["rv_hauseigentum"])
+            b["rv_wohnungseigentum"] += safe_int(idx["rv_wohnungseigentum"])
             b["rv_hauptmiete"] += safe_int(idx["rv_hauptmiete"])
-            b["rv_gemeinde"] += safe_int(idx["rv_gemeinde"])
-            b["rv_genossen"] += safe_int(idx["rv_genossen"])
             b["rv_sonstige"] += safe_int(idx["rv_sonstige"])
+            b["rv_unbekannt"] += safe_int(idx["rv_unbekannt"])
             b["nf_unter35"] += safe_int(idx["nf_unter35"])
             b["nf_35_60"] += safe_int(idx["nf_35_60"])
             b["nf_60_90"] += safe_int(idx["nf_60_90"])
@@ -475,10 +475,9 @@ def build_districts_json(reg_data, gebaeude_counts, baujahr_stats, oeffi_data):
             "flaeche_km2": flaeche,
             "einwohner_pro_km2": round(bevoelkerung / flaeche) if flaeche > 0 else 0,
             "rechtsverhaeltnis": {
-                "eigentum": reg.get("rv_eigentum", 0),
+                "hauseigentum": reg.get("rv_hauseigentum", 0),
+                "wohnungseigentum": reg.get("rv_wohnungseigentum", 0),
                 "hauptmiete": reg.get("rv_hauptmiete", 0),
-                "gemeinde": reg.get("rv_gemeinde", 0),
-                "genossenschaft": reg.get("rv_genossen", 0),
                 "sonstige": reg.get("rv_sonstige", 0),
             },
             "nutzflaechen": {

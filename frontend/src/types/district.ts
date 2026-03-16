@@ -1,9 +1,8 @@
 export interface Rechtsverhaeltnis {
-    eigentum: number;
-    hauptmiete: number;
-    gemeinde: number;
-    genossenschaft: number;
-    sonstige: number;
+  hauseigentum: number;
+  wohnungseigentum: number;
+  hauptmiete: number;
+  sonstige: number;
 }
 
 export interface Nutzflaechenverteilung {
@@ -56,22 +55,22 @@ export interface District {
 }
 
 export type MetricKey =
-    | "bruttomiete_m2"
-    | "einwohner_pro_km2"
-    | "wohnungen_gesamt"
-    | "oeffi_score"
-    | "anteil_altbau"
-    | "anteil_gemeinde"
-    | "gebaeude_anzahl";
+  | "bruttomiete_m2"
+  | "einwohner_pro_km2"
+  | "wohnungen_gesamt"
+  | "oeffi_score"
+  | "anteil_altbau"
+  | "anteil_miete"
+  | "gebaeude_anzahl";
 
 export const METRIC_LABELS: Record<MetricKey, string> = {
-    bruttomiete_m2: "Bruttomiete €/m²",
-    einwohner_pro_km2: "Einwohner/km²",
-    wohnungen_gesamt: "Wohnungen gesamt",
-    oeffi_score: "Öffi-Score",
-    anteil_altbau: "Altbau-Anteil",
-    anteil_gemeinde: "Gemeindewohnungen",
-    gebaeude_anzahl: "Gebäude",
+  bruttomiete_m2: "Bruttomiete €/m²",
+  einwohner_pro_km2: "Einwohner/km²",
+  wohnungen_gesamt: "Wohnungen gesamt",
+  oeffi_score: "Öffi-Score",
+  anteil_altbau: "Altbau-Anteil (vor 1961)",
+  anteil_miete: "Mietanteil",
+  gebaeude_anzahl: "Gebäude",
 };
 
 export function getMetricValue(district: District, metric: MetricKey): number {
@@ -86,13 +85,15 @@ export function getMetricValue(district: District, metric: MetricKey): number {
             const bp = district.bauperioden;
             const total = Object.values(bp).reduce((a, b) => a + b, 0);
             return total > 0
-                ? Math.round(((bp.vor_1919 + bp.von_1919_bis_1944) / total) * 100)
+                ? Math.round(
+                    ((bp.vor_1919 + bp.von_1919_bis_1944 + bp.von_1945_bis_1960) / total) * 100
+                )
                 : 0;
-        }
-        case "anteil_gemeinde": {
+        }   
+        case "anteil_miete": {
             const rv = district.rechtsverhaeltnis;
             const total = Object.values(rv).reduce((a, b) => a + b, 0);
-            return total > 0 ? Math.round((rv.gemeinde / total) * 100) : 0;
+            return total > 0 ? Math.round((rv.hauptmiete / total) * 100) : 0;
         }
         case "gebaeude_anzahl":
             return district.gebaeude_anzahl;
@@ -104,7 +105,7 @@ export function getMetricValue(district: District, metric: MetricKey): number {
 export function formatMetricValue(value: number, metric: MetricKey): string {
     switch (metric) {
         case "anteil_altbau":
-        case "anteil_gemeinde":
+        case "anteil_miete":
             return `${value}%`;
         case "oeffi_score":
             return value.toFixed(1);

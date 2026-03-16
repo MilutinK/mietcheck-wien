@@ -109,19 +109,20 @@ export default function CompareView({ districtA, districtB }: Props) {
             valueB: districtB.baujahr_stats?.median?.toString() || "–",
         },
         {
-            label: "Eigentumsanteil",
-            valueA: pct(districtA.rechtsverhaeltnis.eigentum, rvTotalA),
-            valueB: pct(districtB.rechtsverhaeltnis.eigentum, rvTotalB),
-        },
-        {
-            label: "Gemeindewohnungen",
-            valueA: pct(districtA.rechtsverhaeltnis.gemeinde, rvTotalA),
-            valueB: pct(districtB.rechtsverhaeltnis.gemeinde, rvTotalB),
-        },
-        {
-            label: "Hauptmiete",
+            label: "Mietanteil",
             valueA: pct(districtA.rechtsverhaeltnis.hauptmiete, rvTotalA),
             valueB: pct(districtB.rechtsverhaeltnis.hauptmiete, rvTotalB),
+        },
+        {
+            label: "Eigentum gesamt",
+            valueA: pct(
+                districtA.rechtsverhaeltnis.hauseigentum + districtA.rechtsverhaeltnis.wohnungseigentum,
+                rvTotalA
+            ),
+            valueB: pct(
+                districtB.rechtsverhaeltnis.hauseigentum + districtB.rechtsverhaeltnis.wohnungseigentum,
+                rvTotalB
+            ),
         },
     ];
 

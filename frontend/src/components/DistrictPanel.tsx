@@ -66,35 +66,39 @@ export default function DistrictPanel({ district }: Props) {
             </div>
 
             <div className="panel-section">
-                <h3>Rechtsverhältnis</h3>
-                <MiniChart
-                    data={[
-                        { label: "Eigentum", value: rv.eigentum, color: "#2e86c1" },
-                        { label: "Hauptmiete", value: rv.hauptmiete, color: "#e74c3c" },
-                        { label: "Gemeinde", value: rv.gemeinde, color: "#27ae60" },
-                        { label: "Genossenschaft", value: rv.genossenschaft, color: "#f39c12" },
-                        { label: "Sonstige", value: rv.sonstige, color: "#95a5a6" },
-                    ]}
-                />
-                <div className="detail-list">
-                    <div className="detail-row">
-                        <span>Eigentum</span>
-                        <span>{pct(rv.eigentum, rvTotal)}</span>
-                    </div>
-                    <div className="detail-row">
-                        <span>Hauptmiete</span>
-                        <span>{pct(rv.hauptmiete, rvTotal)}</span>
-                    </div>
-                    <div className="detail-row">
-                        <span>Gemeinde</span>
-                        <span>{pct(rv.gemeinde, rvTotal)}</span>
-                    </div>
-                    <div className="detail-row">
-                        <span>Genossenschaft</span>
-                        <span>{pct(rv.genossenschaft, rvTotal)}</span>
-                    </div>
-                </div>
-            </div>
+        <h3>Rechtsverhältnis (Personen)</h3>
+        <MiniChart
+          data={[
+            { label: "Hauptmiete", value: rv.hauptmiete, color: "#e74c3c" },
+            { label: "Hauseigentum", value: rv.hauseigentum, color: "#2e86c1" },
+            { label: "Whg.-Eigentum", value: rv.wohnungseigentum, color: "#11c56e" },
+            { label: "Sonstige", value: rv.sonstige, color: "#95a5a6" },
+          ]}
+        />
+        <div className="detail-list">
+          <div className="detail-row">
+            <span>Hauptmiete</span>
+            <span>{pct(rv.hauptmiete, rvTotal)}</span>
+          </div>
+          <div className="detail-row">
+            <span>Hauseigentum</span>
+            <span>{pct(rv.hauseigentum, rvTotal)}</span>
+          </div>
+          <div className="detail-row">
+            <span>Wohnungseigentum</span>
+            <span>{pct(rv.wohnungseigentum, rvTotal)}</span>
+          </div>
+          <div className="detail-row">
+            <span>Sonstige</span>
+            <span>{pct(rv.sonstige, rvTotal)}</span>
+          </div>
+        </div>
+        <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)", marginTop: 8, padding: "6px 8px", background: "var(--bg)", borderRadius: 6 }}>
+          ℹ️ Werte zeigen Personen nach Wohnverhältnis (Registerzählung 2023).
+          Wien-weit: ~21% Gemeinde, ~21% Genossenschaft, ~33% private Miete, ~20% Eigentum.
+          <br/>Quelle: Statistik Austria, Mikrozensus 2024
+        </div>
+      </div>
 
             <div className="panel-section">
                 <h3>Wohnungsgrößen</h3>
