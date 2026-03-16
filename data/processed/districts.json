@@ -9,11 +9,10 @@
       "flaeche_km2": 3.01,
       "einwohner_pro_km2": 5482,
       "rechtsverhaeltnis": {
-        "eigentum": 244,
-        "hauptmiete": 1238,
-        "gemeinde": 13299,
-        "genossenschaft": 1169,
-        "sonstige": 550
+        "hauseigentum": 244,
+        "wohnungseigentum": 1238,
+        "hauptmiete": 13299,
+        "sonstige": 1169
       },
       "nutzflaechen": {
         "unter_35m2": 1005,
@@ -52,11 +51,10 @@
       "flaeche_km2": 19.27,
       "einwohner_pro_km2": 5683,
       "rechtsverhaeltnis": {
-        "eigentum": 2675,
-        "hauptmiete": 11435,
-        "gemeinde": 86009,
-        "genossenschaft": 4356,
-        "sonstige": 5043
+        "hauseigentum": 2675,
+        "wohnungseigentum": 11435,
+        "hauptmiete": 86009,
+        "sonstige": 4356
       },
       "nutzflaechen": {
         "unter_35m2": 11143,
@@ -95,11 +93,10 @@
       "flaeche_km2": 7.42,
       "einwohner_pro_km2": 13229,
       "rechtsverhaeltnis": {
-        "eigentum": 1198,
-        "hauptmiete": 10929,
-        "gemeinde": 79314,
-        "genossenschaft": 4193,
-        "sonstige": 2527
+        "hauseigentum": 1198,
+        "wohnungseigentum": 10929,
+        "hauptmiete": 79314,
+        "sonstige": 4193
       },
       "nutzflaechen": {
         "unter_35m2": 11874,
@@ -138,11 +135,10 @@
       "flaeche_km2": 1.78,
       "einwohner_pro_km2": 18609,
       "rechtsverhaeltnis": {
-        "eigentum": 458,
-        "hauptmiete": 4109,
-        "gemeinde": 25414,
-        "genossenschaft": 1565,
-        "sonstige": 1578
+        "hauseigentum": 458,
+        "wohnungseigentum": 4109,
+        "hauptmiete": 25414,
+        "sonstige": 1565
       },
       "nutzflaechen": {
         "unter_35m2": 2531,
@@ -181,11 +177,10 @@
       "flaeche_km2": 2.03,
       "einwohner_pro_km2": 26780,
       "rechtsverhaeltnis": {
-        "eigentum": 734,
-        "hauptmiete": 5658,
-        "gemeinde": 43860,
-        "genossenschaft": 2749,
-        "sonstige": 1363
+        "hauseigentum": 734,
+        "wohnungseigentum": 5658,
+        "hauptmiete": 43860,
+        "sonstige": 2749
       },
       "nutzflaechen": {
         "unter_35m2": 9677,
@@ -224,11 +219,10 @@
       "flaeche_km2": 1.48,
       "einwohner_pro_km2": 21068,
       "rechtsverhaeltnis": {
-        "eigentum": 497,
-        "hauptmiete": 3114,
-        "gemeinde": 24174,
-        "genossenschaft": 1638,
-        "sonstige": 1758
+        "hauseigentum": 497,
+        "wohnungseigentum": 3114,
+        "hauptmiete": 24174,
+        "sonstige": 1638
       },
       "nutzflaechen": {
         "unter_35m2": 2876,
@@ -267,11 +261,10 @@
       "flaeche_km2": 1.61,
       "einwohner_pro_km2": 19535,
       "rechtsverhaeltnis": {
-        "eigentum": 481,
-        "hauptmiete": 3497,
-        "gemeinde": 25131,
-        "genossenschaft": 1459,
-        "sonstige": 884
+        "hauseigentum": 481,
+        "wohnungseigentum": 3497,
+        "hauptmiete": 25131,
+        "sonstige": 1459
       },
       "nutzflaechen": {
         "unter_35m2": 2934,
@@ -310,11 +303,10 @@
       "flaeche_km2": 1.09,
       "einwohner_pro_km2": 22373,
       "rechtsverhaeltnis": {
-        "eigentum": 466,
-        "hauptmiete": 2536,
-        "gemeinde": 18029,
-        "genossenschaft": 1364,
-        "sonstige": 1992
+        "hauseigentum": 466,
+        "wohnungseigentum": 2536,
+        "hauptmiete": 18029,
+        "sonstige": 1364
       },
       "nutzflaechen": {
         "unter_35m2": 1777,
@@ -353,11 +345,10 @@
       "flaeche_km2": 2.96,
       "einwohner_pro_km2": 14067,
       "rechtsverhaeltnis": {
-        "eigentum": 762,
-        "hauptmiete": 4120,
-        "gemeinde": 32906,
-        "genossenschaft": 2217,
-        "sonstige": 1632
+        "hauseigentum": 762,
+        "wohnungseigentum": 4120,
+        "hauptmiete": 32906,
+        "sonstige": 2217
       },
       "nutzflaechen": {
         "unter_35m2": 4501,
@@ -396,11 +387,10 @@
       "flaeche_km2": 31.82,
       "einwohner_pro_km2": 6898,
       "rechtsverhaeltnis": {
-        "eigentum": 8521,
-        "hauptmiete": 18852,
-        "gemeinde": 178957,
-        "genossenschaft": 6776,
-        "sonstige": 6394
+        "hauseigentum": 8521,
+        "wohnungseigentum": 18852,
+        "hauptmiete": 178957,
+        "sonstige": 6776
       },
       "nutzflaechen": {
         "unter_35m2": 28931,
@@ -439,11 +429,10 @@
       "flaeche_km2": 23.25,
       "einwohner_pro_km2": 4736,
       "rechtsverhaeltnis": {
-        "eigentum": 5109,
-        "hauptmiete": 10010,
-        "gemeinde": 90069,
-        "genossenschaft": 2606,
-        "sonstige": 2320
+        "hauseigentum": 5109,
+        "wohnungseigentum": 10010,
+        "hauptmiete": 90069,
+        "sonstige": 2606
       },
       "nutzflaechen": {
         "unter_35m2": 9834,
@@ -482,11 +471,10 @@
       "flaeche_km2": 8.21,
       "einwohner_pro_km2": 12332,
       "rechtsverhaeltnis": {
-        "eigentum": 3392,
-        "hauptmiete": 9903,
-        "gemeinde": 80363,
-        "genossenschaft": 4027,
-        "sonstige": 3560
+        "hauseigentum": 3392,
+        "wohnungseigentum": 9903,
+        "hauptmiete": 80363,
+        "sonstige": 4027
       },
       "nutzflaechen": {
         "unter_35m2": 14031,
@@ -525,11 +513,10 @@
       "flaeche_km2": 37.7,
       "einwohner_pro_km2": 1472,
       "rechtsverhaeltnis": {
-        "eigentum": 10032,
-        "hauptmiete": 10279,
-        "gemeinde": 30880,
-        "genossenschaft": 2372,
-        "sonstige": 1915
+        "hauseigentum": 10032,
+        "wohnungseigentum": 10279,
+        "hauptmiete": 30880,
+        "sonstige": 2372
       },
       "nutzflaechen": {
         "unter_35m2": 3359,
@@ -568,11 +555,10 @@
       "flaeche_km2": 33.76,
       "einwohner_pro_km2": 2899,
       "rechtsverhaeltnis": {
-        "eigentum": 12048,
-        "hauptmiete": 14697,
-        "gemeinde": 65816,
-        "genossenschaft": 3277,
-        "sonstige": 2031
+        "hauseigentum": 12048,
+        "wohnungseigentum": 14697,
+        "hauptmiete": 65816,
+        "sonstige": 3277
       },
       "nutzflaechen": {
         "unter_35m2": 11978,
@@ -611,11 +597,10 @@
       "flaeche_km2": 3.92,
       "einwohner_pro_km2": 19391,
       "rechtsverhaeltnis": {
-        "eigentum": 1408,
-        "hauptmiete": 5573,
-        "gemeinde": 62695,
-        "genossenschaft": 3638,
-        "sonstige": 2699
+        "hauseigentum": 1408,
+        "wohnungseigentum": 5573,
+        "hauptmiete": 62695,
+        "sonstige": 3638
       },
       "nutzflaechen": {
         "unter_35m2": 14929,
@@ -654,11 +639,10 @@
       "flaeche_km2": 8.67,
       "einwohner_pro_km2": 11827,
       "rechtsverhaeltnis": {
-        "eigentum": 4387,
-        "hauptmiete": 10687,
-        "gemeinde": 80475,
-        "genossenschaft": 5045,
-        "sonstige": 1942
+        "hauseigentum": 4387,
+        "wohnungseigentum": 10687,
+        "hauptmiete": 80475,
+        "sonstige": 5045
       },
       "nutzflaechen": {
         "unter_35m2": 20210,
@@ -697,11 +681,10 @@
       "flaeche_km2": 11.35,
       "einwohner_pro_km2": 4962,
       "rechtsverhaeltnis": {
-        "eigentum": 5220,
-        "hauptmiete": 7105,
-        "gemeinde": 40435,
-        "genossenschaft": 2453,
-        "sonstige": 1104
+        "hauseigentum": 5220,
+        "wohnungseigentum": 7105,
+        "hauptmiete": 40435,
+        "sonstige": 2453
       },
       "nutzflaechen": {
         "unter_35m2": 9093,
@@ -740,11 +723,10 @@
       "flaeche_km2": 6.28,
       "einwohner_pro_km2": 8194,
       "rechtsverhaeltnis": {
-        "eigentum": 3903,
-        "hauptmiete": 8908,
-        "gemeinde": 34752,
-        "genossenschaft": 2667,
-        "sonstige": 1230
+        "hauseigentum": 3903,
+        "wohnungseigentum": 8908,
+        "hauptmiete": 34752,
+        "sonstige": 2667
       },
       "nutzflaechen": {
         "unter_35m2": 5666,
@@ -783,11 +765,10 @@
       "flaeche_km2": 24.94,
       "einwohner_pro_km2": 3015,
       "rechtsverhaeltnis": {
-        "eigentum": 6904,
-        "hauptmiete": 12274,
-        "gemeinde": 49077,
-        "genossenschaft": 3549,
-        "sonstige": 3387
+        "hauseigentum": 6904,
+        "wohnungseigentum": 12274,
+        "hauptmiete": 49077,
+        "sonstige": 3549
       },
       "nutzflaechen": {
         "unter_35m2": 6281,
@@ -826,11 +807,10 @@
       "flaeche_km2": 5.67,
       "einwohner_pro_km2": 15242,
       "rechtsverhaeltnis": {
-        "eigentum": 717,
-        "hauptmiete": 8193,
-        "gemeinde": 71170,
-        "genossenschaft": 3624,
-        "sonstige": 2719
+        "hauseigentum": 717,
+        "wohnungseigentum": 8193,
+        "hauptmiete": 71170,
+        "sonstige": 3624
       },
       "nutzflaechen": {
         "unter_35m2": 15217,
@@ -869,11 +849,10 @@
       "flaeche_km2": 44.46,
       "einwohner_pro_km2": 4176,
       "rechtsverhaeltnis": {
-        "eigentum": 19491,
-        "hauptmiete": 19663,
-        "gemeinde": 139720,
-        "genossenschaft": 4100,
-        "sonstige": 2685
+        "hauseigentum": 19491,
+        "wohnungseigentum": 19663,
+        "hauptmiete": 139720,
+        "sonstige": 4100
       },
       "nutzflaechen": {
         "unter_35m2": 14761,
@@ -912,11 +891,10 @@
       "flaeche_km2": 102.34,
       "einwohner_pro_km2": 2141,
       "rechtsverhaeltnis": {
-        "eigentum": 29756,
-        "hauptmiete": 29066,
-        "gemeinde": 152567,
-        "genossenschaft": 3697,
-        "sonstige": 3996
+        "hauseigentum": 29756,
+        "wohnungseigentum": 29066,
+        "hauptmiete": 152567,
+        "sonstige": 3697
       },
       "nutzflaechen": {
         "unter_35m2": 11330,
@@ -955,11 +933,10 @@
       "flaeche_km2": 32.06,
       "einwohner_pro_km2": 3767,
       "rechtsverhaeltnis": {
-        "eigentum": 15200,
-        "hauptmiete": 18786,
-        "gemeinde": 81675,
-        "genossenschaft": 2542,
-        "sonstige": 2552
+        "hauseigentum": 15200,
+        "wohnungseigentum": 18786,
+        "hauptmiete": 81675,
+        "sonstige": 2542
       },
       "nutzflaechen": {
         "unter_35m2": 5263,
