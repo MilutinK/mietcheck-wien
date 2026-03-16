@@ -79,7 +79,7 @@ export default function ViennaMap({
         const label = METRIC_LABELS[metric];
 
         layer.bindTooltip(
-            `<strong>${district.name_full}</strong><br/>${label}: ${formatMetricValue(value, metric)}`,
+            `<strong>${district.name}</strong><br/>${label}: ${formatMetricValue(value, metric)}`,
             { sticky: true, className: "district-tooltip" }
         );
 
