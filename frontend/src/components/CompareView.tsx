@@ -26,7 +26,7 @@ export default function CompareView({ districtA, districtB }: Props) {
         return (
             <div className="panel-empty">
                 <p>
-                    <strong>{chosen?.name_full}</strong> gewählt – jetzt den zweiten
+                    <strong>{chosen?.name}</strong> gewählt – jetzt den zweiten
                     Bezirk anklicken
                 </p>
             </div>
@@ -47,15 +47,30 @@ export default function CompareView({ districtA, districtB }: Props) {
 
     const rows: CompareRow[] = [
         {
-            label: "Bruttomiete €/m²",
-            valueA: districtA.bruttomiete_m2 ? `${districtA.bruttomiete_m2.toFixed(1)} €` : "–",
-            valueB: districtB.bruttomiete_m2 ? `${districtB.bruttomiete_m2.toFixed(1)} €` : "–",
+            label: "Miete Gesamt €/m²",
+            valueA: districtA.mietpreise?.gesamt?.durchschnitt != null
+                ? `${districtA.mietpreise.gesamt.durchschnitt.toFixed(2)} €` : "–",
+            valueB: districtB.mietpreise?.gesamt?.durchschnitt != null
+                ? `${districtB.mietpreise.gesamt.durchschnitt.toFixed(2)} €` : "–",
             winner:
-                (districtA.bruttomiete_m2 ?? 99) < (districtB.bruttomiete_m2 ?? 99)
-                    ? "a"
-                    : (districtB.bruttomiete_m2 ?? 99) < (districtA.bruttomiete_m2 ?? 99)
-                        ? "b"
-                        : "none",
+                (districtA.mietpreise?.gesamt?.durchschnitt ?? 99) <
+                (districtB.mietpreise?.gesamt?.durchschnitt ?? 99) ? "a" :
+                (districtB.mietpreise?.gesamt?.durchschnitt ?? 99) <
+                (districtA.mietpreise?.gesamt?.durchschnitt ?? 99) ? "b" : "none",
+},
+        {
+            label: "Miete Altbau €/m²",
+            valueA: districtA.mietpreise?.altbau?.durchschnitt
+                ? `${districtA.mietpreise.altbau.durchschnitt.toFixed(2)} €` : "–",
+            valueB: districtB.mietpreise?.altbau?.durchschnitt
+                ? `${districtB.mietpreise.altbau.durchschnitt.toFixed(2)} €` : "–",
+        },
+        {
+            label: "Miete Neubau €/m²",
+            valueA: districtA.mietpreise?.neubau?.durchschnitt
+                ? `${districtA.mietpreise.neubau.durchschnitt.toFixed(2)} €` : "–",
+            valueB: districtB.mietpreise?.neubau?.durchschnitt
+                ? `${districtB.mietpreise.neubau.durchschnitt.toFixed(2)} €` : "–",
         },
         {
             label: "Miete 70m² Wohnung",
@@ -104,11 +119,6 @@ export default function CompareView({ districtA, districtB }: Props) {
             valueB: districtB.gebaeude_anzahl.toLocaleString("de-AT"),
         },
         {
-            label: "Baujahr (Median)",
-            valueA: districtA.baujahr_stats?.median?.toString() || "–",
-            valueB: districtB.baujahr_stats?.median?.toString() || "–",
-        },
-        {
             label: "Mietanteil",
             valueA: pct(districtA.rechtsverhaeltnis.hauptmiete, rvTotalA),
             valueB: pct(districtB.rechtsverhaeltnis.hauptmiete, rvTotalB),
@@ -129,9 +139,9 @@ export default function CompareView({ districtA, districtB }: Props) {
     return (
         <div className="compare-view">
             <div className="compare-header">
-                <div className="compare-name compare-a">{districtA.name_full}</div>
+                <div className="compare-name compare-a">{districtA.name}</div>
                 <div className="compare-vs">vs</div>
-                <div className="compare-name compare-b">{districtB.name_full}</div>
+                <div className="compare-name compare-b">{districtB.name}</div>
             </div>
 
             <div className="compare-table">

@@ -1,6 +1,7 @@
-import type { District } from "../types/district";
+import type { District, Mietpreise } from "../types/district";
 
 const API_BASE = import.meta.env.VITE_API_URL || "";
+
 interface DistrictsResponse {
   districts: District[];
   meta: Record<string, unknown>;
@@ -47,7 +48,7 @@ export async function loadDistricts(): Promise<District[]> {
     const districts = data.districts;
 
     // Falls statischer Fallback: Mietpreise manuell mergen
-    const isFromApi = districts.length > 0 && districts[0].bruttomiete_m2 !== undefined;
+    const isFromApi = districts.length > 0 && districts[0].mietpreise !== undefined;
 
     if (!isFromApi) {
       try {
@@ -60,9 +61,13 @@ export async function loadDistricts(): Promise<District[]> {
         for (const d of districts) {
           const m = mietById[d.id];
           if (m) {
-            d.bruttomiete_m2 = m.bruttomiete_m2;
-            d.miete_veraenderung_prozent = m.veraenderung_prozent;
-            d.miete_confirmed = m.confirmed;
+            const mietpreise: Mietpreise = {
+              gesamt: m.gesamt ?? { durchschnitt: null },
+              altbau: m.altbau ?? { durchschnitt: null },
+              neubau: m.neubau ?? { durchschnitt: null },
+            };
+            d.mietpreise = mietpreise;
+            d.bruttomiete_m2 = m.gesamt?.durchschnitt ?? null;
           }
         }
       } catch {
