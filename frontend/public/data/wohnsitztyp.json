@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "quelle": "MA 23 – Landesstatistik Wien, 'Bezirke in Zahlen 2024'",
+    "stichtag": "31.10.2021",
+    "methode": "Bevölkerung nach Wohnsitztyp in Prozent (Registerzählung 2021)",
+    "url": "https://www.wien.gv.at/statistik/bezirksdaten",
+    "hinweis": "Werte sind gerundete Prozentangaben aus den Bezirks-PDFs. Summen können rundungsbedingt 98–101% ergeben."
+  },
+  "bezirke": [
+    { "id": 1,  "name": "Innere Stadt",          "gemeindebau": 14, "miete_frei": 68, "eigentum": 8,  "genossenschaft": 1,  "andere": 9 },
+    { "id": 2,  "name": "Leopoldstadt",           "gemeindebau": 24, "miete_frei": 44, "eigentum": 13, "genossenschaft": 11, "andere": 8 },
+    { "id": 3,  "name": "Landstraße",             "gemeindebau": 22, "miete_frei": 51, "eigentum": 12, "genossenschaft": 9,  "andere": 6 },
+    { "id": 4,  "name": "Wieden",                 "gemeindebau": 14, "miete_frei": 59, "eigentum": 14, "genossenschaft": 3,  "andere": 9 },
+    { "id": 5,  "name": "Margareten",             "gemeindebau": 22, "miete_frei": 53, "eigentum": 12, "genossenschaft": 6,  "andere": 7 },
+    { "id": 6,  "name": "Mariahilf",              "gemeindebau": 12, "miete_frei": 59, "eigentum": 12, "genossenschaft": 6,  "andere": 10 },
+    { "id": 7,  "name": "Neubau",                 "gemeindebau": 7,  "miete_frei": 68, "eigentum": 12, "genossenschaft": 5,  "andere": 7 },
+    { "id": 8,  "name": "Josefstadt",             "gemeindebau": 8,  "miete_frei": 63, "eigentum": 13, "genossenschaft": 2,  "andere": 13 },
+    { "id": 9,  "name": "Alsergrund",             "gemeindebau": 12, "miete_frei": 63, "eigentum": 12, "genossenschaft": 4,  "andere": 9 },
+    { "id": 10, "name": "Favoriten",              "gemeindebau": 30, "miete_frei": 29, "eigentum": 13, "genossenschaft": 23, "andere": 5 },
+    { "id": 11, "name": "Simmering",              "gemeindebau": 35, "miete_frei": 19, "eigentum": 13, "genossenschaft": 28, "andere": 4 },
+    { "id": 12, "name": "Meidling",               "gemeindebau": 31, "miete_frei": 32, "eigentum": 13, "genossenschaft": 17, "andere": 7 },
+    { "id": 13, "name": "Hietzing",               "gemeindebau": 17, "miete_frei": 28, "eigentum": 37, "genossenschaft": 10, "andere": 8 },
+    { "id": 14, "name": "Penzing",                "gemeindebau": 20, "miete_frei": 32, "eigentum": 27, "genossenschaft": 14, "andere": 5 },
+    { "id": 15, "name": "Rudolfsheim-Fünfhaus",   "gemeindebau": 21, "miete_frei": 55, "eigentum": 9,  "genossenschaft": 8,  "andere": 8 },
+    { "id": 16, "name": "Ottakring",              "gemeindebau": 21, "miete_frei": 45, "eigentum": 15, "genossenschaft": 14, "andere": 6 },
+    { "id": 17, "name": "Hernals",                "gemeindebau": 16, "miete_frei": 47, "eigentum": 22, "genossenschaft": 9,  "andere": 6 },
+    { "id": 18, "name": "Währing",                "gemeindebau": 12, "miete_frei": 51, "eigentum": 25, "genossenschaft": 4,  "andere": 8 },
+    { "id": 19, "name": "Döbling",                "gemeindebau": 25, "miete_frei": 32, "eigentum": 25, "genossenschaft": 9,  "andere": 9 },
+    { "id": 20, "name": "Brigittenau",            "gemeindebau": 31, "miete_frei": 40, "eigentum": 10, "genossenschaft": 12, "andere": 7 },
+    { "id": 21, "name": "Floridsdorf",            "gemeindebau": 34, "miete_frei": 19, "eigentum": 21, "genossenschaft": 23, "andere": 4 },
+    { "id": 22, "name": "Donaustadt",             "gemeindebau": 25, "miete_frei": 14, "eigentum": 27, "genossenschaft": 31, "andere": 3 },
+    { "id": 23, "name": "Liesing",                "gemeindebau": 24, "miete_frei": 16, "eigentum": 28, "genossenschaft": 27, "andere": 4 }
+  ]
+}
