@@ -14,10 +14,11 @@ mietcheck wien visualisiert Wohn- und Mietdaten aller 23 Wiener Bezirke auf eine
 
 ### Features
 
-- **Interaktive Choropleth-Karte** – Bezirke einfärben nach Mietpreis, Einwohnerdichte, Öffi-Score, Altbau-Anteil u.v.m.
-- **Bezirksdetails** – Klick auf einen Bezirk zeigt Mietpreis, Bevölkerung, Wohnungsstruktur, Bauperioden, Öffi-Anbindung
+- **Interaktive Choropleth-Karte** – Bezirke einfärben nach Mietpreis (Gesamt/Altbau/Neubau), Einwohnerdichte, Öffi-Score, Altbau-Anteil u.v.m.
+- **Bezirksdetails** – Klick auf einen Bezirk zeigt Mietpreis, Bevölkerung, Wohnungsstruktur, Öffi-Anbindung
+- **Mietpreise** – Aktuelle Bruttomieten pro m² mit Altbau/Neubau-Aufschlüsselung und Größenkategorien (immopreise.at)
+- **Mietzins-Info** – Welcher Mietzins gilt? Wohnsitztyp-Verteilung, Richtwert vs. Marktpreis, Mietzinsarten erklärt
 - **Bezirksvergleich** – Zwei Bezirke side-by-side vergleichen
-- **Mietpreise** – Aktuelle Bruttomieten pro m² (Median) auf Basis der ImmoScout24 Datenanalyse 2025
 - **Öffi-Score** – Berechnet aus der Haltestellendichte pro km² (Wiener Linien Daten)
 - **Responsive Design** – Optimiert für Desktop und Mobile
 - **REST API** – FastAPI Backend mit Filter, Sortierung und automatischem Daten-Refresh
@@ -44,10 +45,11 @@ Alle Daten stammen aus öffentlichen, frei zugänglichen Quellen:
 | Quelle | Inhalt | Lizenz |
 |--------|--------|--------|
 | [Bezirksgrenzen Wien](https://www.data.gv.at/katalog/dataset/stadt-wien_bezirksgrenzenwien) | GeoJSON der 23 Bezirke | CC BY 4.0 |
-| [Registerzählung 2023](https://www.wien.gv.at/data/ogd/ma23/vie-405-2023.csv) | Wohnungen, Bevölkerung, Rechtsverhältnis pro Zählbezirk | CC BY 4.0 |
+| [Registerzählung 2023](https://www.wien.gv.at/data/ogd/ma23/vie-405-2023.csv) | Wohnungen, Bevölkerung, Bauperioden pro Zählbezirk | CC BY 4.0 |
 | [Gebäudeinformation Wien](https://www.data.gv.at/katalog/de/dataset/gebaeudeinformation-wien) | 58.000+ Gebäude mit Baujahr und Standort | CC BY 4.0 |
 | [Wiener Linien Haltestellen](https://www.data.gv.at/katalog/dataset/stadt-wien_wiaboreitungwienerlinieneaboreitungdatendrehscheibe) | 1.800+ Haltestellen mit Koordinaten | CC BY 4.0 |
-| [ImmoScout24 Datenanalyse](https://www.immobilienscout24.at/unternehmen/presse/presseaussendungen/2025/25-11-2025-mietpreise.html) | Bruttomieten pro Bezirk (Median, Jan–Okt 2025) | Presseaussendung |
+| [immopreise.at / derStandard.at](https://www.immopreise.at/Wien/Wohnung/Miete) | Bruttomieten pro Bezirk – Gesamt, Altbau, Neubau mit Größenkategorien (März/Juli 2025) | Presseaussendung |
+| [MA 23 – Bezirke in Zahlen 2024](https://www.wien.gv.at/statistik/bezirksdaten) | Bevölkerung nach Wohnsitztyp pro Bezirk (Gemeindebau, Genossenschaft, freie Miete, Eigentum) | CC BY 4.0 |
 
 Datenquelle: Stadt Wien – data.wien.gv.at
 
@@ -140,13 +142,14 @@ mietcheck-wien/
 
 ## Datenverarbeitung (ETL)
 
-Die ETL-Pipeline aggregiert Daten aus 5 verschiedenen Quellen zu einer strukturierten `districts.json`:
+Die ETL-Pipeline aggregiert Daten aus mehreren Quellen zu einer strukturierten `districts.json`:
 
 1. **Bezirksgrenzen** laden (GeoJSON für Karte + Point-in-Polygon)
 2. **Registerzählung** aggregieren (250 Zählbezirke → 23 Bezirke)
 3. **Gebäude** pro Bezirk zählen (direkte Zuordnung über BEZ-Spalte + Baujahr-Statistik)
 4. **Haltestellen** pro Bezirk zuordnen (WKT-Point Parsing + Point-in-Polygon → Öffi-Score)
-5. **Mietpreise** aus ImmoScout24-Presseaussendungen manuell ergänzt
+5. **Mietpreise** aus immopreise.at/derStandard.at manuell ergänzt (Gesamt/Altbau/Neubau)
+6. **Wohnsitztyp** aus MA 23 Bezirke in Zahlen 2024 manuell ergänzt
 
 ---
 
