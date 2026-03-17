@@ -11,11 +11,6 @@ const eur = (val: number | null | undefined) =>
   val != null ? `${val.toFixed(2)} €` : "k.A.";
 
 export default function DistrictPanel({ district }: Props) {
-  const rv = district.rechtsverhaeltnis;
-  const rvTotal = Object.values(rv).reduce((a, b) => a + b, 0);
-
-  const pct = (val: number, total: number) =>
-    total > 0 ? `${Math.round((val / total) * 100)}%` : "–";
 
   const mp = district.mietpreise;
 
