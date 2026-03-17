@@ -1,4 +1,5 @@
 import type { District } from "../types/district";
+import { RICHTWERT_WIEN } from "../types/district";
 import MiniChart from "./MiniChart";
 
 interface Props {
@@ -17,6 +18,15 @@ export default function DistrictPanel({ district }: Props) {
     total > 0 ? `${Math.round((val / total) * 100)}%` : "–";
 
   const mp = district.mietpreise;
+
+  const wst = district.wohnsitztyp;
+  const bp = district.bauperioden;
+
+  // Altbau-Anteil berechnen (vor 1961 als Proxy für MRG vor 1.7.1953)
+  const bpTotal = bp ? Object.values(bp).reduce((a, b) => a + b, 0) : 0;
+  const altbauAnteil = bpTotal > 0
+    ? Math.round(((bp.vor_1919 + bp.von_1919_bis_1944 + bp.von_1945_bis_1960) / bpTotal) * 100)
+    : 0;
 
   return (
     <div className="district-panel">
@@ -57,11 +67,17 @@ export default function DistrictPanel({ district }: Props) {
           </div>
 
           {/* Größenkategorien Gesamt */}
-          <details style={{ marginTop: 10 }}>
-            <summary style={{ fontSize: "0.75rem", cursor: "pointer", color: "var(--text-secondary)" }}>
+          <details style={{ marginTop: 10, background: "var(--bg)", borderRadius: 8, border: "1px solid var(--border-color, #e0e0e0)" }}>
+            <summary style={{
+              fontSize: "0.75rem",
+              cursor: "pointer",
+              color: "var(--text-secondary)",
+              padding: "8px 12px",
+              fontWeight: 500,
+            }}>
               Preise nach Wohnungsgröße
             </summary>
-            <div className="detail-list" style={{ marginTop: 6 }}>
+            <div className="detail-list" style={{ padding: "0 12px 10px" }}>
               <div style={{ fontSize: "0.7rem", fontWeight: 600, marginBottom: 4, color: "#2e86c1" }}>
                 Gesamt (März 2025)
               </div>
@@ -130,6 +146,130 @@ export default function DistrictPanel({ district }: Props) {
         </div>
       )}
 
+      {/* ── Welcher Mietzins gilt? ── */}
+      {wst && (
+        <div className="panel-section" style={{ marginBottom: 16 }}>
+          <h3>Welcher Mietzins gilt?</h3>
+
+          {/* Wohnsitztyp Chart */}
+          <MiniChart
+            data={[
+              { label: "Gemeindebau", value: wst.gemeindebau, color: "#e74c3c" },
+              { label: "Genossenschaft", value: wst.genossenschaft, color: "#f39c12" },
+              { label: "Miete (frei)", value: wst.miete_frei, color: "#3498db" },
+              { label: "Eigentum", value: wst.eigentum, color: "#2ec184" },
+              { label: "Andere", value: wst.andere, color: "#95a5a6" },
+            ]}
+          />
+          <div className="detail-list">
+            <div className="detail-row">
+              <span>Gemeindebau / öffentl. Wohnbau</span>
+              <span>{wst.gemeindebau}%</span>
+            </div>
+            <div className="detail-row">
+              <span>Genossenschaft (gemeinnützig)</span>
+              <span>{wst.genossenschaft}%</span>
+            </div>
+            <div className="detail-row">
+              <span>Miete freifinanziert</span>
+              <span>{wst.miete_frei}%</span>
+            </div>
+            <div className="detail-row">
+              <span>Eigentum</span>
+              <span>{wst.eigentum}%</span>
+            </div>
+            <div className="detail-row">
+              <span>Andere</span>
+              <span>{wst.andere}%</span>
+            </div>
+          </div>
+
+          {/* Mietzins-Einschätzung */}
+          <div style={{ marginTop: 12, padding: "10px 12px", background: "#fef9e7", borderRadius: 8, border: "1px solid #f9e79f" }}>
+            <div style={{ fontSize: "0.8rem", fontWeight: 500, marginBottom: 6 }}>
+              Mietzins-Einschätzung
+            </div>
+            <div style={{ fontSize: "0.75rem", lineHeight: 1.6 }}>
+              <strong>~{altbauAnteil}%</strong> der Wohnungen sind Altbau (vor 1961)
+              → bei privater Miete gilt wahrscheinlich <strong>Richtwertmietzins</strong>
+              <br />
+              Richtwert Wien: <strong>{RICHTWERT_WIEN.toFixed(2)} €/m²</strong> Basis (+ Zuschläge)
+              {mp?.altbau?.durchschnitt != null && (
+                <>
+                  <br />
+                  Tatsächlicher Marktpreis Altbau: <strong style={{ color: "#c0392b" }}>
+                    {mp.altbau.durchschnitt.toFixed(2)} €/m²
+                  </strong>
+                  {" "}({(mp.altbau.durchschnitt / RICHTWERT_WIEN).toFixed(1)}× Richtwert)
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Richtwert vs Marktpreis Vergleich */}
+          {mp?.altbau?.durchschnitt != null && (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 10 }}>
+              <div style={{ textAlign: "center", padding: "6px", background: "#eafaf1", borderRadius: 6 }}>
+                <div style={{ fontSize: "1rem", fontWeight: 500, color: "#1e8449" }}>
+                  {RICHTWERT_WIEN.toFixed(2)} €
+                </div>
+                <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)" }}>
+                  Richtwert (Basis)
+                </div>
+              </div>
+              <div style={{ textAlign: "center", padding: "6px", background: "#fdedec", borderRadius: 6 }}>
+                <div style={{ fontSize: "1rem", fontWeight: 500, color: "#c0392b" }}>
+                  {mp.altbau.durchschnitt.toFixed(2)} €
+                </div>
+                <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)" }}>
+                  Marktpreis Altbau
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Aufklappbare Details zu Mietzinsarten */}
+          <details style={{ marginTop: 10, background: "var(--bg)", borderRadius: 8, border: "1px solid var(--border-color, #e0e0e0)" }}>
+            <summary style={{
+              fontSize: "0.75rem",
+              cursor: "pointer",
+              color: "var(--text-secondary)",
+              padding: "8px 12px",
+              fontWeight: 500,
+            }}>
+              Mietzinsarten erklärt
+            </summary>
+            <div style={{ padding: "0 12px 10px", fontSize: "0.7rem", lineHeight: 1.6 }}>
+              <div style={{ marginBottom: 8 }}>
+                <strong>Richtwertmietzins</strong> (Altbau vor 1953, Vertrag ab 1994)
+                <br />Basis {RICHTWERT_WIEN.toFixed(2)} €/m² + Zu-/Abschläge (Lage, Ausstattung, Lift…). Eingefroren bis April 2026.
+              </div>
+              <div style={{ marginBottom: 8 }}>
+                <strong>Kategoriemietzins</strong> (Altbau, Vertrag 1982–1994)
+                <br />Kat. A: 4,47 €, B: 3,35 €, C: 2,23 €, D: 1,12 €/m². Ebenfalls eingefroren.
+              </div>
+              <div style={{ marginBottom: 8 }}>
+                <strong>Angemessener Mietzins</strong> (Neubau ab 1953, freifinanziert)
+                <br />Orientiert sich am Markt, theoretisch anfechtbar.
+              </div>
+              <div style={{ marginBottom: 8 }}>
+                <strong>Gemeindebau</strong> (Wiener Wohnen)
+                <br />Richtwert-/Kategoriemiete, Mieten 2024/2025 eingefroren.
+              </div>
+              <div>
+                <strong>Genossenschaft</strong> (WGG)
+                <br />Kostenmiete + Erhaltungsbeitrag. Ebenfalls gedeckelt.
+              </div>
+            </div>
+          </details>
+
+          <div style={{ fontSize: "0.6rem", color: "var(--text-secondary)", marginTop: 8, padding: "6px 8px", background: "var(--bg)", borderRadius: 6 }}>
+            Wohnsitztyp: Anteil der Bevölkerung (nicht Wohnungen). Quelle: MA 23, Stichtag 31.10.2021.
+            Mietzins-Werte: MRG/RichtWG, Stand 2025.
+          </div>
+        </div>
+      )}
+
       {/* ── Übersicht ── */}
       <div className="stat-grid">
         <div className="stat-card">
@@ -153,42 +293,6 @@ export default function DistrictPanel({ district }: Props) {
         <div className="stat-card">
           <span className="stat-value">{district.oeffi?.score?.toFixed(1) ?? "–"}</span>
           <span className="stat-label">Öffi-Score</span>
-        </div>
-      </div>
-
-      {/* ── Rechtsverhältnis ── */}
-      <div className="panel-section">
-        <h3>Rechtsverhältnis (Personen)</h3>
-        <MiniChart
-          data={[
-            { label: "Hauptmiete", value: rv.hauptmiete, color: "#e74c3c" },
-            { label: "Hauseigentum", value: rv.hauseigentum, color: "#2e86c1" },
-            { label: "Whg.-Eigentum", value: rv.wohnungseigentum, color: "#3498db" },
-            { label: "Sonstige", value: rv.sonstige, color: "#95a5a6" },
-          ]}
-        />
-        <div className="detail-list">
-          <div className="detail-row">
-            <span>Hauptmiete</span>
-            <span>{pct(rv.hauptmiete, rvTotal)}</span>
-          </div>
-          <div className="detail-row">
-            <span>Hauseigentum</span>
-            <span>{pct(rv.hauseigentum, rvTotal)}</span>
-          </div>
-          <div className="detail-row">
-            <span>Wohnungseigentum</span>
-            <span>{pct(rv.wohnungseigentum, rvTotal)}</span>
-          </div>
-          <div className="detail-row">
-            <span>Sonstige</span>
-            <span>{pct(rv.sonstige, rvTotal)}</span>
-          </div>
-        </div>
-        <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)", marginTop: 8, padding: "6px 8px", background: "var(--bg)", borderRadius: 6 }}>
-          ℹ️ Werte zeigen Personen nach Wohnverhältnis (Registerzählung 2023).
-          Wien-weit: ~21% Gemeinde, ~21% Genossenschaft, ~33% private Miete, ~20% Eigentum.
-          <br/>Quelle: Statistik Austria, Mikrozensus 2024
         </div>
       </div>
 
