@@ -73,6 +73,29 @@ export async function loadDistricts(): Promise<District[]> {
       } catch {
         console.warn("Mietpreise konnten nicht geladen werden");
       }
+      // Wohnsitztyp mergen
+      try {
+        const wstRes = await fetch("/data/wohnsitztyp.json");
+        const wstData = await wstRes.json();
+        const wstById: Record<number, any> = {};
+        for (const w of wstData.bezirke) {
+          wstById[w.id] = w;
+        }
+        for (const d of districts) {
+          const w = wstById[d.id];
+          if (w) {
+            d.wohnsitztyp = {
+              gemeindebau: w.gemeindebau,
+              miete_frei: w.miete_frei,
+              eigentum: w.eigentum,
+              genossenschaft: w.genossenschaft,
+              andere: w.andere,
+            };
+          }
+        }
+      } catch {
+        console.warn("Wohnsitztyp konnten nicht geladen werden");
+      }
     }
 
     return districts;

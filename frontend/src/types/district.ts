@@ -47,6 +47,14 @@ export interface Oeffi {
   score: number;
 }
 
+export interface Wohnsitztyp {
+  gemeindebau: number;      // % der Bevölkerung
+  miete_frei: number;       // % freifinanzierte Miete
+  eigentum: number;         // % Eigentum
+  genossenschaft: number;   // % Genossenschaft/Gemeinnützig
+  andere: number;           // % Sonstige
+}
+
 export interface District {
   id: number;
   name: string;
@@ -63,6 +71,8 @@ export interface District {
   mietpreise?: Mietpreise;
   // Shortcut für Karten-Choropleth (= mietpreise.gesamt.durchschnitt)
   bruttomiete_m2?: number;
+  // Wohnsitztyp (MA 23, Bezirke in Zahlen 2024)
+  wohnsitztyp?: Wohnsitztyp;
 }
 
 // ── Metriken für Karte & Filter ─────────────────────────────
@@ -88,6 +98,18 @@ export const METRIC_LABELS: Record<MetricKey, string> = {
   anteil_altbau: "Altbau-Anteil (vor 1961)",
   anteil_miete: "Mietanteil",
   gebaeude_anzahl: "Gebäude",
+};
+
+// ── Gesetzliche Mietzins-Werte (Stand 2025) ─────────────────
+
+export const RICHTWERT_WIEN = 6.67;  // €/m², eingefroren bis April 2026
+
+export const KATEGORIEMIETZINS = {
+  A: 4.47,
+  B: 3.35,
+  C: 2.23,
+  D_brauchbar: 2.23,
+  D_unbrauchbar: 1.12,
 };
 
 // ── Hilfsfunktionen ─────────────────────────────────────────
