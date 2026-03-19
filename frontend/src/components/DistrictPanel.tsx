@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import type { District } from "../types/district";
 import { RICHTWERT_WIEN } from "../types/district";
 import MiniChart from "./MiniChart";
@@ -22,43 +23,141 @@ export default function DistrictPanel({ district }: Props) {
   const altbauAnteil = bpTotal > 0
     ? Math.round(((bp.vor_1919 + bp.von_1919_bis_1944 + bp.von_1945_bis_1960) / bpTotal) * 100)
     : 0;
+  const [flaeche, setFlaeche] = useState(70);
+
+  //Sticky Wohnfläche-Regler
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if(!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsSticky(!entry.isIntersecting),
+      {threshold:0}
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="district-panel">
       <h2>{district.id}. {district.name}</h2>
+      {/* Sentinel – wenn dieser aus dem Viewport scrollt, wird der Header sticky */}
+      <div ref={sentinelRef} style={{ height: 1 }} />
 
-      {/* ── Mietpreise Card ── */}
+      {/* ── Sticky Mietpreis-Header ── */}
+      <div style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 10,
+        background: "var(--panel-bg, #fff)",
+        paddingBottom: isSticky ? 8 : 0,
+        borderBottom: isSticky ? "1px solid var(--border-color, #e0e0e0)" : "none",
+        transition: "padding 0.2s ease",
+      }}>
+        {/* m²-Eingabe */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          marginBottom: isSticky ? 6 : 12,
+          padding: "8px 12px",
+          background: "var(--bg)",
+          borderRadius: 8,
+          border: "1px solid var(--border-color, #e0e0e0)",
+        }}>
+          <label style={{ fontSize: "0.75rem", color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
+            Wohnfläche
+          </label>
+          <input
+            type="range"
+            min={20}
+            max={150}
+            step={5}
+            value={flaeche}
+            onChange={(e) => setFlaeche(Number(e.target.value))}
+            style={{ flex: 1 }}
+          />
+          <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
+            <input
+              type="number"
+              min={10}
+              max={300}
+              value={flaeche}
+              onChange={(e) => setFlaeche(Number(e.target.value) || 70)}
+              style={{
+                width: 48,
+                textAlign: "right",
+                fontSize: "0.85rem",
+                fontWeight: 500,
+                border: "1px solid var(--border-color, #e0e0e0)",
+                borderRadius: 4,
+                padding: "2px 4px",
+                background: "transparent",
+                color: "inherit",
+              }}
+            />
+            <span style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>m²</span>
+          </div>
+        </div>
+
+        {/* Compact Preise wenn sticky */}
+        {isSticky && mp?.gesamt?.durchschnitt != null && (
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 12,
+            fontSize: "0.75rem",
+          }}>
+            {mp.altbau?.durchschnitt != null && (
+              <span style={{ color: "#b7950b", fontWeight: 500 }}>
+                Altbau: {(mp.altbau.durchschnitt * flaeche).toFixed(0)} €
+              </span>
+            )}
+            {mp.neubau?.durchschnitt != null && (
+              <span style={{ color: "#1e8449", fontWeight: 500 }}>
+                Neubau: {(mp.neubau.durchschnitt * flaeche).toFixed(0)} €
+              </span>
+            )}
+            <span style={{ color: "var(--text-secondary)" }}>
+              Ø {(mp.gesamt.durchschnitt * flaeche).toFixed(0)} €
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* ── Mietpreise Card (volle Version) ── */}
       {mp?.gesamt?.durchschnitt != null && (
         <div className="panel-section" style={{ marginBottom: 16 }}>
-          <div className="stat-card" style={{ background: "#e8f4fd", textAlign: "center" }}>
-            <span className="stat-value" style={{ fontSize: "1.6rem", color: "#2e86c1" }}>
-              {mp.gesamt.durchschnitt.toFixed(2)} €/m²
-            </span>
-            <span className="stat-label">Bruttomiete (Durchschnitt)</span>
-          </div>
-
-          {/* Altbau vs Neubau */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
+          {/* Altbau vs Neubau als Hauptpreise */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
             <div className="stat-card" style={{ background: "#fef5e7", textAlign: "center" }}>
-              <span className="stat-value" style={{ fontSize: "1.1rem", color: "#b7950b" }}>
-                {mp.altbau?.durchschnitt != null ? `${mp.altbau.durchschnitt.toFixed(2)} €` : "k.A."}
+              <span className="stat-value" style={{ fontSize: "1.3rem", color: "#b7950b" }}>
+                {mp.altbau?.durchschnitt != null
+                  ? `${(mp.altbau.durchschnitt * flaeche).toFixed(0)} €`
+                  : "k.A."}
               </span>
-              <span className="stat-label">Altbau /m²</span>
+              <span className="stat-label">
+                Altbau {mp.altbau?.durchschnitt != null ? `(${mp.altbau.durchschnitt.toFixed(2)} €/m²)` : ""}
+              </span>
             </div>
             <div className="stat-card" style={{ background: "#eafaf1", textAlign: "center" }}>
-              <span className="stat-value" style={{ fontSize: "1.1rem", color: "#1e8449" }}>
-                {mp.neubau?.durchschnitt != null ? `${mp.neubau.durchschnitt.toFixed(2)} €` : "k.A."}
+              <span className="stat-value" style={{ fontSize: "1.3rem", color: "#1e8449" }}>
+                {mp.neubau?.durchschnitt != null
+                  ? `${(mp.neubau.durchschnitt * flaeche).toFixed(0)} €`
+                  : "k.A."}
               </span>
-              <span className="stat-label">Neubau /m²</span>
+              <span className="stat-label">
+                Neubau {mp.neubau?.durchschnitt != null ? `(${mp.neubau.durchschnitt.toFixed(2)} €/m²)` : ""}
+              </span>
             </div>
           </div>
 
-          {/* 70m² Beispielrechnung */}
+          {/* Gesamt-Durchschnitt als Kontext */}
           <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginTop: 8, textAlign: "center" }}>
-            70 m² Wohnung: <strong>{(mp.gesamt.durchschnitt * 70).toFixed(0)} €/Monat</strong>
-            {mp.altbau?.durchschnitt != null && (
-              <> (Altbau: {(mp.altbau.durchschnitt * 70).toFixed(0)} €)</>
-            )}
+            Durchschnitt alle Inserate: <strong>{(mp.gesamt.durchschnitt * flaeche).toFixed(0)} €/Monat</strong> ({mp.gesamt.durchschnitt.toFixed(2)} €/m²)
           </div>
 
           {/* Größenkategorien Gesamt */}
@@ -206,18 +305,18 @@ export default function DistrictPanel({ district }: Props) {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 10 }}>
               <div style={{ textAlign: "center", padding: "6px", background: "#eafaf1", borderRadius: 6 }}>
                 <div style={{ fontSize: "1rem", fontWeight: 500, color: "#1e8449" }}>
-                  {RICHTWERT_WIEN.toFixed(2)} €
+                  {(RICHTWERT_WIEN * flaeche).toFixed(0)} €
                 </div>
                 <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)" }}>
-                  Richtwert (Basis)
+                  Richtwert ({RICHTWERT_WIEN.toFixed(2)} €/m²)
                 </div>
               </div>
               <div style={{ textAlign: "center", padding: "6px", background: "#fdedec", borderRadius: 6 }}>
                 <div style={{ fontSize: "1rem", fontWeight: 500, color: "#c0392b" }}>
-                  {mp.altbau.durchschnitt.toFixed(2)} €
+                  {(mp.altbau.durchschnitt * flaeche).toFixed(0)} €
                 </div>
                 <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)" }}>
-                  Marktpreis Altbau
+                  Marktpreis Altbau ({mp.altbau.durchschnitt.toFixed(2)} €/m²)
                 </div>
               </div>
             </div>
