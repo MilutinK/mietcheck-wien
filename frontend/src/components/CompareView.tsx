@@ -43,16 +43,6 @@ export default function CompareView({ districtA, districtB }: Props) {
   const gesA = districtA.mietpreise?.gesamt?.durchschnitt;
   const gesB = districtB.mietpreise?.gesamt?.durchschnitt;
 
-  /** Colored badge for winner */
-  const winBadge = (valA: number | null | undefined, valB: number | null | undefined, lowerWins = true) => {
-    if (valA == null || valB == null || valA === valB) return { a: "", b: "" };
-    const aWins = lowerWins ? valA < valB : valA > valB;
-    return {
-      a: aWins ? "compare-winner" : "",
-      b: aWins ? "" : "compare-winner",
-    };
-  };
-
   /** Visual percentage bar */
   const PctBar = ({ valueA, valueB, color, label }: { valueA: number; valueB: number; color: string; label: string }) => {
     const max = Math.max(valueA, valueB, 1);
