@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import type { District } from "../types/district";
-import { RICHTWERT_WIEN } from "../types/district";
+import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
 import MiniChart from "./MiniChart";
 
 interface Props {
@@ -24,6 +24,11 @@ export default function DistrictPanel({ district }: Props) {
     ? Math.round(((bp.vor_1919 + bp.von_1919_bis_1944 + bp.von_1945_bis_1960) / bpTotal) * 100)
     : 0;
   const [flaeche, setFlaeche] = useState(70);
+
+  // Mietkosten pro Segment (brutto = netto + BK)
+  const mw = MIETE_DURCHSCHNITT_WIEN;
+  const gemeindebauBrutto = mw.gemeindebau_netto + mw.gemeindebau_bk;
+  const genossenschaftBrutto = mw.genossenschaft_netto + mw.genossenschaft_bk;
 
   //Sticky Wohnfläche-Regler
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -278,26 +283,85 @@ export default function DistrictPanel({ district }: Props) {
             </div>
           </div>
 
-          {/* Mietzins-Einschätzung */}
+          {/* Kostenübersicht nach Wohnsitztyp */}
           <div style={{ marginTop: 12, padding: "10px 12px", background: "#fef9e7", borderRadius: 8, border: "1px solid #f9e79f" }}>
-            <div style={{ fontSize: "0.8rem", fontWeight: 500, marginBottom: 6 }}>
-              Mietzins-Einschätzung
+            <div style={{ fontSize: "0.8rem", fontWeight: 500, marginBottom: 8 }}>
+              Was kostet eine {flaeche} m² Wohnung hier?
             </div>
-            <div style={{ fontSize: "0.75rem", lineHeight: 1.6 }}>
-              <strong>~{altbauAnteil}%</strong> der Wohnungen sind Altbau (vor 1961)
-              → bei privater Miete gilt wahrscheinlich <strong>Richtwertmietzins</strong>
-              <br />
-              Richtwert Wien: <strong>{RICHTWERT_WIEN.toFixed(2)} €/m²</strong> Basis (+ Zuschläge)
+            <div className="detail-list" style={{ fontSize: "0.75rem" }}>
+              <div className="detail-row">
+                <span>
+                  <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#e74c3c", marginRight: 6 }} />
+                  Gemeindebau ({wst.gemeindebau}%)
+                </span>
+                <span style={{ fontWeight: 500 }}>
+                  {(gemeindebauBrutto * flaeche).toFixed(0)} €
+                </span>
+              </div>
+              <div className="detail-row">
+                <span>
+                  <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#f39c12", marginRight: 6 }} />
+                  Genossenschaft ({wst.genossenschaft}%)
+                </span>
+                <span style={{ fontWeight: 500 }}>
+                  {(genossenschaftBrutto * flaeche).toFixed(0)} €
+                </span>
+              </div>
               {mp?.altbau?.durchschnitt != null && (
-                <>
-                  <br />
-                  Tatsächlicher Marktpreis Altbau: <strong style={{ color: "#c0392b" }}>
-                    {mp.altbau.durchschnitt.toFixed(2)} €/m²
-                  </strong>
-                  {" "}({(mp.altbau.durchschnitt / RICHTWERT_WIEN).toFixed(1)}× Richtwert)
-                </>
+                <div className="detail-row">
+                  <span>
+                    <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#b7950b", marginRight: 6 }} />
+                    Miete Altbau ({wst.miete_frei}% freie Miete)
+                  </span>
+                  <span style={{ fontWeight: 500 }}>
+                    {(mp.altbau.durchschnitt * flaeche).toFixed(0)} €
+                  </span>
+                </div>
+              )}
+              {mp?.neubau?.durchschnitt != null && (
+                <div className="detail-row">
+                  <span>
+                    <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#1e8449", marginRight: 6 }} />
+                    Miete Neubau
+                  </span>
+                  <span style={{ fontWeight: 500 }}>
+                    {(mp.neubau.durchschnitt * flaeche).toFixed(0)} €
+                  </span>
+                </div>
+              )}
+              {mp?.altbau?.durchschnitt == null && mp?.neubau?.durchschnitt != null && (
+                <div className="detail-row">
+                  <span>
+                    <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#3498db", marginRight: 6 }} />
+                    Freie Miete ({wst.miete_frei}%)
+                  </span>
+                  <span style={{ fontWeight: 500 }}>
+                    {(mp.neubau.durchschnitt * flaeche).toFixed(0)} €
+                  </span>
+                </div>
               )}
             </div>
+
+            {mp?.altbau?.durchschnitt == null && altbauAnteil < 30 && (
+              <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)", marginTop: 6, fontStyle: "italic" }}>
+                Kein Altbau-Marktpreis verfügbar – dieser Bezirk hat einen geringen Altbau-Anteil (~{altbauAnteil}%), daher zu wenige Inserate für eine verlässliche Angabe.
+              </div>
+            )}
+            {mp?.altbau?.durchschnitt == null && altbauAnteil >= 30 && (
+              <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)", marginTop: 6, fontStyle: "italic" }}>
+                Kein Altbau-Marktpreis verfügbar – zu wenige Inserate auf immopreise.at für diesen Bezirk.
+              </div>
+            )}
+            <div style={{ fontSize: "0.6rem", color: "var(--text-secondary)", marginTop: 8 }}>
+              Gemeindebau/Genossenschaft: Wien-weite Durchschnitte (Mikrozensus 2023, brutto).
+              Altbau/Neubau: Bezirksdaten von immopreise.at.
+            </div>
+          </div>
+
+          {/* Altbau-Anteil Info */}
+          <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginTop: 8, lineHeight: 1.6 }}>
+            <strong>~{altbauAnteil}%</strong> der Wohnungen sind Altbau (vor 1961)
+            → bei privater Miete gilt wahrscheinlich <strong>Richtwertmietzins</strong>
           </div>
 
           {/* Richtwert vs Marktpreis Vergleich */}

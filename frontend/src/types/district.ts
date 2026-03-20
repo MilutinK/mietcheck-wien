@@ -112,6 +112,17 @@ export const KATEGORIEMIETZINS = {
   D_unbrauchbar: 1.12,
 };
 
+// ── Wien-weite Durchschnittsmieten nach Segment (Mikrozensus 2023) ──
+
+export const MIETE_DURCHSCHNITT_WIEN = {
+  gemeindebau_netto: 5.10,     // €/m² Nettomiete
+  gemeindebau_bk: 2.30,        // €/m² Betriebskosten
+  genossenschaft_netto: 6.60,
+  genossenschaft_bk: 2.30,
+  private_miete_netto: 9.20,
+  private_miete_bk: 2.30,
+};
+
 // ── Hilfsfunktionen ─────────────────────────────────────────
 
 export function getMetricValue(district: District, metric: MetricKey): number {
