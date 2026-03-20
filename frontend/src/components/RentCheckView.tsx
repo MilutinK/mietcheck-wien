@@ -7,7 +7,7 @@ interface Props {
   onExit: () => void;
 }
 
-export default function RentCheckView({ districts, onExit }: Props) {
+export default function RentCheckView({ districts }: Props) {
   const [bezirkId, setBezirkId] = useState<number>(10);
   const [bautyp, setBautyp] = useState<"altbau" | "neubau">("altbau");
   const [flaeche, setFlaeche] = useState(65);
@@ -43,7 +43,6 @@ export default function RentCheckView({ districts, onExit }: Props) {
     : 0;
 
   // Abweichungen
-  const abweichungRichtwert = richtwertGesamt > 0 ? ((mieteNum - richtwertGesamt) / richtwertGesamt) * 100 : 0;
   const abweichungMarkt = marktpreisGesamt ? ((mieteNum - marktpreisGesamt) / marktpreisGesamt) * 100 : null;
   const faktorRichtwert = richtwertGesamt > 0 ? mieteNum / richtwertGesamt : 0;
 
