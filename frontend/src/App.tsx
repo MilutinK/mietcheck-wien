@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import ViennaMap from "./components/ViennaMap";
 import DistrictPanel from "./components/DistrictPanel";
-import CompareBar from "./components/CompareBar";
 import FilterBar from "./components/FilterBar";
 import CompareView from "./components/CompareView";
 import type { District, MetricKey } from "./types/district";
 import { loadDistricts } from "./services/api";
+import RentCheckView from "./components/RentCheckView";
 
 import "leaflet/dist/leaflet.css";
 import "./App.css";
@@ -17,6 +17,7 @@ function App() {
   const [compareB, setCompareB] = useState<District | null>(null);
   const [metric, setMetric] = useState<MetricKey>("bruttomiete_m2");
   const [showCompare, setShowCompare] = useState(false);
+  const [showRentCheck, setShowRentCheck] = useState(false);
 
   useEffect(() => {
     loadDistricts().then(setDistricts);
@@ -39,6 +40,7 @@ function App() {
 
   const handleStartCompare = () => {
     setShowCompare(true);
+    setShowRentCheck(false);
     setSelected(null);
     setCompareA(null);
     setCompareB(null);
@@ -48,6 +50,18 @@ function App() {
     setShowCompare(false);
     setCompareA(null);
     setCompareB(null);
+  };
+
+  const handleStartRentCheck = () => {
+    setShowRentCheck(true);
+    setShowCompare(false);
+    setSelected(null);
+    setCompareA(null);
+    setCompareB(null);
+  };
+
+  const handleExitRentCheck = () => {
+    setShowRentCheck(false);
   };
 
   return (
@@ -86,13 +100,30 @@ function App() {
         </div>
 
         <div className="side-panel">
-          <CompareBar
-            showCompare={showCompare}
-            onStartCompare={handleStartCompare}
-            onExitCompare={handleExitCompare}
-          />
+          <div style={{ display: "flex", gap: 8, marginBottom: 10, padding: "8px 8px 0" }}>
+              {showCompare ? (
+                <button className="btn btn-secondary" onClick={handleExitCompare} style={{ flex: 1, padding: "12px" }}>
+                  ✕ Vergleich beenden
+                </button>
+              ) : showRentCheck ? (
+                <button className="btn btn-secondary" onClick={handleExitRentCheck} style={{ flex: 1, padding: "12px" }}>
+                  ✕ Mietcheck schließen
+                </button>
+              ) : (
+                <>
+                  <button className="btn btn-primary" onClick={handleStartCompare} style={{ flex: 1, padding: "12px" }}>
+                    ⇄ Bezirke vergleichen
+                  </button>
+                  <button className="btn btn-primary" onClick={handleStartRentCheck} style={{ flex: 1, padding: "12px" }}>
+                    🔍 Ist meine Miete zu hoch?
+                  </button>
+                </>
+              )}
+          </div>
 
-          {showCompare ? (
+          {showRentCheck ? (
+            <RentCheckView districts={districts} onExit={handleExitRentCheck} />
+          ) : showCompare ? (
             <CompareView districtA={compareA} districtB={compareB} />
           ) : selected ? (
             <DistrictPanel district={selected} />
