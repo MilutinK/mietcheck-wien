@@ -86,6 +86,9 @@ export type MetricKey =
   | "oeffi_score"
   | "anteil_altbau"
   | "anteil_miete"
+  | "anteil_gemeindebau"
+  | "anteil_genossenschaft"
+  | "anteil_miete_frei"
   | "gebaeude_anzahl";
 
 export const METRIC_LABELS: Record<MetricKey, string> = {
@@ -97,6 +100,9 @@ export const METRIC_LABELS: Record<MetricKey, string> = {
   oeffi_score: "Öffi-Score",
   anteil_altbau: "Altbau-Anteil (vor 1961)",
   anteil_miete: "Mietanteil",
+  anteil_gemeindebau: "Gemeindebau-Anteil",
+  anteil_genossenschaft: "Genossenschafts-Anteil",
+  anteil_miete_frei: "Freie Miete-Anteil",
   gebaeude_anzahl: "Gebäude",
 };
 
@@ -144,8 +150,8 @@ export function getMetricValue(district: District, metric: MetricKey): number {
       const total = Object.values(bp).reduce((a, b) => a + b, 0);
       return total > 0
         ? Math.round(
-            ((bp.vor_1919 + bp.von_1919_bis_1944 + bp.von_1945_bis_1960) / total) * 100
-          )
+          ((bp.vor_1919 + bp.von_1919_bis_1944 + bp.von_1945_bis_1960) / total) * 100
+        )
         : 0;
     }
     case "anteil_miete": {
@@ -153,6 +159,12 @@ export function getMetricValue(district: District, metric: MetricKey): number {
       const total = Object.values(rv).reduce((a, b) => a + b, 0);
       return total > 0 ? Math.round((rv.hauptmiete / total) * 100) : 0;
     }
+    case "anteil_gemeindebau":
+      return district.wohnsitztyp?.gemeindebau ?? 0;
+    case "anteil_genossenschaft":
+      return district.wohnsitztyp?.genossenschaft ?? 0;
+    case "anteil_miete_frei":
+      return district.wohnsitztyp?.miete_frei ?? 0;
     case "gebaeude_anzahl":
       return district.gebaeude_anzahl;
     default:
@@ -160,7 +172,8 @@ export function getMetricValue(district: District, metric: MetricKey): number {
   }
 }
 
-export function formatMetricValue(value: number, metric: MetricKey): string {  switch (metric) {
+export function formatMetricValue(value: number, metric: MetricKey): string {
+  switch (metric) {
     case "bruttomiete_m2":
     case "miete_altbau":
     case "miete_neubau":
@@ -174,6 +187,9 @@ export function formatMetricValue(value: number, metric: MetricKey): string {  s
       return value.toFixed(1);
     case "anteil_altbau":
     case "anteil_miete":
+    case "anteil_gemeindebau":
+    case "anteil_genossenschaft":
+    case "anteil_miete_frei":
       return `${value}%`;
     default:
       return String(value);
