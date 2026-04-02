@@ -108,14 +108,14 @@ export const METRIC_LABELS: Record<MetricKey, string> = {
 
 // ── Gesetzliche Mietzins-Werte (Stand 2025) ─────────────────
 
-export const RICHTWERT_WIEN = 6.67;  // €/m², eingefroren bis April 2026
+export const RICHTWERT_WIEN = 6.74;  // €/m², ab 1. April 2026 (vorher 6,67)
 
 export const KATEGORIEMIETZINS = {
-  A: 4.47,
-  B: 3.35,
-  C: 2.23,
-  D_brauchbar: 2.23,
-  D_unbrauchbar: 1.12,
+  A: 4.51,
+  B: 3.38,
+  C: 2.25,
+  D_brauchbar: 2.25,
+  D_unbrauchbar: 1.13,
 };
 
 // ── Wien-weite Durchschnittsmieten nach Segment (Mikrozensus 2023) ──

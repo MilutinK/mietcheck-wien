@@ -36,11 +36,11 @@ export default function DistrictPanel({ district }: Props) {
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
-    if(!sentinel) return;
+    if (!sentinel) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => setIsSticky(!entry.isIntersecting),
-      {threshold:0}
+      { threshold: 0 }
     );
     observer.observe(sentinel);
     return () => observer.disconnect();
@@ -400,11 +400,11 @@ export default function DistrictPanel({ district }: Props) {
             <div style={{ padding: "0 12px 10px", fontSize: "0.7rem", lineHeight: 1.6 }}>
               <div style={{ marginBottom: 8 }}>
                 <strong>Richtwertmietzins</strong> (Altbau vor 1953, Vertrag ab 1994)
-                <br />Basis {RICHTWERT_WIEN.toFixed(2)} €/m² + Zu-/Abschläge (Lage, Ausstattung, Lift…). Eingefroren bis April 2026.
+                <br />Basis {RICHTWERT_WIEN.toFixed(2)} €/m² + Zu-/Abschläge (Lage, Ausstattung, Lift…). Angepasst am 1.4.2026 (+1%), nächste Anpassung April 2027 (max. +2%).
               </div>
               <div style={{ marginBottom: 8 }}>
                 <strong>Kategoriemietzins</strong> (Altbau, Vertrag 1982–1994)
-                <br />Kat. A: 4,47 €, B: 3,35 €, C: 2,23 €, D: 1,12 €/m². Ebenfalls eingefroren.
+                <br />Kat. A: 4,51 €, B: 3,38 €, C: 2,25 €, D: 1,13 €/m². Angepasst am 1.4.2026 (+1%).
               </div>
               <div style={{ marginBottom: 8 }}>
                 <strong>Angemessener Mietzins</strong> (Neubau ab 1953, freifinanziert)
@@ -412,7 +412,7 @@ export default function DistrictPanel({ district }: Props) {
               </div>
               <div style={{ marginBottom: 8 }}>
                 <strong>Gemeindebau</strong> (Wiener Wohnen)
-                <br />Richtwert-/Kategoriemiete, Mieten 2024/2025 eingefroren.
+                <br />Richtwert-/Kategoriemiete, ab Mai 2026 max. +1% Erhöhung.
               </div>
               <div>
                 <strong>Genossenschaft</strong> (WGG)
@@ -423,7 +423,7 @@ export default function DistrictPanel({ district }: Props) {
 
           <div style={{ fontSize: "0.6rem", color: "var(--text-secondary)", marginTop: 8, padding: "6px 8px", background: "var(--bg)", borderRadius: 6 }}>
             Wohnsitztyp: Anteil der Bevölkerung (nicht Wohnungen). Quelle: MA 23, Stichtag 31.10.2021.
-            Mietzins-Werte: MRG/RichtWG, Stand 2025.
+            Mietzins-Werte: MRG/RichtWG, Stand April 2026.
           </div>
         </div>
       )}
