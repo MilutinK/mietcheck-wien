@@ -1,10 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import { MapContainer, GeoJSON } from "react-leaflet";
 import type { Layer, LeafletMouseEvent } from "leaflet";
 import type { Feature, FeatureCollection } from "geojson";
 import type { District, MetricKey } from "../types/district";
 import { getMetricValue, formatMetricValue, METRIC_LABELS } from "../types/district";
 import { getColorForValue, getMinMax, getLegendSteps } from "../utils/colors";
+import MapLibreLayer from "./MapLibreLayer";
 
 interface Props {
     districts: District[];
@@ -107,20 +108,13 @@ export default function ViennaMap({
                 zoomControl={true}
                 scrollWheelZoom={true}
             >
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-                    url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
-                />
+                <MapLibreLayer style="https://tiles.openfreemap.org/styles/positron" />
                 <GeoJSON
                     key={geoKey}
                     ref={geoJsonRef}
                     data={geoData}
                     style={style}
                     onEachFeature={onEachFeature}
-                />
-                <TileLayer
-                    url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png"
-                    pane="tooltipPane"
                 />
             </MapContainer>
 

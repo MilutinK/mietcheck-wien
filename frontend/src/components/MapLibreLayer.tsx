@@ -1,0 +1,32 @@
+import { useEffect } from "react";
+import { useMap } from "react-leaflet";
+import "maplibre-gl/dist/maplibre-gl.css";
+import "@maplibre/maplibre-gl-leaflet";
+import L from "leaflet";
+
+interface Props {
+    style: string;
+}
+
+export default function MapLibreLayer({ style }: Props) {
+    const map = useMap();
+
+    useEffect(() => {
+        const layer = (L as any).maplibreGL({
+            style,
+            attribution:
+                '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://openmaptiles.org">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+        });
+
+        layer.addTo(map);
+
+        // Layer muss unter den GeoJSON-Overlays bleiben
+        layer.getContainer()?.style.setProperty("z-index", "0");
+
+        return () => {
+            map.removeLayer(layer);
+        };
+    }, [map, style]);
+
+    return null;
+}
