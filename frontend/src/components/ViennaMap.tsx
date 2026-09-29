@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { MapContainer, GeoJSON } from "react-leaflet";
-import type { Layer, LeafletMouseEvent } from "leaflet";
+import type { GeoJSON as LeafletGeoJSON, Layer, LeafletMouseEvent } from "leaflet";
 import type { Feature, FeatureCollection } from "geojson";
 import type { District, MetricKey } from "../types/district";
 import { getMetricValue, formatMetricValue, METRIC_LABELS } from "../types/district";
@@ -31,7 +31,7 @@ export default function ViennaMap({
     onDistrictClick,
 }: Props) {
     const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
-    const geoJsonRef = useRef<any>(null);
+    const geoJsonRef = useRef<LeafletGeoJSON | null>(null);
 
     useEffect(() => {
         fetch("/data/bezirksgrenzen.json")
@@ -40,10 +40,7 @@ export default function ViennaMap({
     }, []);
 
     // GeoJSON neu rendern wenn sich Metric, Selection oder Daten ändern
-    const [geoKey, setGeoKey] = useState(0);
-    useEffect(() => {
-        setGeoKey((k) => k + 1);
-    }, [metric, selected, compareA, compareB, districts]);
+    const geoKey = [metric, selected?.id, compareA?.id, compareB?.id, districts.length].join("-");
 
     if (!geoData || districts.length === 0) {
         return <div className="map-loading">Lade Karte...</div>;

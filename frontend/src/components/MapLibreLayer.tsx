@@ -12,11 +12,17 @@ interface Props {
     style: string;
 }
 
+// @maplibre/maplibre-gl-leaflet bringt keine Typen mit
+interface MapLibreLeafletLayer extends L.Layer {
+    getContainer(): HTMLElement | undefined;
+}
+type MapLibreFactory = (options: { style: string; attribution: string }) => MapLibreLeafletLayer;
+
 export default function MapLibreLayer({ style }: Props) {
     const map = useMap();
 
     useEffect(() => {
-        const layer = (L as any).maplibreGL({
+        const layer = (L as unknown as { maplibreGL: MapLibreFactory }).maplibreGL({
             style,
             attribution:
                 '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://openmaptiles.org">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',

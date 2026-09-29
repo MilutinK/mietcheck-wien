@@ -1,10 +1,35 @@
-import type { District, Mietpreise } from "../types/district";
+import type { District, Mietpreise, MietpreiseAltbauNeubau, MietpreiseGesamt, Wohnsitztyp } from "../types/district";
 
 const API_BASE = import.meta.env.VITE_API_URL || "";
 
 interface DistrictsResponse {
   districts: District[];
   meta: Record<string, unknown>;
+}
+
+const LEER_GESAMT: MietpreiseGesamt = {
+  durchschnitt: null,
+  unter_50m2: null,
+  von_51_bis_80m2: null,
+  von_81_bis_129m2: null,
+  ueber_130m2: null,
+};
+
+const LEER_ALTBAU_NEUBAU: MietpreiseAltbauNeubau = {
+  durchschnitt: null,
+  unter_80m2: null,
+  von_81_bis_129m2: null,
+  ueber_130m2: null,
+};
+
+/** Eintrag in mietpreise.json */
+interface MietpreiseEintrag extends Partial<Mietpreise> {
+  id: number;
+}
+
+/** Eintrag in wohnsitztyp.json */
+interface WohnsitztypEintrag extends Wohnsitztyp {
+  id: number;
 }
 
 interface CompareResponse {
@@ -54,7 +79,7 @@ export async function loadDistricts(): Promise<District[]> {
       try {
         const mietRes = await fetch("/data/mietpreise.json");
         const mietData = await mietRes.json();
-        const mietById: Record<number, any> = {};
+        const mietById: Record<number, MietpreiseEintrag> = {};
         for (const m of mietData.bezirke) {
           mietById[m.id] = m;
         }
@@ -62,12 +87,12 @@ export async function loadDistricts(): Promise<District[]> {
           const m = mietById[d.id];
           if (m) {
             const mietpreise: Mietpreise = {
-              gesamt: m.gesamt ?? { durchschnitt: null },
-              altbau: m.altbau ?? { durchschnitt: null },
-              neubau: m.neubau ?? { durchschnitt: null },
+              gesamt: m.gesamt ?? LEER_GESAMT,
+              altbau: m.altbau ?? LEER_ALTBAU_NEUBAU,
+              neubau: m.neubau ?? LEER_ALTBAU_NEUBAU,
             };
             d.mietpreise = mietpreise;
-            d.bruttomiete_m2 = m.gesamt?.durchschnitt ?? null;
+            d.bruttomiete_m2 = m.gesamt?.durchschnitt ?? undefined;
           }
         }
       } catch {
@@ -77,7 +102,7 @@ export async function loadDistricts(): Promise<District[]> {
       try {
         const wstRes = await fetch("/data/wohnsitztyp.json");
         const wstData = await wstRes.json();
-        const wstById: Record<number, any> = {};
+        const wstById: Record<number, WohnsitztypEintrag> = {};
         for (const w of wstData.bezirke) {
           wstById[w.id] = w;
         }

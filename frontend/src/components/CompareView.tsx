@@ -7,6 +7,73 @@ interface Props {
   districtB: District | null;
 }
 
+/** Visual percentage bar */
+const PctBar = ({ valueA, valueB, color, label }: { valueA: number; valueB: number; color: string; label: string }) => {
+  const max = Math.max(valueA, valueB, 1);
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", marginBottom: 4 }}>{label}</div>
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 6 }}>
+          <span style={{ fontSize: "0.75rem", fontWeight: 500, minWidth: 32, textAlign: "right" }}>{valueA}%</span>
+          <div style={{ width: `${(valueA / max) * 100}%`, minWidth: 2, height: 14, background: color, borderRadius: 3, opacity: 0.8, transition: "width 0.3s ease" }} />
+        </div>
+        <div style={{ width: 1, height: 20, background: "var(--border-color, #e0e0e0)" }} />
+        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 6 }}>
+          <div style={{ width: `${(valueB / max) * 100}%`, minWidth: 2, height: 14, background: color, borderRadius: 3, opacity: 0.6, transition: "width 0.3s ease" }} />
+          <span style={{ fontSize: "0.75rem", fontWeight: 500, minWidth: 32 }}>{valueB}%</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/** Simple compare row */
+const Row = ({ label, valA, valB, winnerA }: { label: string; valA: string; valB: string; winnerA?: boolean | null }) => (
+  <div style={{
+    display: "flex",
+    alignItems: "center",
+    padding: "6px 0",
+    borderBottom: "1px solid var(--border-color, #f0f0f0)",
+    fontSize: "0.75rem",
+  }}>
+    <span style={{
+      flex: 1,
+      textAlign: "right",
+      paddingRight: 8,
+      fontWeight: winnerA === true ? 600 : 400,
+      color: winnerA === true ? "#1e8449" : "inherit",
+    }}>{valA}</span>
+    <span style={{
+      fontSize: "0.65rem",
+      color: "var(--text-secondary)",
+      minWidth: 90,
+      textAlign: "center",
+      flexShrink: 0,
+    }}>{label}</span>
+    <span style={{
+      flex: 1,
+      paddingLeft: 8,
+      fontWeight: winnerA === false ? 600 : 400,
+      color: winnerA === false ? "#1e8449" : "inherit",
+    }}>{valB}</span>
+  </div>
+);
+
+/** Section header */
+const SectionHeader = ({ title }: { title: string }) => (
+  <div style={{
+    fontSize: "0.65rem",
+    fontWeight: 500,
+    textTransform: "uppercase",
+    letterSpacing: "0.05em",
+    color: "var(--text-secondary)",
+    padding: "12px 0 6px",
+    borderBottom: "2px solid var(--border-color, #e0e0e0)",
+    marginBottom: 4,
+  }}>{title}</div>
+);
+
 export default function CompareView({ districtA, districtB }: Props) {
   const [flaeche, setFlaeche] = useState(70);
 
@@ -42,73 +109,6 @@ export default function CompareView({ districtA, districtB }: Props) {
   const neuB = districtB.mietpreise?.neubau?.durchschnitt;
   const gesA = districtA.mietpreise?.gesamt?.durchschnitt;
   const gesB = districtB.mietpreise?.gesamt?.durchschnitt;
-
-  /** Visual percentage bar */
-  const PctBar = ({ valueA, valueB, color, label }: { valueA: number; valueB: number; color: string; label: string }) => {
-    const max = Math.max(valueA, valueB, 1);
-    return (
-      <div style={{ marginBottom: 10 }}>
-        <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", marginBottom: 4 }}>{label}</div>
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 6 }}>
-            <span style={{ fontSize: "0.75rem", fontWeight: 500, minWidth: 32, textAlign: "right" }}>{valueA}%</span>
-            <div style={{ width: `${(valueA / max) * 100}%`, minWidth: 2, height: 14, background: color, borderRadius: 3, opacity: 0.8, transition: "width 0.3s ease" }} />
-          </div>
-          <div style={{ width: 1, height: 20, background: "var(--border-color, #e0e0e0)" }} />
-          <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ width: `${(valueB / max) * 100}%`, minWidth: 2, height: 14, background: color, borderRadius: 3, opacity: 0.6, transition: "width 0.3s ease" }} />
-            <span style={{ fontSize: "0.75rem", fontWeight: 500, minWidth: 32 }}>{valueB}%</span>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  /** Simple compare row */
-  const Row = ({ label, valA, valB, winnerA }: { label: string; valA: string; valB: string; winnerA?: boolean | null }) => (
-    <div style={{
-      display: "flex",
-      alignItems: "center",
-      padding: "6px 0",
-      borderBottom: "1px solid var(--border-color, #f0f0f0)",
-      fontSize: "0.75rem",
-    }}>
-      <span style={{
-        flex: 1,
-        textAlign: "right",
-        paddingRight: 8,
-        fontWeight: winnerA === true ? 600 : 400,
-        color: winnerA === true ? "#1e8449" : "inherit",
-      }}>{valA}</span>
-      <span style={{
-        fontSize: "0.65rem",
-        color: "var(--text-secondary)",
-        minWidth: 90,
-        textAlign: "center",
-        flexShrink: 0,
-      }}>{label}</span>
-      <span style={{
-        flex: 1,
-        paddingLeft: 8,
-        fontWeight: winnerA === false ? 600 : 400,
-        color: winnerA === false ? "#1e8449" : "inherit",
-      }}>{valB}</span>
-    </div>
-  );
-
-  /** Section header */
-  const SectionHeader = ({ title }: { title: string }) => (
-    <div style={{
-      fontSize: "0.65rem",
-      fontWeight: 500,
-      textTransform: "uppercase",
-      letterSpacing: "0.05em",
-      color: "var(--text-secondary)",
-      padding: "12px 0 6px",
-      borderBottom: "2px solid var(--border-color, #e0e0e0)",
-      marginBottom: 4,
-    }}>{title}</div>
-  );
 
   return (
     <div className="compare-view">

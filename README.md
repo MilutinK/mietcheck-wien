@@ -14,14 +14,17 @@ mietcheck wien visualisiert Wohn- und Mietdaten aller 23 Wiener Bezirke auf eine
 
 ### Features
 
-- **Interaktive Choropleth-Karte** – Bezirke einfärben nach Mietpreis (Gesamt/Altbau/Neubau), Einwohnerdichte, Öffi-Score, Altbau-Anteil u.v.m.
+- **Interaktive Choropleth-Karte** – Bezirke einfärben nach Mietpreis (Gesamt/Altbau/Neubau), Einwohnerdichte, Öffi-Score, Altbau-Anteil u.v.m. Mietpreise laufen von Türkis (günstig) bis Tomatenrot (teuer); die Basiskarte (OpenFreeMap Positron) zeigt beim Zoomen Straßen und Beschriftungen
 - **Bezirksdetails** – Klick auf einen Bezirk zeigt Mietpreis, Bevölkerung, Wohnungsstruktur, Öffi-Anbindung
+- **Bezirk teilen** – `?bezirk=7` in der URL öffnet direkt den Bezirk; der Button „Bezirk teilen“ kopiert den Link
+- **Ranking** – Alle 23 Bezirke als Balkenliste, nach Mietpreis oder jeder anderen Kennzahl sortierbar
+- **Mietrechner** – „Miete prüfen“ (ist meine Miete zu hoch?) und „Leistbarkeit“ (30-%-Budget, Gemeindewohnung-Einkommensgrenzen 2026, passende Bezirke)
 - **Mietpreise** – Aktuelle Bruttomieten pro m² mit Altbau/Neubau-Aufschlüsselung und Größenkategorien (immopreise.at)
 - **Mietzins-Info** – Welcher Mietzins gilt? Wohnsitztyp-Verteilung, Richtwert vs. Marktpreis, Mietzinsarten erklärt
 - **Bezirksvergleich** – Zwei Bezirke side-by-side vergleichen
 - **Öffi-Score** – Berechnet aus der Haltestellendichte pro km² (Wiener Linien Daten)
 - **Responsive Design** – Optimiert für Desktop und Mobile
-- **REST API** – FastAPI Backend mit Filter, Sortierung und automatischem Daten-Refresh
+- **REST API** – FastAPI Backend (Railway) mit Filter, Sortierung und Daten-Refresh; das Frontend fällt bei Ausfall auf statische JSON-Dateien zurück
 
 ---
 
@@ -30,11 +33,11 @@ mietcheck wien visualisiert Wohn- und Mietdaten aller 23 Wiener Bezirke auf eine
 | Bereich | Technologie |
 |---------|-------------|
 | Frontend | React, TypeScript, Vite |
-| Karte | Leaflet.js, OpenStreetMap |
-| Styling | Tailwind CSS, DM Sans |
+| Karte | Leaflet, MapLibre GL (OpenFreeMap Positron, kein API-Key) |
+| Styling | CSS-Variablen, Bricolage Grotesque, Instrument Sans, JetBrains Mono |
 | Backend | Python, FastAPI |
 | Daten | Open Government Data Wien (CC BY 4.0) |
-| Deployment | Vercel (Frontend) |
+| Deployment | Vercel (Frontend), Railway (Backend, Docker) |
 
 ---
 
@@ -78,6 +81,9 @@ npm run dev
 
 → Öffnet auf http://localhost:5173
 
+`npm run dev` und `npm run build` kopieren vorher den MapLibre-Worker nach `public/maplibre` (`scripts/copy-maplibre-worker.mjs`); ohne ihn bleibt die Basiskarte leer.
+Optional: `VITE_API_URL` (z. B. in `.env.development`) auf das Backend zeigen lassen.
+
 ### Backend starten (optional)
 ```bash
 cd backend
@@ -86,6 +92,8 @@ uvicorn app.main:app --reload
 ```
 
 → API auf http://localhost:8000
+
+Deployment (Railway, Docker vom Repo-Root): siehe [backend/README.md](backend/README.md).
 
 ---
 
@@ -120,10 +128,12 @@ curl "http://localhost:8000/api/compare?a=5&b=22"
 mietcheck-wien/
 ├── frontend/                  # React + TypeScript + Vite
 │   ├── src/
-│   │   ├── components/        # ViennaMap, DistrictPanel, CompareView, ...
+│   │   ├── components/        # ViennaMap, DistrictPanel, CompareView, RankingView,
+│   │   │                      # RentCheckView, AffordabilityView, ...
 │   │   ├── services/          # API Service mit Fallback
 │   │   ├── types/             # TypeScript Interfaces
 │   │   └── utils/             # Farbskala, Hilfsfunktionen
+│   ├── scripts/               # copy-maplibre-worker.mjs
 │   └── public/data/           # Statische JSON-Dateien
 ├── backend/
 │   ├── app/
@@ -132,6 +142,8 @@ mietcheck-wien/
 │       ├── download_data.py   # Daten von OGD Wien laden
 │       ├── etl.py             # ETL Pipeline: Rohdaten → districts.json
 │       └── explore_data.py    # Datenanalyse & Validierung
+├── Dockerfile                 # Backend-Image (Railway)
+├── railway.json
 ├── data/
 │   ├── raw/                   # Rohdaten (nicht im Repo)
 │   └── processed/             # Aufbereitete Daten
@@ -148,7 +160,7 @@ Die ETL-Pipeline aggregiert Daten aus mehreren Quellen zu einer strukturierten `
 2. **Registerzählung** aggregieren (250 Zählbezirke → 23 Bezirke)
 3. **Gebäude** pro Bezirk zählen (direkte Zuordnung über BEZ-Spalte + Baujahr-Statistik)
 4. **Haltestellen** pro Bezirk zuordnen (WKT-Point Parsing + Point-in-Polygon → Öffi-Score)
-5. **Mietpreise** aus immopreise.at/derStandard.at manuell ergänzt (Gesamt/Altbau/Neubau)
+5. **Mietpreise** aus den immopreise.at-PDFs (derStandard.at, Stand September 2026) manuell übernommen (Gesamt/Altbau/Neubau)
 6. **Wohnsitztyp** aus MA 23 Bezirke in Zahlen 2024 manuell ergänzt
 
 ---
