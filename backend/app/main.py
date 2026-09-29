@@ -30,12 +30,16 @@ app = FastAPI(
     version="1.0.0",
 )
 
+# Zusätzliche Origins (kommagetrennt) über CORS_ORIGINS, z.B. eine eigene Domain
+EXTRA_ORIGINS = [o.strip() for o in os.environ.get("CORS_ORIGINS", "").split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:3000",
         "https://mietcheck-wien.vercel.app",
+        *EXTRA_ORIGINS,
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -50,11 +54,14 @@ MIETPREISE_DIR = os.path.join(BASE_DIR, "..", "data")
 SCRIPTS_DIR = os.path.join(BASE_DIR, "scripts")
 
 DISTRICTS_FILE = os.path.join(DATA_DIR, "districts.json")
-MIETPREISE_FILE = os.path.join(BASE_DIR, "..", "frontend", "public", "data", "mietpreise.json")
+STATIC_DATA_DIR = os.path.join(BASE_DIR, "..", "frontend", "public", "data")
+MIETPREISE_FILE = os.path.join(STATIC_DATA_DIR, "mietpreise.json")
+WOHNSITZTYP_FILE = os.path.join(STATIC_DATA_DIR, "wohnsitztyp.json")
 
 # ── API Key für Refresh ────────────────────────────────────────
 
-REFRESH_API_KEY = os.environ.get("REFRESH_API_KEY", "dev-key-change-me")
+# Ohne gesetzte Umgebungsvariable ist /api/refresh deaktiviert (kein Default-Key in Produktion)
+REFRESH_API_KEY = os.environ.get("REFRESH_API_KEY")
 
 # ── In-Memory Datenstore ───────────────────────────────────────
 
@@ -91,11 +98,29 @@ def load_data():
         for district in districts:
             miet = miet_by_id.get(district["id"])
             if miet:
-                district["bruttomiete_m2"] = miet.get("bruttomiete_m2")
-                district["miete_veraenderung_prozent"] = miet.get("veraenderung_prozent")
-                district["miete_confirmed"] = miet.get("confirmed", False)
+                # Gleiche Struktur wie im Frontend (Interface Mietpreise)
+                district["mietpreise"] = {
+                    "gesamt": miet.get("gesamt") or {"durchschnitt": None},
+                    "altbau": miet.get("altbau") or {"durchschnitt": None},
+                    "neubau": miet.get("neubau") or {"durchschnitt": None},
+                }
+                district["bruttomiete_m2"] = (miet.get("gesamt") or {}).get("durchschnitt")
     else:
         print(f"⚠️  {MIETPREISE_FILE} nicht gefunden – keine Mietpreise geladen")
+
+    # Wohnsitztyp mergen (das Frontend überspringt den statischen Merge, wenn die API liefert)
+    if os.path.exists(WOHNSITZTYP_FILE):
+        with open(WOHNSITZTYP_FILE, "r", encoding="utf-8") as f:
+            wst_data = json.load(f)
+        wst_by_id = {w["id"]: w for w in wst_data.get("bezirke", [])}
+        for district in districts:
+            w = wst_by_id.get(district["id"])
+            if w:
+                district["wohnsitztyp"] = {
+                    k: w.get(k) for k in ("gemeindebau", "miete_frei", "eigentum", "genossenschaft", "andere")
+                }
+    else:
+        print(f"⚠️  {WOHNSITZTYP_FILE} nicht gefunden – kein Wohnsitztyp geladen")
 
     store["districts"] = districts
     store["districts_by_id"] = {d["id"]: d for d in districts}
@@ -228,6 +253,8 @@ def refresh_data(x_api_key: str = Header(default=None)):
     Daten neu laden: Download + ETL + Reload.
     Geschützt per API-Key im Header.
     """
+    if not REFRESH_API_KEY:
+        raise HTTPException(status_code=503, detail="Refresh deaktiviert (REFRESH_API_KEY nicht gesetzt)")
     if x_api_key != REFRESH_API_KEY:
         raise HTTPException(status_code=403, detail="Ungültiger API-Key")
 
