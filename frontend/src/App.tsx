@@ -107,7 +107,7 @@ function App() {
                 </button>
               ) : showRentCheck ? (
                 <button className="btn btn-secondary" onClick={handleExitRentCheck} style={{ flex: 1, padding: "12px" }}>
-                  ✕ Mietcheck schließen
+                  ✕ Mietrechner schließen
                 </button>
               ) : (
                 <>
@@ -115,7 +115,7 @@ function App() {
                     ⇄ Bezirke vergleichen
                   </button>
                   <button className="btn btn-primary" onClick={handleStartRentCheck} style={{ flex: 1, padding: "12px" }}>
-                    🔍 Ist meine Miete zu hoch?
+                    🔍 Mietrechner
                   </button>
                 </>
               )}

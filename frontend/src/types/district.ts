@@ -129,6 +129,20 @@ export const MIETE_DURCHSCHNITT_WIEN = {
   private_miete_bk: 2.30,
 };
 
+// ── Einkommensgrenzen Gemeindewohnung 2026 (netto/Jahr, Wohnberatung Wien) ──
+
+export const GEMEINDEBAU_EINKOMMENSGRENZEN = [61280, 91320, 103330, 115360]; // 1–4 Personen
+export const GEMEINDEBAU_ZUSCHLAG_PRO_PERSON = 6730;
+
+export function gemeindebauGrenze(personen: number): number {
+  const n = Math.max(1, Math.floor(personen));
+  if (n <= GEMEINDEBAU_EINKOMMENSGRENZEN.length) return GEMEINDEBAU_EINKOMMENSGRENZEN[n - 1];
+  return (
+    GEMEINDEBAU_EINKOMMENSGRENZEN[GEMEINDEBAU_EINKOMMENSGRENZEN.length - 1] +
+    (n - GEMEINDEBAU_EINKOMMENSGRENZEN.length) * GEMEINDEBAU_ZUSCHLAG_PRO_PERSON
+  );
+}
+
 // ── Hilfsfunktionen ─────────────────────────────────────────
 
 export function getMetricValue(district: District, metric: MetricKey): number {

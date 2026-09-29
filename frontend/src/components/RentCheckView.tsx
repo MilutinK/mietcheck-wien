@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { District } from "../types/district";
 import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
+import AffordabilityView from "./AffordabilityView";
 
 interface Props {
   districts: District[];
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export default function RentCheckView({ districts }: Props) {
+  const [modus, setModus] = useState<"pruefen" | "leistbarkeit">("pruefen");
   const [bezirkId, setBezirkId] = useState<number>(10);
   const [bautyp, setBautyp] = useState<"altbau" | "neubau">("altbau");
   const [flaeche, setFlaeche] = useState(65);
@@ -83,9 +85,37 @@ export default function RentCheckView({ districts }: Props) {
   return (
     <div style={{ padding: "0 4px" }}>
       {/* Header */}
-      <h3 style={{ margin: "0 0 16px", fontSize: "1.1rem", textAlign: "center" }}>
-        Ist meine Miete zu hoch?
+      <h3 style={{ margin: "0 0 12px", fontSize: "1.1rem", textAlign: "center" }}>
+        Mietrechner
       </h3>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 16 }}>
+        {([
+          { key: "pruefen", label: "Miete prüfen" },
+          { key: "leistbarkeit", label: "Leistbarkeit" },
+        ] as const).map((m) => (
+          <button
+            key={m.key}
+            onClick={() => setModus(m.key)}
+            style={{
+              padding: "8px",
+              borderRadius: 6,
+              border: modus === m.key ? "2px solid #2e86c1" : "1px solid var(--border-color, #e0e0e0)",
+              background: modus === m.key ? "#e8f4fd" : "var(--panel-bg, #fff)",
+              color: modus === m.key ? "#2e86c1" : "inherit",
+              fontWeight: modus === m.key ? 600 : 400,
+              fontSize: "0.8rem",
+              cursor: "pointer",
+            }}
+          >
+            {m.label}
+          </button>
+        ))}
+      </div>
+
+      {modus === "leistbarkeit" ? (
+        <AffordabilityView districts={districts} />
+      ) : (
+      <>
 
       {/* ── Eingabe ── */}
       <div style={{
@@ -379,6 +409,8 @@ export default function RentCheckView({ districts }: Props) {
         }}>
           Gib oben deinen Bezirk, Gebäudetyp, Wohnfläche und aktuelle Miete ein – du siehst sofort ob du zu viel zahlst.
         </div>
+      )}
+      </>
       )}
     </div>
   );
