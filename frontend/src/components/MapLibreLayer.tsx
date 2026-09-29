@@ -3,6 +3,10 @@ import { useMap } from "react-leaflet";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@maplibre/maplibre-gl-leaflet";
 import L from "leaflet";
+import { setWorkerUrl } from "maplibre-gl";
+
+// Worker wird per scripts/copy-maplibre-worker.mjs nach public/maplibre kopiert
+setWorkerUrl(`${window.location.origin}/maplibre/maplibre-gl-worker.mjs`);
 
 interface Props {
     style: string;

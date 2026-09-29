@@ -16,6 +16,12 @@ interface Props {
     onDistrictClick: (district: District) => void;
 }
 
+// Wien mit etwas Rand – begrenzt Weit-Rauszoomen und Verschieben
+const VIENNA_BOUNDS: [[number, number], [number, number]] = [
+    [48.08, 16.15],
+    [48.36, 16.62],
+];
+
 export default function ViennaMap({
     districts,
     metric,
@@ -67,7 +73,7 @@ export default function ViennaMap({
 
         return {
             fillColor,
-            fillOpacity: highlighted ? 0.9 : 0.7,
+            fillOpacity: highlighted ? 0.8 : 0.55,
             color: highlighted ? "#16181d" : "#f3eee4",
             weight: highlighted ? 3 : 1.5,
             dashArray: isCompareB ? "5 5" : undefined,
@@ -106,6 +112,10 @@ export default function ViennaMap({
             <MapContainer
                 center={[48.2082, 16.3738]}
                 zoom={12}
+                minZoom={11}
+                maxZoom={16}
+                maxBounds={VIENNA_BOUNDS}
+                maxBoundsViscosity={1}
                 className="leaflet-map"
                 zoomControl={true}
                 scrollWheelZoom={true}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ViennaMap from "./components/ViennaMap";
 import DistrictPanel from "./components/DistrictPanel";
 import FilterBar from "./components/FilterBar";
@@ -21,9 +21,37 @@ function App() {
   const [showRentCheck, setShowRentCheck] = useState(false);
   const [showRanking, setShowRanking] = useState(false);
 
+  const [copied, setCopied] = useState(false);
+  // Wird beim ersten Render gelesen, bevor die URL-Synchronisierung sie überschreibt
+  const sharedId = useRef(Number(new URLSearchParams(window.location.search).get("bezirk")));
+
+  // Geteilten Bezirk aus ?bezirk=7 öffnen, sobald die Daten geladen sind
   useEffect(() => {
-    loadDistricts().then(setDistricts);
+    loadDistricts().then((loaded) => {
+      setDistricts(loaded);
+      const shared = loaded.find((d) => d.id === sharedId.current);
+      if (shared) setSelected(shared);
+    });
   }, []);
+
+  // URL mit dem gewählten Bezirk synchron halten
+  useEffect(() => {
+    if (districts.length === 0) return; // erst nach dem Laden, sonst geht ?bezirk verloren
+    const url = new URL(window.location.href);
+    if (selected) url.searchParams.set("bezirk", String(selected.id));
+    else url.searchParams.delete("bezirk");
+    window.history.replaceState(null, "", url);
+  }, [selected, districts.length]);
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.prompt("Link kopieren:", window.location.href);
+    }
+  };
 
   const handleDistrictClick = (district: District) => {
     if (showCompare) {
@@ -163,7 +191,14 @@ function App() {
           ) : showCompare ? (
             <CompareView districtA={compareA} districtB={compareB} />
           ) : selected ? (
-            <DistrictPanel district={selected} />
+            <>
+              <div style={{ padding: "0 8px 8px" }}>
+                <button className="btn btn-secondary" onClick={handleShare}>
+                  {copied ? "Link kopiert ✓" : "Bezirk teilen"}
+                </button>
+              </div>
+              <DistrictPanel district={selected} />
+            </>
           ) : (
             <div className="panel-empty">
               <p>Klicke auf einen Bezirk für Details</p>
