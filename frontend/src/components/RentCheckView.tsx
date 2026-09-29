@@ -85,7 +85,7 @@ export default function RentCheckView({ districts }: Props) {
   return (
     <div style={{ padding: "0 4px" }}>
       {/* Header */}
-      <h3 style={{ margin: "0 0 12px", fontSize: "1.1rem", textAlign: "center" }}>
+      <h3 style={{ margin: "0 0 12px", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.6rem", letterSpacing: "-0.03em", textAlign: "center" }}>
         Mietrechner
       </h3>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 16 }}>
@@ -99,9 +99,9 @@ export default function RentCheckView({ districts }: Props) {
             style={{
               padding: "8px",
               borderRadius: 6,
-              border: modus === m.key ? "2px solid #2e86c1" : "1px solid var(--border-color, #e0e0e0)",
-              background: modus === m.key ? "#e8f4fd" : "var(--panel-bg, #fff)",
-              color: modus === m.key ? "#2e86c1" : "inherit",
+              border: modus === m.key ? "2px solid #16181d" : "1px solid var(--border-color, #e0e0e0)",
+              background: modus === m.key ? "#e8e1d1" : "var(--panel-bg)",
+              color: modus === m.key ? "#16181d" : "inherit",
               fontWeight: modus === m.key ? 600 : 400,
               fontSize: "0.8rem",
               cursor: "pointer",
@@ -142,7 +142,7 @@ export default function RentCheckView({ districts }: Props) {
               borderRadius: 6,
               border: "1px solid var(--border-color, #e0e0e0)",
               fontSize: "0.85rem",
-              background: "var(--panel-bg, #fff)",
+              background: "var(--panel-bg)",
               color: "inherit",
             }}
           >
@@ -166,7 +166,7 @@ export default function RentCheckView({ districts }: Props) {
                 padding: "8px",
                 borderRadius: 6,
                 border: bautyp === "altbau" ? "2px solid #b7950b" : "1px solid var(--border-color, #e0e0e0)",
-                background: bautyp === "altbau" ? "#fef5e7" : "var(--panel-bg, #fff)",
+                background: bautyp === "altbau" ? "#fef5e7" : "var(--panel-bg)",
                 color: bautyp === "altbau" ? "#b7950b" : "inherit",
                 fontWeight: bautyp === "altbau" ? 600 : 400,
                 fontSize: "0.8rem",
@@ -181,7 +181,7 @@ export default function RentCheckView({ districts }: Props) {
                 padding: "8px",
                 borderRadius: 6,
                 border: bautyp === "neubau" ? "2px solid #1e8449" : "1px solid var(--border-color, #e0e0e0)",
-                background: bautyp === "neubau" ? "#eafaf1" : "var(--panel-bg, #fff)",
+                background: bautyp === "neubau" ? "#eafaf1" : "var(--panel-bg)",
                 color: bautyp === "neubau" ? "#1e8449" : "inherit",
                 fontWeight: bautyp === "neubau" ? 600 : 400,
                 fontSize: "0.8rem",
@@ -253,7 +253,7 @@ export default function RentCheckView({ districts }: Props) {
                 border: "1px solid var(--border-color, #e0e0e0)",
                 fontSize: "0.95rem",
                 fontWeight: 500,
-                background: "var(--panel-bg, #fff)",
+                background: "var(--panel-bg)",
                 color: "inherit",
               }}
             />

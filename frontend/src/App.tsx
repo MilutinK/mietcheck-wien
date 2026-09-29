@@ -142,13 +142,13 @@ function App() {
               ) : (
                 <>
                   <button className="btn btn-primary" onClick={handleStartCompare} style={{ flex: 1, padding: "12px" }}>
-                    ⇄ Bezirke vergleichen
+                    Bezirke vergleichen
                   </button>
                   <button className="btn btn-primary" onClick={handleStartRentCheck} style={{ flex: 1, padding: "12px" }}>
-                    🔍 Mietrechner
+                    Mietrechner
                   </button>
                   <button className="btn btn-primary" onClick={handleStartRanking} style={{ flex: 1, padding: "12px" }}>
-                    📊 Ranking
+                    Ranking
                   </button>
                 </>
               )}

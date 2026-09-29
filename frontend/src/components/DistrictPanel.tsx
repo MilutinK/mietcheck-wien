@@ -57,7 +57,7 @@ export default function DistrictPanel({ district }: Props) {
         position: "sticky",
         top: 0,
         zIndex: 10,
-        background: "var(--panel-bg, #fff)",
+        background: "var(--panel-bg)",
         paddingBottom: isSticky ? 8 : 0,
         borderBottom: isSticky ? "1px solid var(--border-color, #e0e0e0)" : "none",
         transition: "padding 0.2s ease",

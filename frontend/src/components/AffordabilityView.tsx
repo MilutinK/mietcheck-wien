@@ -28,7 +28,7 @@ const fieldStyle = {
   border: "1px solid var(--border-color, #e0e0e0)",
   fontSize: "0.95rem",
   fontWeight: 500,
-  background: "var(--panel-bg, #fff)",
+  background: "var(--panel-bg)",
   color: "inherit",
 } as const;
 
@@ -150,9 +150,9 @@ export default function AffordabilityView({ districts }: Props) {
                 style={{
                   padding: "6px",
                   borderRadius: 6,
-                  border: gehaelter === n ? "2px solid #2e86c1" : "1px solid var(--border-color, #e0e0e0)",
-                  background: gehaelter === n ? "#e8f4fd" : "var(--panel-bg, #fff)",
-                  color: gehaelter === n ? "#2e86c1" : "inherit",
+                  border: gehaelter === n ? "2px solid #16181d" : "1px solid var(--border-color, #e0e0e0)",
+                  background: gehaelter === n ? "#e8e1d1" : "var(--panel-bg)",
+                  color: gehaelter === n ? "#16181d" : "inherit",
                   fontWeight: gehaelter === n ? 600 : 400,
                   fontSize: "0.75rem",
                   cursor: "pointer",
@@ -208,7 +208,7 @@ export default function AffordabilityView({ districts }: Props) {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
             {(
               [
-                { key: "egal", label: "Egal", color: "#2e86c1", bg: "#e8f4fd" },
+                { key: "egal", label: "Egal", color: "#16181d", bg: "#e8e1d1" },
                 { key: "altbau", label: "Altbau", color: "#b7950b", bg: "#fef5e7" },
                 { key: "neubau", label: "Neubau", color: "#1e8449", bg: "#eafaf1" },
               ] as const
@@ -220,7 +220,7 @@ export default function AffordabilityView({ districts }: Props) {
                   padding: "8px",
                   borderRadius: 6,
                   border: praeferenz === o.key ? `2px solid ${o.color}` : "1px solid var(--border-color, #e0e0e0)",
-                  background: praeferenz === o.key ? o.bg : "var(--panel-bg, #fff)",
+                  background: praeferenz === o.key ? o.bg : "var(--panel-bg)",
                   color: praeferenz === o.key ? o.color : "inherit",
                   fontWeight: praeferenz === o.key ? 600 : 400,
                   fontSize: "0.8rem",
@@ -247,7 +247,7 @@ export default function AffordabilityView({ districts }: Props) {
             <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>
               Empfohlenes Mietbudget (30 % vom Netto)
             </div>
-            <div style={{ fontSize: "1.8rem", fontWeight: 600, color: "#2e86c1" }}>
+            <div style={{ fontSize: "1.8rem", fontWeight: 600, color: "#16181d" }}>
               {fmtEuro(budget)}
               <span style={{ fontSize: "0.9rem", fontWeight: 400 }}> /Monat</span>
             </div>

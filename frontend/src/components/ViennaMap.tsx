@@ -44,6 +44,8 @@ export default function ViennaMap({
     }
 
     const [min, max] = getMinMax(districts, metric);
+    const isRent =
+        metric === "bruttomiete_m2" || metric === "miete_altbau" || metric === "miete_neubau";
 
     const getDistrict = (feature: Feature): District | undefined => {
         const bezNr = feature.properties?.BEZNR || feature.properties?.BEZ;
@@ -56,7 +58,7 @@ export default function ViennaMap({
         if (!district) return { fillColor: "#ccc", weight: 1 };
 
         const value = getMetricValue(district, metric);
-        const fillColor = getColorForValue(value, min, max);
+        const fillColor = getColorForValue(value, min, max, isRent);
 
         const isSelected = selected?.id === district.id;
         const isCompareA = compareA?.id === district.id;
@@ -66,7 +68,7 @@ export default function ViennaMap({
         return {
             fillColor,
             fillOpacity: highlighted ? 0.9 : 0.7,
-            color: highlighted ? "#e74c3c" : "#fff",
+            color: highlighted ? "#16181d" : "#f3eee4",
             weight: highlighted ? 3 : 1.5,
             dashArray: isCompareB ? "5 5" : undefined,
         };
@@ -97,7 +99,7 @@ export default function ViennaMap({
         });
     };
 
-    const legend = getLegendSteps(min, max);
+    const legend = getLegendSteps(min, max, isRent);
 
     return (
         <>
