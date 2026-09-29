@@ -21,7 +21,7 @@ function rentColor(t: number): string {
   return `hsl(${Math.round(168 - 156 * c)}, 58%, ${Math.round(40 + 4 * c)}%)`;
 }
 
-const NEUTRAL_BAR = "#2f5d8a";
+const NEUTRAL_BAR = "#a17632";
 
 const de1 = (v: number) => v.toFixed(1).replace(".", ",");
 

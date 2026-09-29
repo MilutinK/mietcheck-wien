@@ -1,18 +1,18 @@
 import type { District, MetricKey } from "../types/district";
 import { getMetricValue } from "../types/district";
 
-// Neutrale Kennzahlen: Papier → tiefes Blau
+// Neutrale Kennzahlen: Papier → Ocker → Tinte
 const COLOR_RAMP = [
     "#f1ebde",
-    "#d4e6f1",
-    "#a9cce3",
-    "#7fb3d3",
-    "#5499c7",
-    "#2e86c1",
-    "#1a6fa5",
-    "#0e5a8a",
-    "#08476e",
-    "#023858",
+    "#eadcb6",
+    "#e0c78a",
+    "#d3ad5c",
+    "#bf913f",
+    "#a17632",
+    "#7f5d2a",
+    "#5e4624",
+    "#3f3320",
+    "#20201c",
 ];
 
 // Mietpreise: Türkis (günstig) → Tomatenrot (teuer), wie im Ranking
