@@ -178,7 +178,7 @@ export default function DistrictPanel({ district }: Props) {
             </summary>
             <div className="detail-list" style={{ padding: "0 12px 10px" }}>
               <div style={{ fontSize: "0.7rem", fontWeight: 600, marginBottom: 4, color: "#2e86c1" }}>
-                Gesamt (März 2025)
+                Gesamt (September 2026)
               </div>
               <div className="detail-row">
                 <span>&lt; 50 m²</span>
@@ -200,7 +200,7 @@ export default function DistrictPanel({ district }: Props) {
               {mp.altbau?.durchschnitt != null && (
                 <>
                   <div style={{ fontSize: "0.7rem", fontWeight: 600, marginTop: 8, marginBottom: 4, color: "#b7950b" }}>
-                    Altbau (Juli 2025)
+                    Altbau (September 2026)
                   </div>
                   <div className="detail-row">
                     <span>&lt; 80 m²</span>
@@ -220,7 +220,7 @@ export default function DistrictPanel({ district }: Props) {
               {mp.neubau?.durchschnitt != null && (
                 <>
                   <div style={{ fontSize: "0.7rem", fontWeight: 600, marginTop: 8, marginBottom: 4, color: "#1e8449" }}>
-                    Neubau (März 2025)
+                    Neubau (September 2026)
                   </div>
                   <div className="detail-row">
                     <span>&lt; 80 m²</span>

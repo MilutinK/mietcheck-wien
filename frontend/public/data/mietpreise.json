@@ -2,153 +2,544 @@
   "meta": {
     "quelle": "immopreise.at / derStandard.at Immobilien",
     "methode": "Durchschnittspreise der Angebotspreise auf derStandard.at/Immobilien, inkl. BK und USt., bereinigt um statistische Ausreißer",
-    "gesamt_zeitraum": "März 2025",
-    "gesamt_objekte": 3329,
-    "altbau_zeitraum": "Juli 2025",
-    "altbau_objekte": 424,
-    "neubau_zeitraum": "März 2025",
-    "neubau_objekte": 1476,
+    "gesamt_zeitraum": "September 2026",
+    "gesamt_objekte": 3826,
+    "altbau_zeitraum": "September 2026",
+    "altbau_objekte": 513,
+    "neubau_zeitraum": "September 2026",
+    "neubau_objekte": 2475,
     "url": "https://www.immopreise.at/Wien/Wohnung/Miete",
     "hinweis": "Angebotspreise können von tatsächlich erzielten Marktpreisen abweichen. null = weniger als 4 Objekte in der Kategorie (k.A.)."
   },
   "bezirke": [
     {
-      "id": 1, "name": "Innere Stadt",
-      "gesamt": { "durchschnitt": 26.01, "unter_50m2": 30.37, "von_51_bis_80m2": 27.05, "von_81_bis_129m2": 24.47, "ueber_130m2": 25.92 },
-      "altbau": { "durchschnitt": 26.49, "unter_80m2": 33.68, "von_81_bis_129m2": 23.96, "ueber_130m2": 24.09 },
-      "neubau": { "durchschnitt": 34.40, "unter_80m2": 26.59, "von_81_bis_129m2": 22.68, "ueber_130m2": 29.05 }
+      "id": 1,
+      "name": "Innere Stadt",
+      "gesamt": {
+        "durchschnitt": 29.12,
+        "unter_50m2": 43.1,
+        "von_51_bis_80m2": 29.68,
+        "von_81_bis_129m2": 28.73,
+        "ueber_130m2": 27.75
+      },
+      "altbau": {
+        "durchschnitt": 28.03,
+        "unter_80m2": 31.9,
+        "von_81_bis_129m2": 27.78,
+        "ueber_130m2": 27.14
+      },
+      "neubau": {
+        "durchschnitt": 34.86,
+        "unter_80m2": 37.21,
+        "von_81_bis_129m2": 33.12,
+        "ueber_130m2": 35.62
+      }
     },
     {
-      "id": 2, "name": "Leopoldstadt",
-      "gesamt": { "durchschnitt": 19.53, "unter_50m2": 22.35, "von_51_bis_80m2": 19.40, "von_81_bis_129m2": 17.08, "ueber_130m2": 19.62 },
-      "altbau": { "durchschnitt": 17.02, "unter_80m2": 17.29, "von_81_bis_129m2": 15.71, "ueber_130m2": 18.13 },
-      "neubau": { "durchschnitt": 22.68, "unter_80m2": 23.67, "von_81_bis_129m2": 18.25, "ueber_130m2": 23.43 }
+      "id": 2,
+      "name": "Leopoldstadt",
+      "gesamt": {
+        "durchschnitt": 21.78,
+        "unter_50m2": 26.77,
+        "von_51_bis_80m2": 20.33,
+        "von_81_bis_129m2": 21.04,
+        "ueber_130m2": 18.64
+      },
+      "altbau": {
+        "durchschnitt": 18.8,
+        "unter_80m2": null,
+        "von_81_bis_129m2": 18.8,
+        "ueber_130m2": 18.53
+      },
+      "neubau": {
+        "durchschnitt": 23.97,
+        "unter_80m2": 24.39,
+        "von_81_bis_129m2": 24.19,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 3, "name": "Landstraße",
-      "gesamt": { "durchschnitt": 21.57, "unter_50m2": 23.09, "von_51_bis_80m2": 20.46, "von_81_bis_129m2": 22.63, "ueber_130m2": 20.41 },
-      "altbau": { "durchschnitt": 19.64, "unter_80m2": 25.75, "von_81_bis_129m2": 20.28, "ueber_130m2": 19.11 },
-      "neubau": { "durchschnitt": 23.81, "unter_80m2": 24.46, "von_81_bis_129m2": 23.62, "ueber_130m2": 22.33 }
+      "id": 3,
+      "name": "Landstraße",
+      "gesamt": {
+        "durchschnitt": 24.71,
+        "unter_50m2": 25.91,
+        "von_51_bis_80m2": 24.59,
+        "von_81_bis_129m2": 23.47,
+        "ueber_130m2": 21.4
+      },
+      "altbau": {
+        "durchschnitt": 19.51,
+        "unter_80m2": 19.26,
+        "von_81_bis_129m2": 18.59,
+        "ueber_130m2": 20.58
+      },
+      "neubau": {
+        "durchschnitt": 25.18,
+        "unter_80m2": 25.37,
+        "von_81_bis_129m2": 24.26,
+        "ueber_130m2": 24.18
+      }
     },
     {
-      "id": 4, "name": "Wieden",
-      "gesamt": { "durchschnitt": 18.42, "unter_50m2": 20.78, "von_51_bis_80m2": 18.96, "von_81_bis_129m2": 15.51, "ueber_130m2": 19.00 },
-      "altbau": { "durchschnitt": 19.98, "unter_80m2": 19.82, "von_81_bis_129m2": 17.38, "ueber_130m2": 21.08 },
-      "neubau": { "durchschnitt": 20.38, "unter_80m2": 23.26, "von_81_bis_129m2": null, "ueber_130m2": null }
+      "id": 4,
+      "name": "Wieden",
+      "gesamt": {
+        "durchschnitt": 20.87,
+        "unter_50m2": 22.36,
+        "von_51_bis_80m2": 21.47,
+        "von_81_bis_129m2": 18.7,
+        "ueber_130m2": 21.23
+      },
+      "altbau": {
+        "durchschnitt": 19.54,
+        "unter_80m2": 16.64,
+        "von_81_bis_129m2": 17.07,
+        "ueber_130m2": 20.75
+      },
+      "neubau": {
+        "durchschnitt": 22.89,
+        "unter_80m2": 24.13,
+        "von_81_bis_129m2": 20.11,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 5, "name": "Margareten",
-      "gesamt": { "durchschnitt": 25.16, "unter_50m2": 26.57, "von_51_bis_80m2": 23.75, "von_81_bis_129m2": 25.12, "ueber_130m2": 16.37 },
-      "altbau": { "durchschnitt": 18.77, "unter_80m2": 19.91, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 26.91, "unter_80m2": 27.42, "von_81_bis_129m2": 26.18, "ueber_130m2": null }
+      "id": 5,
+      "name": "Margareten",
+      "gesamt": {
+        "durchschnitt": 21.65,
+        "unter_50m2": 25.78,
+        "von_51_bis_80m2": 19.88,
+        "von_81_bis_129m2": 19.68,
+        "ueber_130m2": 20.93
+      },
+      "altbau": {
+        "durchschnitt": 23.85,
+        "unter_80m2": 26.95,
+        "von_81_bis_129m2": 21.5,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 23.27,
+        "unter_80m2": 23.51,
+        "von_81_bis_129m2": 21.43,
+        "ueber_130m2": 23.35
+      }
     },
     {
-      "id": 6, "name": "Mariahilf",
-      "gesamt": { "durchschnitt": 19.90, "unter_50m2": 19.86, "von_51_bis_80m2": 20.83, "von_81_bis_129m2": 18.78, "ueber_130m2": 20.52 },
-      "altbau": { "durchschnitt": 19.33, "unter_80m2": 19.99, "von_81_bis_129m2": 18.42, "ueber_130m2": 19.41 },
-      "neubau": { "durchschnitt": 23.81, "unter_80m2": 23.10, "von_81_bis_129m2": null, "ueber_130m2": null }
+      "id": 6,
+      "name": "Mariahilf",
+      "gesamt": {
+        "durchschnitt": 22.98,
+        "unter_50m2": 24.3,
+        "von_51_bis_80m2": 24.41,
+        "von_81_bis_129m2": 23.75,
+        "ueber_130m2": 19.84
+      },
+      "altbau": {
+        "durchschnitt": 20.03,
+        "unter_80m2": 21.51,
+        "von_81_bis_129m2": 19.67,
+        "ueber_130m2": 18.85
+      },
+      "neubau": {
+        "durchschnitt": 26.61,
+        "unter_80m2": 27.54,
+        "von_81_bis_129m2": 25.83,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 7, "name": "Neubau",
-      "gesamt": { "durchschnitt": 25.75, "unter_50m2": 26.26, "von_51_bis_80m2": 26.69, "von_81_bis_129m2": 26.35, "ueber_130m2": 17.89 },
-      "altbau": { "durchschnitt": 19.14, "unter_80m2": 19.86, "von_81_bis_129m2": 18.64, "ueber_130m2": 19.08 },
-      "neubau": { "durchschnitt": 29.10, "unter_80m2": 28.86, "von_81_bis_129m2": 30.52, "ueber_130m2": null }
+      "id": 7,
+      "name": "Neubau",
+      "gesamt": {
+        "durchschnitt": 21.65,
+        "unter_50m2": 23.03,
+        "von_51_bis_80m2": 22.88,
+        "von_81_bis_129m2": 19.69,
+        "ueber_130m2": 20.68
+      },
+      "altbau": {
+        "durchschnitt": 18.44,
+        "unter_80m2": 18.96,
+        "von_81_bis_129m2": 17.77,
+        "ueber_130m2": 18.76
+      },
+      "neubau": {
+        "durchschnitt": 25.68,
+        "unter_80m2": 26.08,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 8, "name": "Josefstadt",
-      "gesamt": { "durchschnitt": 20.42, "unter_50m2": 22.86, "von_51_bis_80m2": 19.48, "von_81_bis_129m2": 19.23, "ueber_130m2": 21.14 },
-      "altbau": { "durchschnitt": 19.46, "unter_80m2": 18.83, "von_81_bis_129m2": 17.27, "ueber_130m2": 22.72 },
-      "neubau": { "durchschnitt": 23.15, "unter_80m2": 20.50, "von_81_bis_129m2": 30.90, "ueber_130m2": null }
+      "id": 8,
+      "name": "Josefstadt",
+      "gesamt": {
+        "durchschnitt": 20.92,
+        "unter_50m2": 22.44,
+        "von_51_bis_80m2": 20.82,
+        "von_81_bis_129m2": 20.66,
+        "ueber_130m2": 22.05
+      },
+      "altbau": {
+        "durchschnitt": 21.64,
+        "unter_80m2": 21.17,
+        "von_81_bis_129m2": 22.99,
+        "ueber_130m2": 21.58
+      },
+      "neubau": {
+        "durchschnitt": 22.63,
+        "unter_80m2": 22.22,
+        "von_81_bis_129m2": 23.23,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 9, "name": "Alsergrund",
-      "gesamt": { "durchschnitt": 20.78, "unter_50m2": 24.28, "von_51_bis_80m2": 21.23, "von_81_bis_129m2": 19.94, "ueber_130m2": 19.83 },
-      "altbau": { "durchschnitt": 18.85, "unter_80m2": 15.93, "von_81_bis_129m2": 18.34, "ueber_130m2": 19.99 },
-      "neubau": { "durchschnitt": 23.12, "unter_80m2": 22.81, "von_81_bis_129m2": 25.87, "ueber_130m2": 22.63 }
+      "id": 9,
+      "name": "Alsergrund",
+      "gesamt": {
+        "durchschnitt": 21.65,
+        "unter_50m2": 23.63,
+        "von_51_bis_80m2": 21.71,
+        "von_81_bis_129m2": 22.54,
+        "ueber_130m2": 20.77
+      },
+      "altbau": {
+        "durchschnitt": 20.15,
+        "unter_80m2": 21.67,
+        "von_81_bis_129m2": 19.68,
+        "ueber_130m2": 19.33
+      },
+      "neubau": {
+        "durchschnitt": 25.21,
+        "unter_80m2": 25.04,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 10, "name": "Favoriten",
-      "gesamt": { "durchschnitt": 19.76, "unter_50m2": 22.58, "von_51_bis_80m2": 18.29, "von_81_bis_129m2": 16.05, "ueber_130m2": null },
-      "altbau": { "durchschnitt": 12.80, "unter_80m2": 12.80, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 20.97, "unter_80m2": 21.60, "von_81_bis_129m2": 17.24, "ueber_130m2": null }
+      "id": 10,
+      "name": "Favoriten",
+      "gesamt": {
+        "durchschnitt": 20.38,
+        "unter_50m2": 23.55,
+        "von_51_bis_80m2": 18.93,
+        "von_81_bis_129m2": 18.58,
+        "ueber_130m2": null
+      },
+      "altbau": {
+        "durchschnitt": 16.69,
+        "unter_80m2": 16.92,
+        "von_81_bis_129m2": 14.73,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 21.96,
+        "unter_80m2": 22.56,
+        "von_81_bis_129m2": 19.83,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 11, "name": "Simmering",
-      "gesamt": { "durchschnitt": 16.35, "unter_50m2": 17.45, "von_51_bis_80m2": 15.32, "von_81_bis_129m2": 15.82, "ueber_130m2": null },
-      "altbau": { "durchschnitt": null, "unter_80m2": null, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 17.38, "unter_80m2": 17.90, "von_81_bis_129m2": 15.82, "ueber_130m2": null }
+      "id": 11,
+      "name": "Simmering",
+      "gesamt": {
+        "durchschnitt": 20.43,
+        "unter_50m2": 20.69,
+        "von_51_bis_80m2": 20.6,
+        "von_81_bis_129m2": 17.49,
+        "ueber_130m2": 17.21
+      },
+      "altbau": {
+        "durchschnitt": null,
+        "unter_80m2": null,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 20.75,
+        "unter_80m2": 20.91,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": 17.21
+      }
     },
     {
-      "id": 12, "name": "Meidling",
-      "gesamt": { "durchschnitt": 20.06, "unter_50m2": 21.60, "von_51_bis_80m2": 18.85, "von_81_bis_129m2": 15.87, "ueber_130m2": 14.85 },
-      "altbau": { "durchschnitt": 16.28, "unter_80m2": 16.69, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 22.42, "unter_80m2": 22.41, "von_81_bis_129m2": null, "ueber_130m2": null }
+      "id": 12,
+      "name": "Meidling",
+      "gesamt": {
+        "durchschnitt": 20.5,
+        "unter_50m2": 21.65,
+        "von_51_bis_80m2": 19.62,
+        "von_81_bis_129m2": 19.47,
+        "ueber_130m2": null
+      },
+      "altbau": {
+        "durchschnitt": 12.89,
+        "unter_80m2": null,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 21.31,
+        "unter_80m2": 21.32,
+        "von_81_bis_129m2": 20.99,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 13, "name": "Hietzing",
-      "gesamt": { "durchschnitt": 19.16, "unter_50m2": 20.17, "von_51_bis_80m2": 17.48, "von_81_bis_129m2": 19.98, "ueber_130m2": 19.97 },
-      "altbau": { "durchschnitt": 18.55, "unter_80m2": null, "von_81_bis_129m2": null, "ueber_130m2": 20.70 },
-      "neubau": { "durchschnitt": 19.52, "unter_80m2": 19.36, "von_81_bis_129m2": 19.99, "ueber_130m2": null }
+      "id": 13,
+      "name": "Hietzing",
+      "gesamt": {
+        "durchschnitt": 23.53,
+        "unter_50m2": 25.25,
+        "von_51_bis_80m2": 20.39,
+        "von_81_bis_129m2": 24.72,
+        "ueber_130m2": 23.22
+      },
+      "altbau": {
+        "durchschnitt": 20.86,
+        "unter_80m2": 21.88,
+        "von_81_bis_129m2": 25.69,
+        "ueber_130m2": 17.67
+      },
+      "neubau": {
+        "durchschnitt": 24.13,
+        "unter_80m2": 23.06,
+        "von_81_bis_129m2": 25.28,
+        "ueber_130m2": 30.19
+      }
     },
     {
-      "id": 14, "name": "Penzing",
-      "gesamt": { "durchschnitt": 18.05, "unter_50m2": 20.16, "von_51_bis_80m2": 17.08, "von_81_bis_129m2": 14.55, "ueber_130m2": 18.37 },
-      "altbau": { "durchschnitt": 17.26, "unter_80m2": 19.64, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 19.56, "unter_80m2": 19.98, "von_81_bis_129m2": 15.44, "ueber_130m2": null }
+      "id": 14,
+      "name": "Penzing",
+      "gesamt": {
+        "durchschnitt": 21.43,
+        "unter_50m2": 20.59,
+        "von_51_bis_80m2": 22.71,
+        "von_81_bis_129m2": 20.66,
+        "ueber_130m2": 22.53
+      },
+      "altbau": {
+        "durchschnitt": 18.02,
+        "unter_80m2": 18.3,
+        "von_81_bis_129m2": 17.22,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 23.04,
+        "unter_80m2": 23.71,
+        "von_81_bis_129m2": 23.02,
+        "ueber_130m2": 25.1
+      }
     },
     {
-      "id": 15, "name": "Rudolfsheim-Fünfhaus",
-      "gesamt": { "durchschnitt": 18.40, "unter_50m2": 19.65, "von_51_bis_80m2": 17.09, "von_81_bis_129m2": 17.15, "ueber_130m2": null },
-      "altbau": { "durchschnitt": null, "unter_80m2": null, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 19.52, "unter_80m2": 20.26, "von_81_bis_129m2": null, "ueber_130m2": null }
+      "id": 15,
+      "name": "Rudolfsheim-Fünfhaus",
+      "gesamt": {
+        "durchschnitt": 22.63,
+        "unter_50m2": 24.41,
+        "von_51_bis_80m2": 21.69,
+        "von_81_bis_129m2": 21.2,
+        "ueber_130m2": 17.17
+      },
+      "altbau": {
+        "durchschnitt": 17.34,
+        "unter_80m2": 17.06,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 24.76,
+        "unter_80m2": 25.25,
+        "von_81_bis_129m2": 21.53,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 16, "name": "Ottakring",
-      "gesamt": { "durchschnitt": 17.51, "unter_50m2": 17.98, "von_51_bis_80m2": 17.67, "von_81_bis_129m2": 16.80, "ueber_130m2": null },
-      "altbau": { "durchschnitt": 14.03, "unter_80m2": 14.26, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 18.83, "unter_80m2": 18.74, "von_81_bis_129m2": 17.90, "ueber_130m2": null }
+      "id": 16,
+      "name": "Ottakring",
+      "gesamt": {
+        "durchschnitt": 19.13,
+        "unter_50m2": 20.88,
+        "von_51_bis_80m2": 17.36,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "altbau": {
+        "durchschnitt": 14.45,
+        "unter_80m2": 14.45,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 20.5,
+        "unter_80m2": 20.62,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 17, "name": "Hernals",
-      "gesamt": { "durchschnitt": 18.10, "unter_50m2": 17.90, "von_51_bis_80m2": 18.67, "von_81_bis_129m2": 17.26, "ueber_130m2": 20.04 },
-      "altbau": { "durchschnitt": 18.62, "unter_80m2": 16.16, "von_81_bis_129m2": null, "ueber_130m2": 21.01 },
-      "neubau": { "durchschnitt": 20.01, "unter_80m2": 20.37, "von_81_bis_129m2": 19.24, "ueber_130m2": null }
+      "id": 17,
+      "name": "Hernals",
+      "gesamt": {
+        "durchschnitt": 19.88,
+        "unter_50m2": 23.78,
+        "von_51_bis_80m2": 18.73,
+        "von_81_bis_129m2": 17.91,
+        "ueber_130m2": 19.03
+      },
+      "altbau": {
+        "durchschnitt": 14.65,
+        "unter_80m2": 14.43,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 22.47,
+        "unter_80m2": 22.83,
+        "von_81_bis_129m2": 19.31,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 18, "name": "Währing",
-      "gesamt": { "durchschnitt": 20.71, "unter_50m2": 19.71, "von_51_bis_80m2": 19.74, "von_81_bis_129m2": 22.25, "ueber_130m2": 21.97 },
-      "altbau": { "durchschnitt": 16.11, "unter_80m2": null, "von_81_bis_129m2": 14.74, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 22.71, "unter_80m2": 21.73, "von_81_bis_129m2": 25.48, "ueber_130m2": 23.37 }
+      "id": 18,
+      "name": "Währing",
+      "gesamt": {
+        "durchschnitt": 21.94,
+        "unter_50m2": 20.32,
+        "von_51_bis_80m2": 24.94,
+        "von_81_bis_129m2": 21.29,
+        "ueber_130m2": 19.48
+      },
+      "altbau": {
+        "durchschnitt": 24.29,
+        "unter_80m2": 31.23,
+        "von_81_bis_129m2": 21.0,
+        "ueber_130m2": 19.83
+      },
+      "neubau": {
+        "durchschnitt": 22.21,
+        "unter_80m2": 22.41,
+        "von_81_bis_129m2": 23.2,
+        "ueber_130m2": 19.51
+      }
     },
     {
-      "id": 19, "name": "Döbling",
-      "gesamt": { "durchschnitt": 21.26, "unter_50m2": 21.54, "von_51_bis_80m2": 20.59, "von_81_bis_129m2": 21.09, "ueber_130m2": 22.39 },
-      "altbau": { "durchschnitt": 18.46, "unter_80m2": 17.50, "von_81_bis_129m2": null, "ueber_130m2": 20.10 },
-      "neubau": { "durchschnitt": 22.24, "unter_80m2": 22.19, "von_81_bis_129m2": 21.50, "ueber_130m2": 23.62 }
+      "id": 19,
+      "name": "Döbling",
+      "gesamt": {
+        "durchschnitt": 22.86,
+        "unter_50m2": 24.31,
+        "von_51_bis_80m2": 23.04,
+        "von_81_bis_129m2": 23.52,
+        "ueber_130m2": 21.08
+      },
+      "altbau": {
+        "durchschnitt": 19.19,
+        "unter_80m2": 18.01,
+        "von_81_bis_129m2": 17.52,
+        "ueber_130m2": 20.61
+      },
+      "neubau": {
+        "durchschnitt": 24.36,
+        "unter_80m2": 24.32,
+        "von_81_bis_129m2": 25.01,
+        "ueber_130m2": 23.28
+      }
     },
     {
-      "id": 20, "name": "Brigittenau",
-      "gesamt": { "durchschnitt": 18.21, "unter_50m2": 19.54, "von_51_bis_80m2": 17.34, "von_81_bis_129m2": 17.67, "ueber_130m2": null },
-      "altbau": { "durchschnitt": 15.07, "unter_80m2": null, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 20.28, "unter_80m2": 20.43, "von_81_bis_129m2": 19.11, "ueber_130m2": null }
+      "id": 20,
+      "name": "Brigittenau",
+      "gesamt": {
+        "durchschnitt": 22.87,
+        "unter_50m2": 28.26,
+        "von_51_bis_80m2": 18.56,
+        "von_81_bis_129m2": 19.54,
+        "ueber_130m2": null
+      },
+      "altbau": {
+        "durchschnitt": 36.37,
+        "unter_80m2": 37.93,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 21.59,
+        "unter_80m2": 22.3,
+        "von_81_bis_129m2": 20.06,
+        "ueber_130m2": null
+      }
     },
     {
-      "id": 21, "name": "Floridsdorf",
-      "gesamt": { "durchschnitt": 18.71, "unter_50m2": 19.83, "von_51_bis_80m2": 17.28, "von_81_bis_129m2": 20.52, "ueber_130m2": null },
-      "altbau": { "durchschnitt": null, "unter_80m2": null, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 18.93, "unter_80m2": 18.43, "von_81_bis_129m2": 22.89, "ueber_130m2": null }
+      "id": 21,
+      "name": "Floridsdorf",
+      "gesamt": {
+        "durchschnitt": 20.13,
+        "unter_50m2": 21.33,
+        "von_51_bis_80m2": 19.07,
+        "von_81_bis_129m2": 18.91,
+        "ueber_130m2": 26.53
+      },
+      "altbau": {
+        "durchschnitt": null,
+        "unter_80m2": null,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 20.31,
+        "unter_80m2": 20.08,
+        "von_81_bis_129m2": 20.52,
+        "ueber_130m2": 26.24
+      }
     },
     {
-      "id": 22, "name": "Donaustadt",
-      "gesamt": { "durchschnitt": 21.75, "unter_50m2": 22.69, "von_51_bis_80m2": 21.41, "von_81_bis_129m2": 18.58, "ueber_130m2": 50.15 },
-      "altbau": { "durchschnitt": 16.30, "unter_80m2": 16.30, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 25.89, "unter_80m2": 25.59, "von_81_bis_129m2": 26.16, "ueber_130m2": 50.15 }
+      "id": 22,
+      "name": "Donaustadt",
+      "gesamt": {
+        "durchschnitt": 28.52,
+        "unter_50m2": 29.86,
+        "von_51_bis_80m2": 27.79,
+        "von_81_bis_129m2": 24.19,
+        "ueber_130m2": 28.92
+      },
+      "altbau": {
+        "durchschnitt": null,
+        "unter_80m2": null,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 29.43,
+        "unter_80m2": 29.75,
+        "von_81_bis_129m2": 27.86,
+        "ueber_130m2": 32.68
+      }
     },
     {
-      "id": 23, "name": "Liesing",
-      "gesamt": { "durchschnitt": 18.11, "unter_50m2": 18.28, "von_51_bis_80m2": 18.05, "von_81_bis_129m2": 19.41, "ueber_130m2": null },
-      "altbau": { "durchschnitt": null, "unter_80m2": null, "von_81_bis_129m2": null, "ueber_130m2": null },
-      "neubau": { "durchschnitt": 19.38, "unter_80m2": 18.84, "von_81_bis_129m2": 20.01, "ueber_130m2": null }
+      "id": 23,
+      "name": "Liesing",
+      "gesamt": {
+        "durchschnitt": 20.31,
+        "unter_50m2": 22.22,
+        "von_51_bis_80m2": 19.58,
+        "von_81_bis_129m2": 17.51,
+        "ueber_130m2": null
+      },
+      "altbau": {
+        "durchschnitt": null,
+        "unter_80m2": null,
+        "von_81_bis_129m2": null,
+        "ueber_130m2": null
+      },
+      "neubau": {
+        "durchschnitt": 19.93,
+        "unter_80m2": 20.67,
+        "von_81_bis_129m2": 18.11,
+        "ueber_130m2": null
+      }
     }
   ]
 }
