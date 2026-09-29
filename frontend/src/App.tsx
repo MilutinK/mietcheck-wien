@@ -156,7 +156,7 @@ function App() {
 
           {showRanking ? (
             <div className="panel-empty">
-              <p>Klicke auf eine Spalte zum Sortieren, auf eine Zeile für die Bezirksdetails</p>
+              <p>Wähle eine Kennzahl und klicke einen Bezirk für die Details</p>
             </div>
           ) : showRentCheck ? (
             <RentCheckView districts={districts} onExit={handleExitRentCheck} />

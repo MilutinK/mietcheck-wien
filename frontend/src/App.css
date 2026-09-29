@@ -506,3 +506,87 @@ body {
     --panel-width: 100%;
   }
 }
+/* ── Ranking (Balkenliste) ─────────────────────────────── */
+.rk {
+  --rk-paper: #f3eee4;
+  --rk-ink: #16181d;
+  --rk-muted: #5b5f66;
+  --rk-line: #d8d1c2;
+  flex: 1;
+  overflow: auto;
+  background: var(--rk-paper);
+  color: var(--rk-ink);
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  container-type: inline-size;
+}
+.rk-inner { padding: 28px 32px 40px; display: flex; flex-direction: column; gap: 24px; max-width: 1100px; }
+.rk-title {
+  margin: 0;
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 3.6vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.rk-accent { color: #d9482b; }
+.rk-lead { margin: 12px 0 0; max-width: 46ch; font-size: 0.95rem; line-height: 1.5; color: #3a3d44; }
+.rk-body { display: flex; gap: 32px; align-items: flex-start; }
+.rk-list-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.rk-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rk-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.rk-chip {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--rk-ink);
+  background: transparent;
+  color: var(--rk-ink);
+  font: 600 0.85rem "Instrument Sans", system-ui, sans-serif;
+  cursor: pointer;
+}
+.rk-chip-on { background: var(--rk-ink); color: var(--rk-paper); }
+.rk-sort { border: 0; background: none; font: 500 0.8rem "Instrument Sans", system-ui, sans-serif; color: var(--rk-muted); cursor: pointer; }
+.rk-list { list-style: none; margin: 0; padding: 0; }
+.rk-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 40px;
+  padding: 4px 0;
+  border: 0;
+  border-top: 1px solid var(--rk-line);
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+.rk-row:hover { background: rgba(22, 24, 29, 0.05); }
+.rk-rank { width: 24px; font: 500 0.75rem "JetBrains Mono", monospace; color: #6b6f76; }
+.rk-name { width: 190px; flex-shrink: 0; font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rk-track { flex: 1; height: 14px; background: #e6dfd0; border-radius: 7px; overflow: hidden; }
+.rk-bar { display: block; height: 100%; border-radius: 7px; transition: width 0.3s ease; }
+.rk-val { width: 84px; text-align: right; font: 700 0.9rem "JetBrains Mono", monospace; }
+.rk-oeffi { width: 62px; text-align: center; font-size: 0.7rem; font-weight: 600; padding: 3px 0; border-radius: 6px; background: var(--rk-ink); color: var(--rk-paper); }
+.rk-side { width: 260px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
+.rk-card { padding: 20px; border-radius: 18px; color: #fff6ee; }
+.rk-card-low { background: #1f7a6d; }
+.rk-card-high { background: #b93a20; }
+.rk-card-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.rk-card-name { margin-top: 6px; font: 800 1.5rem/1.1 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -0.02em; }
+.rk-card-val { margin-top: 4px; font: 700 1.2rem "JetBrains Mono", monospace; }
+.rk-source { margin: 0; font-size: 0.7rem; line-height: 1.5; color: #6b6f76; }
+
+@container (max-width: 900px) {
+  .rk-body { flex-direction: column-reverse; }
+  .rk-side { width: 100%; flex-direction: row; flex-wrap: wrap; }
+  .rk-card { flex: 1 1 200px; }
+}
+@container (max-width: 640px) {
+  .rk-inner { padding: 20px 16px 32px; }
+  .rk-row { flex-wrap: wrap; row-gap: 4px; }
+  .rk-name { width: auto; flex: 1; }
+  .rk-track { order: 5; flex-basis: 100%; height: 10px; }
+  .rk-oeffi { display: none; }
+}
