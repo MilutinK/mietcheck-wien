@@ -514,6 +514,30 @@ body {
     z-index: 1000;
   }
 
+  .app-header {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .header-left h1 {
+    font-size: 1.25rem;
+    white-space: nowrap;
+  }
+
+  .filter-select {
+    max-width: 48vw;
+    text-overflow: ellipsis;
+  }
+
+  /* Ranking: Schließen-Button oben statt unter der langen Liste */
+  .app-main:has(.rk) .side-panel {
+    order: -1;
+  }
+
+  .app-main:has(.rk) .panel-empty {
+    display: none;
+  }
+
   :root {
     --panel-width: 100%;
   }
