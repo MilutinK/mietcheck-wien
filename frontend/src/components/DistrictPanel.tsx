@@ -59,7 +59,7 @@ export default function DistrictPanel({ district }: Props) {
         zIndex: 10,
         background: "var(--panel-bg)",
         paddingBottom: isSticky ? 8 : 0,
-        borderBottom: isSticky ? "1px solid var(--border-color, #e0e0e0)" : "none",
+        borderBottom: isSticky ? "1px solid var(--border-color)" : "none",
         transition: "padding 0.2s ease",
       }}>
         {/* m²-Eingabe */}
@@ -71,7 +71,7 @@ export default function DistrictPanel({ district }: Props) {
           padding: "8px 12px",
           background: "var(--bg)",
           borderRadius: 8,
-          border: "1px solid var(--border-color, #e0e0e0)",
+          border: "1px solid var(--border-color)",
         }}>
           <label style={{ fontSize: "0.75rem", color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
             Wohnfläche
@@ -97,7 +97,7 @@ export default function DistrictPanel({ district }: Props) {
                 textAlign: "right",
                 fontSize: "0.85rem",
                 fontWeight: 500,
-                border: "1px solid var(--border-color, #e0e0e0)",
+                border: "1px solid var(--border-color)",
                 borderRadius: 4,
                 padding: "2px 4px",
                 background: "transparent",
@@ -117,12 +117,12 @@ export default function DistrictPanel({ district }: Props) {
             fontSize: "0.75rem",
           }}>
             {mp.altbau?.durchschnitt != null && (
-              <span style={{ color: "#b7950b", fontWeight: 500 }}>
+              <span style={{ color: "var(--gold)", fontWeight: 500 }}>
                 Altbau: {(mp.altbau.durchschnitt * flaeche).toFixed(0)} €
               </span>
             )}
             {mp.neubau?.durchschnitt != null && (
-              <span style={{ color: "#1e8449", fontWeight: 500 }}>
+              <span style={{ color: "var(--green)", fontWeight: 500 }}>
                 Neubau: {(mp.neubau.durchschnitt * flaeche).toFixed(0)} €
               </span>
             )}
@@ -138,8 +138,8 @@ export default function DistrictPanel({ district }: Props) {
         <div className="panel-section" style={{ marginBottom: 16 }}>
           {/* Altbau vs Neubau als Hauptpreise */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-            <div className="stat-card" style={{ background: "#fef5e7", textAlign: "center" }}>
-              <span className="stat-value" style={{ fontSize: "1.3rem", color: "#b7950b" }}>
+            <div className="stat-card" style={{ background: "var(--gold-bg)", textAlign: "center" }}>
+              <span className="stat-value" style={{ fontSize: "1.3rem", color: "var(--gold)" }}>
                 {mp.altbau?.durchschnitt != null
                   ? `${(mp.altbau.durchschnitt * flaeche).toFixed(0)} €`
                   : "k.A."}
@@ -148,8 +148,8 @@ export default function DistrictPanel({ district }: Props) {
                 Altbau {mp.altbau?.durchschnitt != null ? `(${mp.altbau.durchschnitt.toFixed(2)} €/m²)` : ""}
               </span>
             </div>
-            <div className="stat-card" style={{ background: "#eafaf1", textAlign: "center" }}>
-              <span className="stat-value" style={{ fontSize: "1.3rem", color: "#1e8449" }}>
+            <div className="stat-card" style={{ background: "var(--green-bg)", textAlign: "center" }}>
+              <span className="stat-value" style={{ fontSize: "1.3rem", color: "var(--green)" }}>
                 {mp.neubau?.durchschnitt != null
                   ? `${(mp.neubau.durchschnitt * flaeche).toFixed(0)} €`
                   : "k.A."}
@@ -166,7 +166,7 @@ export default function DistrictPanel({ district }: Props) {
           </div>
 
           {/* Größenkategorien Gesamt */}
-          <details style={{ marginTop: 10, background: "var(--bg)", borderRadius: 8, border: "1px solid var(--border-color, #e0e0e0)" }}>
+          <details style={{ marginTop: 10, background: "var(--bg)", borderRadius: 8, border: "1px solid var(--border-color)" }}>
             <summary style={{
               fontSize: "0.75rem",
               cursor: "pointer",
@@ -177,7 +177,7 @@ export default function DistrictPanel({ district }: Props) {
               Preise nach Wohnungsgröße
             </summary>
             <div className="detail-list" style={{ padding: "0 12px 10px" }}>
-              <div style={{ fontSize: "0.7rem", fontWeight: 600, marginBottom: 4, color: "#2e86c1" }}>
+              <div style={{ fontSize: "0.7rem", fontWeight: 600, marginBottom: 4, color: "var(--blue)" }}>
                 Gesamt (September 2026)
               </div>
               <div className="detail-row">
@@ -199,7 +199,7 @@ export default function DistrictPanel({ district }: Props) {
 
               {mp.altbau?.durchschnitt != null && (
                 <>
-                  <div style={{ fontSize: "0.7rem", fontWeight: 600, marginTop: 8, marginBottom: 4, color: "#b7950b" }}>
+                  <div style={{ fontSize: "0.7rem", fontWeight: 600, marginTop: 8, marginBottom: 4, color: "var(--gold)" }}>
                     Altbau (September 2026)
                   </div>
                   <div className="detail-row">
@@ -219,7 +219,7 @@ export default function DistrictPanel({ district }: Props) {
 
               {mp.neubau?.durchschnitt != null && (
                 <>
-                  <div style={{ fontSize: "0.7rem", fontWeight: 600, marginTop: 8, marginBottom: 4, color: "#1e8449" }}>
+                  <div style={{ fontSize: "0.7rem", fontWeight: 600, marginTop: 8, marginBottom: 4, color: "var(--green)" }}>
                     Neubau (September 2026)
                   </div>
                   <div className="detail-row">
@@ -284,7 +284,7 @@ export default function DistrictPanel({ district }: Props) {
           </div>
 
           {/* Kostenübersicht nach Wohnsitztyp */}
-          <div style={{ marginTop: 12, padding: "10px 12px", background: "#fef9e7", borderRadius: 8, border: "1px solid #f9e79f" }}>
+          <div style={{ marginTop: 12, padding: "10px 12px", background: "var(--gold-bg)", borderRadius: 8, border: "1px solid var(--gold-border)" }}>
             <div style={{ fontSize: "0.8rem", fontWeight: 500, marginBottom: 8 }}>
               Was kostet eine {flaeche} m² Wohnung hier?
             </div>
@@ -310,7 +310,7 @@ export default function DistrictPanel({ district }: Props) {
               {mp?.altbau?.durchschnitt != null && (
                 <div className="detail-row">
                   <span>
-                    <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#b7950b", marginRight: 6 }} />
+                    <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "var(--gold)", marginRight: 6 }} />
                     Miete Altbau ({wst.miete_frei}% freie Miete)
                   </span>
                   <span style={{ fontWeight: 500 }}>
@@ -321,7 +321,7 @@ export default function DistrictPanel({ district }: Props) {
               {mp?.neubau?.durchschnitt != null && (
                 <div className="detail-row">
                   <span>
-                    <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#1e8449", marginRight: 6 }} />
+                    <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "var(--green)", marginRight: 6 }} />
                     Miete Neubau
                   </span>
                   <span style={{ fontWeight: 500 }}>
@@ -367,16 +367,16 @@ export default function DistrictPanel({ district }: Props) {
           {/* Richtwert vs Marktpreis Vergleich */}
           {mp?.altbau?.durchschnitt != null && (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 10 }}>
-              <div style={{ textAlign: "center", padding: "6px", background: "#eafaf1", borderRadius: 6 }}>
-                <div style={{ fontSize: "1rem", fontWeight: 500, color: "#1e8449" }}>
+              <div style={{ textAlign: "center", padding: "6px", background: "var(--green-bg)", borderRadius: 6 }}>
+                <div style={{ fontSize: "1rem", fontWeight: 500, color: "var(--green)" }}>
                   {(RICHTWERT_WIEN * flaeche).toFixed(0)} €
                 </div>
                 <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)" }}>
                   Richtwert ({RICHTWERT_WIEN.toFixed(2)} €/m²)
                 </div>
               </div>
-              <div style={{ textAlign: "center", padding: "6px", background: "#fdedec", borderRadius: 6 }}>
-                <div style={{ fontSize: "1rem", fontWeight: 500, color: "#c0392b" }}>
+              <div style={{ textAlign: "center", padding: "6px", background: "var(--red-bg)", borderRadius: 6 }}>
+                <div style={{ fontSize: "1rem", fontWeight: 500, color: "var(--red)" }}>
                   {(mp.altbau.durchschnitt * flaeche).toFixed(0)} €
                 </div>
                 <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)" }}>
@@ -387,7 +387,7 @@ export default function DistrictPanel({ district }: Props) {
           )}
 
           {/* Aufklappbare Details zu Mietzinsarten */}
-          <details style={{ marginTop: 10, background: "var(--bg)", borderRadius: 8, border: "1px solid var(--border-color, #e0e0e0)" }}>
+          <details style={{ marginTop: 10, background: "var(--bg)", borderRadius: 8, border: "1px solid var(--border-color)" }}>
             <summary style={{
               fontSize: "0.75rem",
               cursor: "pointer",

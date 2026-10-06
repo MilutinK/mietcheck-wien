@@ -14,6 +14,7 @@ interface Props {
     compareA: District | null;
     compareB: District | null;
     onDistrictClick: (district: District) => void;
+    dark: boolean;
 }
 
 // Wien mit etwas Rand – begrenzt Weit-Rauszoomen und Verschieben
@@ -29,6 +30,7 @@ export default function ViennaMap({
     compareA,
     compareB,
     onDistrictClick,
+    dark,
 }: Props) {
     const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
     const geoJsonRef = useRef<LeafletGeoJSON | null>(null);
@@ -58,7 +60,7 @@ export default function ViennaMap({
     const style = (feature?: Feature) => {
         if (!feature) return {};
         const district = getDistrict(feature);
-        if (!district) return { fillColor: "#ccc", weight: 1 };
+        if (!district) return { fillColor: dark ? "#444" : "#ccc", weight: 1 };
 
         const value = getMetricValue(district, metric);
         const fillColor = getColorForValue(value, min, max, isRent);
@@ -70,8 +72,8 @@ export default function ViennaMap({
 
         return {
             fillColor,
-            fillOpacity: highlighted ? 0.8 : 0.55,
-            color: highlighted ? "#16181d" : "#f3eee4",
+            fillOpacity: highlighted ? 0.85 : dark ? 0.6 : 0.55,
+            color: highlighted ? (dark ? "#ece9e2" : "#16181d") : dark ? "#1a1d22" : "#f3eee4",
             weight: highlighted ? 3 : 1.5,
             dashArray: isCompareB ? "5 5" : undefined,
         };
@@ -117,7 +119,7 @@ export default function ViennaMap({
                 zoomControl={true}
                 scrollWheelZoom={true}
             >
-                <MapLibreLayer style="https://tiles.openfreemap.org/styles/positron" />
+                <MapLibreLayer style={`https://tiles.openfreemap.org/styles/${dark ? "dark" : "positron"}`} />
                 <GeoJSON
                     key={geoKey}
                     ref={geoJsonRef}

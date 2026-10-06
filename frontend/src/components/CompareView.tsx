@@ -18,7 +18,7 @@ const PctBar = ({ valueA, valueB, color, label }: { valueA: number; valueB: numb
           <span style={{ fontSize: "0.75rem", fontWeight: 500, minWidth: 32, textAlign: "right" }}>{valueA}%</span>
           <div style={{ width: `${(valueA / max) * 100}%`, minWidth: 2, height: 14, background: color, borderRadius: 3, opacity: 0.8, transition: "width 0.3s ease" }} />
         </div>
-        <div style={{ width: 1, height: 20, background: "var(--border-color, #e0e0e0)" }} />
+        <div style={{ width: 1, height: 20, background: "var(--border-color)" }} />
         <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 6 }}>
           <div style={{ width: `${(valueB / max) * 100}%`, minWidth: 2, height: 14, background: color, borderRadius: 3, opacity: 0.6, transition: "width 0.3s ease" }} />
           <span style={{ fontSize: "0.75rem", fontWeight: 500, minWidth: 32 }}>{valueB}%</span>
@@ -34,7 +34,7 @@ const Row = ({ label, valA, valB, winnerA }: { label: string; valA: string; valB
     display: "flex",
     alignItems: "center",
     padding: "6px 0",
-    borderBottom: "1px solid var(--border-color, #f0f0f0)",
+    borderBottom: "1px solid var(--border-color)",
     fontSize: "0.75rem",
   }}>
     <span style={{
@@ -42,7 +42,7 @@ const Row = ({ label, valA, valB, winnerA }: { label: string; valA: string; valB
       textAlign: "right",
       paddingRight: 8,
       fontWeight: winnerA === true ? 600 : 400,
-      color: winnerA === true ? "#1e8449" : "inherit",
+      color: winnerA === true ? "var(--green)" : "inherit",
     }}>{valA}</span>
     <span style={{
       fontSize: "0.65rem",
@@ -55,7 +55,7 @@ const Row = ({ label, valA, valB, winnerA }: { label: string; valA: string; valB
       flex: 1,
       paddingLeft: 8,
       fontWeight: winnerA === false ? 600 : 400,
-      color: winnerA === false ? "#1e8449" : "inherit",
+      color: winnerA === false ? "var(--green)" : "inherit",
     }}>{valB}</span>
   </div>
 );
@@ -69,7 +69,7 @@ const SectionHeader = ({ title }: { title: string }) => (
     letterSpacing: "0.05em",
     color: "var(--text-secondary)",
     padding: "12px 0 6px",
-    borderBottom: "2px solid var(--border-color, #e0e0e0)",
+    borderBottom: "2px solid var(--border-color)",
     marginBottom: 4,
   }}>{title}</div>
 );
@@ -120,7 +120,7 @@ export default function CompareView({ districtA, districtB }: Props) {
         gap: 12,
         marginBottom: 16,
       }}>
-        <span style={{ fontSize: "1rem", fontWeight: 600, color: "#2e86c1" }}>
+        <span style={{ fontSize: "1rem", fontWeight: 600, color: "var(--blue)" }}>
           {districtA.name}
         </span>
         <span style={{
@@ -130,7 +130,7 @@ export default function CompareView({ districtA, districtB }: Props) {
           padding: "2px 10px",
           borderRadius: 12,
         }}>vs</span>
-        <span style={{ fontSize: "1rem", fontWeight: 600, color: "#2e86c1" }}>
+        <span style={{ fontSize: "1rem", fontWeight: 600, color: "var(--blue)" }}>
           {districtB.name}
         </span>
       </div>
@@ -144,7 +144,7 @@ export default function CompareView({ districtA, districtB }: Props) {
         padding: "8px 12px",
         background: "var(--bg)",
         borderRadius: 8,
-        border: "1px solid var(--border-color, #e0e0e0)",
+        border: "1px solid var(--border-color)",
       }}>
         <label style={{ fontSize: "0.75rem", color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
           Wohnfläche
@@ -170,7 +170,7 @@ export default function CompareView({ districtA, districtB }: Props) {
               textAlign: "right",
               fontSize: "0.85rem",
               fontWeight: 500,
-              border: "1px solid var(--border-color, #e0e0e0)",
+              border: "1px solid var(--border-color)",
               borderRadius: 4,
               padding: "2px 4px",
               background: "transparent",
@@ -184,9 +184,9 @@ export default function CompareView({ districtA, districtB }: Props) {
       {/* ── Mietkosten Cards ── */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 6 }}>
         {/* Altbau */}
-        <div style={{ background: "#fef5e7", borderRadius: 8, padding: "10px 8px", textAlign: "center" }}>
-          <div style={{ fontSize: "0.65rem", color: "#b7950b", marginBottom: 4, fontWeight: 500 }}>Altbau {flaeche} m²</div>
-          <div style={{ fontSize: "1.1rem", fontWeight: 600, color: "#b7950b" }}>
+        <div style={{ background: "var(--gold-bg)", borderRadius: 8, padding: "10px 8px", textAlign: "center" }}>
+          <div style={{ fontSize: "0.65rem", color: "var(--gold)", marginBottom: 4, fontWeight: 500 }}>Altbau {flaeche} m²</div>
+          <div style={{ fontSize: "1.1rem", fontWeight: 600, color: "var(--gold)" }}>
             {altA != null ? `${(altA * flaeche).toFixed(0)}` : "–"}
             <span style={{ fontSize: "0.7rem", fontWeight: 400 }}> vs </span>
             {altB != null ? `${(altB * flaeche).toFixed(0)}` : "–"}
@@ -194,9 +194,9 @@ export default function CompareView({ districtA, districtB }: Props) {
           </div>
         </div>
         {/* Neubau */}
-        <div style={{ background: "#eafaf1", borderRadius: 8, padding: "10px 8px", textAlign: "center" }}>
-          <div style={{ fontSize: "0.65rem", color: "#1e8449", marginBottom: 4, fontWeight: 500 }}>Neubau {flaeche} m²</div>
-          <div style={{ fontSize: "1.1rem", fontWeight: 600, color: "#1e8449" }}>
+        <div style={{ background: "var(--green-bg)", borderRadius: 8, padding: "10px 8px", textAlign: "center" }}>
+          <div style={{ fontSize: "0.65rem", color: "var(--green)", marginBottom: 4, fontWeight: 500 }}>Neubau {flaeche} m²</div>
+          <div style={{ fontSize: "1.1rem", fontWeight: 600, color: "var(--green)" }}>
             {neuA != null ? `${(neuA * flaeche).toFixed(0)}` : "–"}
             <span style={{ fontSize: "0.7rem", fontWeight: 400 }}> vs </span>
             {neuB != null ? `${(neuB * flaeche).toFixed(0)}` : "–"}

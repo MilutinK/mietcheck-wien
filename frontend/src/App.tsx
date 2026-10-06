@@ -7,6 +7,8 @@ import type { District, MetricKey } from "./types/district";
 import { loadDistricts } from "./services/api";
 import RentCheckView from "./components/RentCheckView";
 import RankingView from "./components/RankingView";
+import ThemeToggle from "./components/ThemeToggle";
+import { useTheme } from "./hooks/useTheme";
 
 import "leaflet/dist/leaflet.css";
 import "./App.css";
@@ -22,6 +24,7 @@ function App() {
   const [showRanking, setShowRanking] = useState(false);
 
   const [copied, setCopied] = useState(false);
+  const { preference, resolved, choose } = useTheme();
   // Wird beim ersten Render gelesen, bevor die URL-Synchronisierung sie überschreibt
   const sharedId = useRef(Number(new URLSearchParams(window.location.search).get("bezirk")));
 
@@ -125,6 +128,7 @@ function App() {
         </div>
         <div className="header-right">
           <FilterBar metric={metric} onChange={setMetric} />
+          <ThemeToggle preference={preference} onChange={choose} />
         </div>
       </header>
 
@@ -149,6 +153,7 @@ function App() {
             compareA={compareA}
             compareB={compareB}
             onDistrictClick={handleDistrictClick}
+            dark={resolved === "dark"}
           />
         </div>
         )}

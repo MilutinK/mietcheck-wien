@@ -57,11 +57,11 @@ export default function RentCheckView({ districts }: Props) {
     if (bautyp === "altbau" && altbauAnteil > 30) {
       // Altbau in Altbau-Bezirk → Richtwert ist relevant
       if (faktorRichtwert <= 1.5) {
-        return { text: "Im Rahmen", detail: "Deine Miete liegt im Bereich des Richtwertmietzinses (inkl. üblicher Zuschläge).", color: "#1e8449", bg: "#eafaf1" };
+        return { text: "Im Rahmen", detail: "Deine Miete liegt im Bereich des Richtwertmietzinses (inkl. üblicher Zuschläge).", color: "var(--green)", bg: "var(--green-bg)" };
       } else if (faktorRichtwert <= 2.5) {
-        return { text: "Erhöht", detail: `Du zahlst ${faktorRichtwert.toFixed(1)}× den Richtwert. Zuschläge (Lage, Ausstattung) können das rechtfertigen – eine Überprüfung könnte sich lohnen.`, color: "#b7950b", bg: "#fef9e7" };
+        return { text: "Erhöht", detail: `Du zahlst ${faktorRichtwert.toFixed(1)}× den Richtwert. Zuschläge (Lage, Ausstattung) können das rechtfertigen – eine Überprüfung könnte sich lohnen.`, color: "var(--gold)", bg: "var(--gold-bg)" };
       } else {
-        return { text: "Deutlich über Richtwert", detail: `Du zahlst ${faktorRichtwert.toFixed(1)}× den Richtwert. Bei einer Altbauwohnung unter MRG-Vollanwendung könnte deine Miete zu hoch sein. Eine Überprüfung bei der Schlichtungsstelle ist empfehlenswert.`, color: "#c0392b", bg: "#fdedec" };
+        return { text: "Deutlich über Richtwert", detail: `Du zahlst ${faktorRichtwert.toFixed(1)}× den Richtwert. Bei einer Altbauwohnung unter MRG-Vollanwendung könnte deine Miete zu hoch sein. Eine Überprüfung bei der Schlichtungsstelle ist empfehlenswert.`, color: "var(--red)", bg: "var(--red-bg)" };
       }
     } else {
       // Neubau oder wenig Altbau → Marktpreis ist relevant
@@ -69,13 +69,13 @@ export default function RentCheckView({ districts }: Props) {
         return { text: "Keine Vergleichsdaten", detail: "Für diesen Bezirk/Bautyp liegen zu wenige Marktdaten vor.", color: "var(--text-secondary)", bg: "var(--bg)" };
       }
       if (abweichungMarkt <= -10) {
-        return { text: "Günstig!", detail: `Du zahlst ${Math.abs(abweichungMarkt).toFixed(0)}% unter dem Marktdurchschnitt.`, color: "#1e8449", bg: "#eafaf1" };
+        return { text: "Günstig!", detail: `Du zahlst ${Math.abs(abweichungMarkt).toFixed(0)}% unter dem Marktdurchschnitt.`, color: "var(--green)", bg: "var(--green-bg)" };
       } else if (abweichungMarkt <= 15) {
-        return { text: "Im Rahmen", detail: "Deine Miete liegt im Bereich des Marktdurchschnitts für diesen Bezirk.", color: "#1e8449", bg: "#eafaf1" };
+        return { text: "Im Rahmen", detail: "Deine Miete liegt im Bereich des Marktdurchschnitts für diesen Bezirk.", color: "var(--green)", bg: "var(--green-bg)" };
       } else if (abweichungMarkt <= 30) {
-        return { text: "Über Durchschnitt", detail: `Du zahlst ${abweichungMarkt.toFixed(0)}% über dem Marktdurchschnitt. Das kann durch Ausstattung oder Lage gerechtfertigt sein.`, color: "#b7950b", bg: "#fef9e7" };
+        return { text: "Über Durchschnitt", detail: `Du zahlst ${abweichungMarkt.toFixed(0)}% über dem Marktdurchschnitt. Das kann durch Ausstattung oder Lage gerechtfertigt sein.`, color: "var(--gold)", bg: "var(--gold-bg)" };
       } else {
-        return { text: "Deutlich über Markt", detail: `Du zahlst ${abweichungMarkt.toFixed(0)}% über dem Marktdurchschnitt für diesen Bezirk.`, color: "#c0392b", bg: "#fdedec" };
+        return { text: "Deutlich über Markt", detail: `Du zahlst ${abweichungMarkt.toFixed(0)}% über dem Marktdurchschnitt für diesen Bezirk.`, color: "var(--red)", bg: "var(--red-bg)" };
       }
     }
   };
@@ -99,9 +99,9 @@ export default function RentCheckView({ districts }: Props) {
             style={{
               padding: "8px",
               borderRadius: 6,
-              border: modus === m.key ? "2px solid #16181d" : "1px solid var(--border-color, #e0e0e0)",
-              background: modus === m.key ? "#e8e1d1" : "var(--panel-bg)",
-              color: modus === m.key ? "#16181d" : "inherit",
+              border: modus === m.key ? "2px solid var(--text)" : "1px solid var(--border-color)",
+              background: modus === m.key ? "var(--sel-bg)" : "var(--panel-bg)",
+              color: modus === m.key ? "var(--text)" : "inherit",
               fontWeight: modus === m.key ? 600 : 400,
               fontSize: "0.8rem",
               cursor: "pointer",
@@ -123,7 +123,7 @@ export default function RentCheckView({ districts }: Props) {
         borderRadius: 10,
         padding: "14px",
         marginBottom: 16,
-        border: "1px solid var(--border-color, #e0e0e0)",
+        border: "1px solid var(--border-color)",
         display: "flex",
         flexDirection: "column",
         gap: 12,
@@ -140,7 +140,7 @@ export default function RentCheckView({ districts }: Props) {
               width: "100%",
               padding: "8px 10px",
               borderRadius: 6,
-              border: "1px solid var(--border-color, #e0e0e0)",
+              border: "1px solid var(--border-color)",
               fontSize: "0.85rem",
               background: "var(--panel-bg)",
               color: "inherit",
@@ -165,9 +165,9 @@ export default function RentCheckView({ districts }: Props) {
               style={{
                 padding: "8px",
                 borderRadius: 6,
-                border: bautyp === "altbau" ? "2px solid #b7950b" : "1px solid var(--border-color, #e0e0e0)",
-                background: bautyp === "altbau" ? "#fef5e7" : "var(--panel-bg)",
-                color: bautyp === "altbau" ? "#b7950b" : "inherit",
+                border: bautyp === "altbau" ? "2px solid var(--gold)" : "1px solid var(--border-color)",
+                background: bautyp === "altbau" ? "var(--gold-bg)" : "var(--panel-bg)",
+                color: bautyp === "altbau" ? "var(--gold)" : "inherit",
                 fontWeight: bautyp === "altbau" ? 600 : 400,
                 fontSize: "0.8rem",
                 cursor: "pointer",
@@ -180,9 +180,9 @@ export default function RentCheckView({ districts }: Props) {
               style={{
                 padding: "8px",
                 borderRadius: 6,
-                border: bautyp === "neubau" ? "2px solid #1e8449" : "1px solid var(--border-color, #e0e0e0)",
-                background: bautyp === "neubau" ? "#eafaf1" : "var(--panel-bg)",
-                color: bautyp === "neubau" ? "#1e8449" : "inherit",
+                border: bautyp === "neubau" ? "2px solid var(--green)" : "1px solid var(--border-color)",
+                background: bautyp === "neubau" ? "var(--green-bg)" : "var(--panel-bg)",
+                color: bautyp === "neubau" ? "var(--green)" : "inherit",
                 fontWeight: bautyp === "neubau" ? 600 : 400,
                 fontSize: "0.8rem",
                 cursor: "pointer",
@@ -220,7 +220,7 @@ export default function RentCheckView({ districts }: Props) {
                   textAlign: "right",
                   fontSize: "0.85rem",
                   fontWeight: 500,
-                  border: "1px solid var(--border-color, #e0e0e0)",
+                  border: "1px solid var(--border-color)",
                   borderRadius: 4,
                   padding: "2px 4px",
                   background: "transparent",
@@ -250,7 +250,7 @@ export default function RentCheckView({ districts }: Props) {
                 flex: 1,
                 padding: "8px 10px",
                 borderRadius: 6,
-                border: "1px solid var(--border-color, #e0e0e0)",
+                border: "1px solid var(--border-color)",
                 fontSize: "0.95rem",
                 fontWeight: 500,
                 background: "var(--panel-bg)",
@@ -280,7 +280,7 @@ export default function RentCheckView({ districts }: Props) {
           {verdict && (
             <div style={{
               background: verdict.bg,
-              border: `1px solid ${verdict.color}22`,
+              border: `1px solid color-mix(in srgb, ${verdict.color} 20%, transparent)`,
               borderRadius: 10,
               padding: "14px 16px",
               marginBottom: 14,
@@ -306,7 +306,7 @@ export default function RentCheckView({ districts }: Props) {
             borderRadius: 10,
             padding: "12px 14px",
             marginBottom: 14,
-            border: "1px solid var(--border-color, #e0e0e0)",
+            border: "1px solid var(--border-color)",
           }}>
             <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", marginBottom: 10, fontWeight: 500 }}>
               Vergleich für {flaeche} m² im {district.id}. Bezirk
@@ -317,7 +317,7 @@ export default function RentCheckView({ districts }: Props) {
               const items = [
                 { label: "Gemeindebau (Ø Wien)", value: gemeindebauBrutto * flaeche, color: "#e74c3c" },
                 { label: "Genossenschaft (Ø Wien)", value: genossenschaftBrutto * flaeche, color: "#f39c12" },
-                { label: `Richtwert (Basis)`, value: richtwertGesamt, color: "#1e8449" },
+                { label: `Richtwert (Basis)`, value: richtwertGesamt, color: "var(--green)" },
                 ...(marktpreisEffektiv ? [{ label: `Marktpreis ${bautyp === "altbau" ? "Altbau" : "Neubau"}`, value: marktpreisEffektiv * flaeche, color: "#3498db" }] : []),
                 { label: "Deine Miete", value: mieteNum, color: "#8e44ad" },
               ];
@@ -341,7 +341,7 @@ export default function RentCheckView({ districts }: Props) {
                   </div>
                   <div style={{
                     height: 8,
-                    background: "var(--border-color, #e8e8e8)",
+                    background: "var(--border-color)",
                     borderRadius: 4,
                     overflow: "hidden",
                   }}>

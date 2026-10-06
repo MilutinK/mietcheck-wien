@@ -25,7 +25,7 @@ const labelStyle = {
 const fieldStyle = {
   padding: "8px 10px",
   borderRadius: 6,
-  border: "1px solid var(--border-color, #e0e0e0)",
+  border: "1px solid var(--border-color)",
   fontSize: "0.95rem",
   fontWeight: 500,
   background: "var(--panel-bg)",
@@ -77,8 +77,8 @@ export default function AffordabilityView({ districts }: Props) {
   const guenstigster = bezirke[0];
 
   const ampel = (ok: boolean) => ({
-    color: ok ? "#1e8449" : "#c0392b",
-    bg: ok ? "#eafaf1" : "#fdedec",
+    color: ok ? "var(--green)" : "var(--red)",
+    bg: ok ? "var(--green-bg)" : "var(--red-bg)",
     icon: ok ? "✓" : "✗",
   });
 
@@ -118,7 +118,7 @@ export default function AffordabilityView({ districts }: Props) {
           borderRadius: 10,
           padding: "14px",
           marginBottom: 16,
-          border: "1px solid var(--border-color, #e0e0e0)",
+          border: "1px solid var(--border-color)",
           display: "flex",
           flexDirection: "column",
           gap: 12,
@@ -150,9 +150,9 @@ export default function AffordabilityView({ districts }: Props) {
                 style={{
                   padding: "6px",
                   borderRadius: 6,
-                  border: gehaelter === n ? "2px solid #16181d" : "1px solid var(--border-color, #e0e0e0)",
-                  background: gehaelter === n ? "#e8e1d1" : "var(--panel-bg)",
-                  color: gehaelter === n ? "#16181d" : "inherit",
+                  border: gehaelter === n ? "2px solid var(--text)" : "1px solid var(--border-color)",
+                  background: gehaelter === n ? "var(--sel-bg)" : "var(--panel-bg)",
+                  color: gehaelter === n ? "var(--text)" : "inherit",
                   fontWeight: gehaelter === n ? 600 : 400,
                   fontSize: "0.75rem",
                   cursor: "pointer",
@@ -208,9 +208,9 @@ export default function AffordabilityView({ districts }: Props) {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
             {(
               [
-                { key: "egal", label: "Egal", color: "#16181d", bg: "#e8e1d1" },
-                { key: "altbau", label: "Altbau", color: "#b7950b", bg: "#fef5e7" },
-                { key: "neubau", label: "Neubau", color: "#1e8449", bg: "#eafaf1" },
+                { key: "egal", label: "Egal", color: "var(--text)", bg: "var(--sel-bg)" },
+                { key: "altbau", label: "Altbau", color: "var(--gold)", bg: "var(--gold-bg)" },
+                { key: "neubau", label: "Neubau", color: "var(--green)", bg: "var(--green-bg)" },
               ] as const
             ).map((o) => (
               <button
@@ -219,7 +219,7 @@ export default function AffordabilityView({ districts }: Props) {
                 style={{
                   padding: "8px",
                   borderRadius: 6,
-                  border: praeferenz === o.key ? `2px solid ${o.color}` : "1px solid var(--border-color, #e0e0e0)",
+                  border: praeferenz === o.key ? `2px solid ${o.color}` : "1px solid var(--border-color)",
                   background: praeferenz === o.key ? o.bg : "var(--panel-bg)",
                   color: praeferenz === o.key ? o.color : "inherit",
                   fontWeight: praeferenz === o.key ? 600 : 400,
@@ -247,7 +247,7 @@ export default function AffordabilityView({ districts }: Props) {
             <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>
               Empfohlenes Mietbudget (30 % vom Netto)
             </div>
-            <div style={{ fontSize: "1.8rem", fontWeight: 600, color: "#16181d" }}>
+            <div style={{ fontSize: "1.8rem", fontWeight: 600, color: "var(--text)" }}>
               {fmtEuro(budget)}
               <span style={{ fontSize: "0.9rem", fontWeight: 400 }}> /Monat</span>
             </div>
@@ -263,7 +263,7 @@ export default function AffordabilityView({ districts }: Props) {
               borderRadius: 10,
               padding: "12px 14px",
               marginBottom: 14,
-              border: "1px solid var(--border-color, #e0e0e0)",
+              border: "1px solid var(--border-color)",
             }}
           >
             <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", marginBottom: 10, fontWeight: 500 }}>
@@ -305,8 +305,8 @@ export default function AffordabilityView({ districts }: Props) {
           {/* Gemeindewohnung-Check */}
           <div
             style={{
-              background: gemeindebauBerechtigt ? "#eafaf1" : "#fdedec",
-              border: `1px solid ${gemeindebauBerechtigt ? "#1e8449" : "#c0392b"}22`,
+              background: gemeindebauBerechtigt ? "var(--green-bg)" : "var(--red-bg)",
+              border: `1px solid color-mix(in srgb, ${gemeindebauBerechtigt ? "var(--green)" : "var(--red)"} 20%, transparent)`,
               borderRadius: 10,
               padding: "12px 14px",
               marginBottom: 14,
@@ -316,7 +316,7 @@ export default function AffordabilityView({ districts }: Props) {
               style={{
                 fontSize: "0.85rem",
                 fontWeight: 600,
-                color: gemeindebauBerechtigt ? "#1e8449" : "#c0392b",
+                color: gemeindebauBerechtigt ? "var(--green)" : "var(--red)",
                 marginBottom: 4,
               }}
             >
@@ -338,7 +338,7 @@ export default function AffordabilityView({ districts }: Props) {
               borderRadius: 10,
               padding: "12px 14px",
               marginBottom: 14,
-              border: "1px solid var(--border-color, #e0e0e0)",
+              border: "1px solid var(--border-color)",
             }}
           >
             <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", marginBottom: 10, fontWeight: 500 }}>
@@ -363,7 +363,7 @@ export default function AffordabilityView({ districts }: Props) {
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "6px 0",
-                  borderBottom: "1px solid var(--border-color, #e8e8e8)",
+                  borderBottom: "1px solid var(--border-color)",
                   gap: 8,
                 }}
               >
@@ -372,15 +372,15 @@ export default function AffordabilityView({ districts }: Props) {
                     {b.d.id}. {b.d.name}
                   </div>
                   <div style={{ fontSize: "0.65rem", color: "var(--text-secondary)" }}>
-                    <span style={{ color: "#b7950b" }}>Altbau {b.alt != null ? `${b.alt.toFixed(1)} €` : "k.A."}</span>
+                    <span style={{ color: "var(--gold)" }}>Altbau {b.alt != null ? `${b.alt.toFixed(1)} €` : "k.A."}</span>
                     {" · "}
-                    <span style={{ color: "#1e8449" }}>Neubau {b.neu != null ? `${b.neu.toFixed(1)} €` : "k.A."}</span>
+                    <span style={{ color: "var(--green)" }}>Neubau {b.neu != null ? `${b.neu.toFixed(1)} €` : "k.A."}</span>
                     {" /m²"}
                   </div>
                 </div>
                 <div style={{ textAlign: "right", flexShrink: 0 }}>
                   <div style={{ fontSize: "0.85rem", fontWeight: 600 }}>{fmtEuro(b.kosten)}</div>
-                  <div style={{ fontSize: "0.62rem", color: "#1e8449" }}>
+                  <div style={{ fontSize: "0.62rem", color: "var(--green)" }}>
                     {fmtEuro(budget - b.kosten)} übrig
                   </div>
                 </div>
