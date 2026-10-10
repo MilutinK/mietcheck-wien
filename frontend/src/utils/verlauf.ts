@@ -1,3 +1,5 @@
+import type { Mietverlauf } from "../types/mietverlauf";
+
 export type Reihe = (number | null)[];
 
 /** Median einer Zahlenliste; null bei leerer Liste. */
@@ -53,4 +55,36 @@ export function monatsname(monat: string): string {
   const [jahr, m] = monat.split("-").map(Number);
   const namen = ["Jänner", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
   return `${namen[m - 1]} ${jahr}`;
+}
+
+export interface Zeitreise {
+  /** Geglättete Reihe (12-Monats-Median) je Bezirksnummer */
+  reihen: Record<number, Reihe>;
+  /** Erster Monatsindex, für den es Werte gibt (davor fehlt das 12-Monats-Fenster) */
+  erster: number;
+  letzter: number;
+  /** Kleinster und größter Wert über alle Bezirke und Monate: feste Farbskala für den Zeitvergleich */
+  min: number;
+  max: number;
+}
+
+/** Bereitet die Zeitreihen für die Karte auf; null, wenn es keine Werte gibt. */
+export function zeitreiseAus(verlauf: Mietverlauf): Zeitreise | null {
+  const reihen: Record<number, Reihe> = {};
+  let min = Infinity;
+  let max = -Infinity;
+  let erster = Infinity;
+  for (const [id, roh] of Object.entries(verlauf.bezirke)) {
+    const glatt = gleitenderMedian(roh, 12, 8);
+    reihen[Number(id)] = glatt;
+    const grenzen = ersterUndLetzterWert(glatt);
+    if (grenzen) erster = Math.min(erster, grenzen[0]);
+    for (const v of glatt) {
+      if (v === null) continue;
+      min = Math.min(min, v);
+      max = Math.max(max, v);
+    }
+  }
+  if (!Number.isFinite(min)) return null;
+  return { reihen, erster, letzter: verlauf.monate.length - 1, min, max };
 }

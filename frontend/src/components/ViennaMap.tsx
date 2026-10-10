@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { MapContainer, GeoJSON, Pane, CircleMarker, Tooltip } from "react-leaflet";
 import type { GeoJSON as LeafletGeoJSON, Layer, LeafletMouseEvent } from "leaflet";
 import type { Feature, FeatureCollection } from "geojson";
@@ -8,6 +8,9 @@ import { getColorForValue, getMinMax, getLegendSteps } from "../utils/colors";
 import MapLibreLayer from "./MapLibreLayer";
 import { useGemeindebau } from "../hooks/useGemeindebau";
 import StandortLayer from "./StandortLayer";
+import KartenZeitregler from "./KartenZeitregler";
+import { useMietverlauf } from "../hooks/useMietverlauf";
+import { monatsname, zeitreiseAus } from "../utils/verlauf";
 import type { StandortErgebnis } from "../hooks/useStandort";
 import type { FaktorId } from "../types/standorte";
 
@@ -52,6 +55,12 @@ export default function ViennaMap({
     const geoJsonRef = useRef<LeafletGeoJSON | null>(null);
     const [showGemeindebau, setShowGemeindebau] = useState(false);
     const gemeindebau = useGemeindebau();
+    // Zeitreise: Bezirke nach Monat einfärben (nur für die Gesamtmiete, dort gibt es die lange Reihe)
+    const verlauf = useMietverlauf();
+    const zeit = useMemo(() => (verlauf ? zeitreiseAus(verlauf) : null), [verlauf]);
+    const [zeitIndex, setZeitIndex] = useState<number | null>(null);
+    const zeitMoeglich = metric === "bruttomiete_m2" && zeit !== null && verlauf !== null;
+    const zeitAktiv = zeitMoeglich && zeitIndex !== null;
 
     useEffect(() => {
         fetch("/data/bezirksgrenzen.json")
@@ -60,13 +69,16 @@ export default function ViennaMap({
     }, []);
 
     // GeoJSON neu rendern wenn sich Metric, Selection oder Daten ändern
-    const geoKey = [metric, selected?.id, compareA?.id, compareB?.id, districts.length, standortAktiv].join("-");
+    const geoKey = [metric, selected?.id, compareA?.id, compareB?.id, districts.length, standortAktiv, zeitAktiv ? zeitIndex : "heute"].join("-");
 
     if (!geoData || districts.length === 0) {
         return <div className="map-loading">Lade Karte...</div>;
     }
 
-    const [min, max] = getMinMax(districts, metric);
+    const [min, max] = zeitAktiv ? [zeit!.min, zeit!.max] : getMinMax(districts, metric);
+    const wertFuer = (d: District): number | null =>
+        zeitAktiv ? (zeit!.reihen[d.id]?.[zeitIndex!] ?? null) : getMetricValue(d, metric);
+    const zeitLabel = zeitAktiv ? monatsname(verlauf!.monate[zeitIndex!]) : null;
     const isRent =
         metric === "bruttomiete_m2" || metric === "miete_altbau" || metric === "miete_neubau";
 
@@ -80,8 +92,8 @@ export default function ViennaMap({
         const district = getDistrict(feature);
         if (!district) return { fillColor: dark ? "#444" : "#ccc", weight: 1 };
 
-        const value = getMetricValue(district, metric);
-        const fillColor = getColorForValue(value, min, max, isRent);
+        const value = wertFuer(district);
+        const fillColor = value === null ? (dark ? "#444" : "#ccc") : getColorForValue(value, min, max, isRent);
 
         const isSelected = selected?.id === district.id;
         const isCompareA = compareA?.id === district.id;
@@ -101,11 +113,11 @@ export default function ViennaMap({
         const district = getDistrict(feature);
         if (!district) return;
 
-        const value = getMetricValue(district, metric);
-        const label = METRIC_LABELS[metric];
+        const value = wertFuer(district);
+        const label = zeitLabel ? `${METRIC_LABELS[metric]} (${zeitLabel})` : METRIC_LABELS[metric];
 
         layer.bindTooltip(
-            `<strong>${district.name}</strong><br/>${label}: ${formatMetricValue(value, metric)}`,
+            `<strong>${district.name}</strong><br/>${label}: ${value === null ? "k.A." : formatMetricValue(value, metric)}`,
             { sticky: true, className: "district-tooltip" }
         );
 
@@ -195,8 +207,18 @@ export default function ViennaMap({
                 </button>
             )}
 
-            <div className="map-legend">
-                <div className="legend-title">{METRIC_LABELS[metric]}</div>
+            {zeitMoeglich && (
+                <KartenZeitregler
+                    monate={verlauf!.monate}
+                    erster={zeit!.erster}
+                    letzter={zeit!.letzter}
+                    index={zeitIndex}
+                    onChange={setZeitIndex}
+                />
+            )}
+
+            <div className={`map-legend${zeitAktiv ? " map-legend--zeit" : ""}`}>
+                <div className="legend-title">{zeitLabel ? `${METRIC_LABELS[metric]} · ${zeitLabel}` : METRIC_LABELS[metric]}</div>
                 <div className="legend-scale">
                     {legend.map((step, i) => (
                         <div key={i} className="legend-step">

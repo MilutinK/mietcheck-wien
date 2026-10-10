@@ -19,6 +19,7 @@ mietcheck wien visualisiert Wohn- und Mietdaten aller 23 Wiener Bezirke auf eine
 - **Gemeindebau-Ebene** – Alle ca. 1.780 Gemeindebau-Anlagen als zuschaltbare Punkte auf der Karte (Größe = Wohnungszahl), im Bezirkspanel Anlagen und Wohnungen pro Bezirk
 - **Standort-Check** – Punkt auf der Karte wählen und sehen, was im Umkreis (300/500/800 m) liegt: Öffi, Parks, Spielplätze, Kindergärten, Schulen, Supermärkte, Hausärzte, Apotheken, Märkte und Gemeindebauten, jeweils eingeordnet gegenüber allen Wiener Lagen; die Orte lassen sich einzeln auf der Karte zeigen
 - **Mieten im Zeitverlauf** – Entwicklung des Durchschnittspreises pro Bezirk seit Oktober 2013 im Vergleich zu Wien (gleitender 12-Monats-Median), mit Zeitregler, Zeitraumwahl und Veränderung in Prozent
+- **Zeitreise auf der Karte** – Regler unter der Karte färbt die Bezirke nach Monat ein (Miete gesamt, 2014 bis heute, feste Farbskala), mit Abspielen und "Heute"-Knopf
 - **Bezirk teilen** – `?bezirk=7` in der URL öffnet direkt den Bezirk; der Button „Bezirk teilen“ kopiert den Link
 - **Ranking** – Alle 23 Bezirke als Balkenliste, nach Mietpreis oder jeder anderen Kennzahl sortierbar
 - **Mietrechner** – „Miete prüfen“ (ist meine Miete zu hoch?) und „Leistbarkeit“ (30-%-Budget, Gemeindewohnung-Einkommensgrenzen 2026, passende Bezirke)

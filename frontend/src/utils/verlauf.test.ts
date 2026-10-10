@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { ersterUndLetzterWert, gleitenderMedian, median, monatsname, veraenderungProzent, wienMedian } from "./verlauf";
+import { ersterUndLetzterWert, gleitenderMedian, median, monatsname, veraenderungProzent, wienMedian, zeitreiseAus } from "./verlauf";
+import type { Mietverlauf } from "../types/mietverlauf";
 
 describe("median", () => {
   it("ungerade und gerade Anzahl", () => {
@@ -70,5 +71,31 @@ describe("monatsname", () => {
   it("schreibt den Monat deutsch (Österreich)", () => {
     expect(monatsname("2024-01")).toBe("Jänner 2024");
     expect(monatsname("2026-10")).toBe("Oktober 2026");
+  });
+});
+
+describe("zeitreiseAus", () => {
+  const monate = Array.from({ length: 14 }, (_, i) => `2024-${String((i % 12) + 1).padStart(2, "0")}`);
+  const verlauf: Mietverlauf = {
+    monate,
+    objekte: monate.map(() => 1),
+    bezirke: {
+      "1": monate.map((_, i) => 20 + i),
+      "2": monate.map((_, i) => 10 + i),
+    },
+  };
+
+  it("glättet alle Bezirke und bestimmt den Wertebereich über alle Monate", () => {
+    const z = zeitreiseAus(verlauf)!;
+    expect(z.letzter).toBe(13);
+    expect(z.erster).toBe(11); // erst ab dem 12. Monat gibt es ein volles Fenster
+    expect(z.reihen[1][10]).toBeNull();
+    expect(z.min).toBe(z.reihen[2][11]);
+    expect(z.max).toBe(z.reihen[1][13]);
+    expect(z.min).toBeLessThan(z.max);
+  });
+
+  it("liefert null, wenn kein Bezirk genug Werte hat", () => {
+    expect(zeitreiseAus({ monate: ["2024-01"], objekte: [1], bezirke: { "1": [10] } })).toBeNull();
   });
 });

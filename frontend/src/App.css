@@ -1153,3 +1153,137 @@ body {
     min-height: 44px;
   }
 }
+
+/* ── Zeitreise auf der Karte ─────────────────────────────── */
+.map-zeit-start {
+  position: absolute;
+  top: 56px;
+  right: 12px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1.5px solid var(--text);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: 600 0.8rem var(--font);
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+}
+
+.map-zeit-start:focus-visible,
+.map-zeit-zu:focus-visible,
+.map-zeit-play:focus-visible {
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
+}
+
+.map-zeit {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 30px;
+  z-index: 1000;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 10px 14px 6px;
+  border: 1.5px solid var(--text);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+}
+
+.map-zeit-kopf {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.map-zeit-kopf strong {
+  font: 800 1rem var(--font-display);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.map-zeit-hinweis {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+}
+
+.map-zeit-zu {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1.5px solid var(--text);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font: 600 0.75rem var(--font);
+  cursor: pointer;
+}
+
+.map-zeit-zu:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.map-zeit-regler {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.map-zeit-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--text);
+  color: var(--bg);
+  cursor: pointer;
+}
+
+.map-zeit-achse {
+  display: flex;
+  justify-content: space-between;
+  margin: -2px 0 0 46px;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+/* Legende rückt nach oben, damit die Zeitleiste frei bleibt */
+.map-legend--zeit {
+  bottom: 152px;
+}
+
+@media (max-width: 768px) {
+  .map-zeit-play {
+    width: 44px;
+    height: 44px;
+  }
+
+  .map-zeit-zu {
+    min-height: 44px;
+  }
+
+  .map-zeit-start {
+    min-height: 44px;
+  }
+
+  .map-legend--zeit {
+    bottom: 168px;
+  }
+}
