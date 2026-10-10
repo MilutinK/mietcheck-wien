@@ -22,7 +22,7 @@ mietcheck wien visualisiert Wohn- und Mietdaten aller 23 Wiener Bezirke auf eine
 - **Zeitreise auf der Karte** – Regler unter der Karte färbt die Bezirke nach Monat ein (Miete gesamt, Altbau oder Neubau, 2014 bis heute, feste Farbskala je Kennzahl), mit Abspielen und "Heute"-Knopf; der Monat steckt im Link (`?monat=2019-05`)
 - **Bezirk teilen** – `?bezirk=7` in der URL öffnet direkt den Bezirk; der Button „Bezirk teilen“ kopiert den Link
 - **Ranking** – Alle 23 Bezirke als Balkenliste, nach Mietpreis oder jeder anderen Kennzahl sortierbar
-- **Mietrechner** – „Miete prüfen“ (ist meine Miete zu hoch?) und „Leistbarkeit“ (30-%-Budget, Gemeindewohnung-Einkommensgrenzen 2026, passende Bezirke)
+- **Mietrechner** – „Miete prüfen“ (ist meine Miete zu hoch?), „Leistbarkeit“ (30-%-Budget, Gemeindewohnung-Einkommensgrenzen 2026, passende Bezirke) und „Kaufen?“ (Mieten oder kaufen: Vermögen über bis zu 40 Jahre, Break-even, einstellbare Annahmen)
 - **Mietpreise** – Aktuelle Bruttomieten pro m² mit Altbau/Neubau-Aufschlüsselung und Größenkategorien (immopreise.at)
 - **Mietzins-Info** – Welcher Mietzins gilt? Wohnsitztyp-Verteilung, Richtwert vs. Marktpreis, Mietzinsarten erklärt
 - **Bezirksvergleich** – Zwei Bezirke side-by-side vergleichen
@@ -57,6 +57,7 @@ Alle Daten stammen aus öffentlichen, frei zugänglichen Quellen:
 | [Wiener Linien Haltestellen](https://www.data.gv.at/katalog/dataset/stadt-wien_wiaboreitungwienerlinieneaboreitungdatendrehscheibe) | 1.800+ Haltestellen mit Koordinaten | CC BY 4.0 |
 | [immopreise.at / derStandard.at](https://www.immopreise.at/Wien/Wohnung/Miete) | Bruttomieten pro Bezirk – Gesamt, Altbau, Neubau mit Größenkategorien (September 2026) | Presseaussendung |
 | [immopreise.at / derStandard.at – Archiv](https://www.immopreise.at/Wien/Wohnung/Miete) | Monatliche Preisspiegel-PDFs 2013–heute, Bezirksdurchschnitt Miete gesamt, Altbau und Neubau (aufbereitet mit `backend/scripts/etl_mietverlauf.py`, braucht `pdftotext`) | Presseaussendung |
+| [immopreise.at / derStandard.at – Kaufpreise](https://www.immopreise.at/Wien/Wohnung/Kauf) | Angebotspreise für Eigentumswohnungen pro Bezirk und Größenklasse (aufbereitet mit `backend/scripts/etl_kaufpreise.py`, braucht `pdftotext`) | Presseaussendung |
 | [Gemeindebau Standorte Wien](https://www.data.gv.at/katalog/dataset/stadt-wien_gemeindebaustandortewien) | Standorte, Wohnungszahl und Baujahr der Gemeindebau-Anlagen (aufbereitet mit `backend/scripts/etl_gemeindebau.py`; die Haltestellen für den Standort-Check mit `etl_haltestellen.py`) | siehe Datensatzseite |
 | [Standorte Stadt Wien](https://www.data.gv.at/) | Parkanlagen, Spielplätze, Schulen, Kindergärten, Ärzte (nur Fachrichtung), Apotheken, Märkte für den Standort-Check (aufbereitet mit `backend/scripts/etl_standorte.py`) | siehe jeweilige Datensatzseite |
 | [OpenStreetMap](https://www.openstreetmap.org/copyright) via Overpass API | Supermärkte, Nahversorger und Obst-/Gemüsegeschäfte für den Standort-Check (aufbereitet mit `backend/scripts/etl_nahversorgung.py`, kachelweise geladen) | ODbL, © OpenStreetMap-Mitwirkende |

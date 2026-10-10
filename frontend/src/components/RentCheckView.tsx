@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { District } from "../types/district";
 import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
 import AffordabilityView from "./AffordabilityView";
+import KaufenView from "./KaufenView";
 import Slider from "./Slider";
 import Dropdown from "./Dropdown";
 import NumberField from "./NumberField";
@@ -12,7 +13,7 @@ interface Props {
 }
 
 export default function RentCheckView({ districts }: Props) {
-  const [modus, setModus] = useState<"pruefen" | "leistbarkeit">("pruefen");
+  const [modus, setModus] = useState<"pruefen" | "leistbarkeit" | "kaufen">("pruefen");
   const [bezirkId, setBezirkId] = useState<number>(10);
   const [bautyp, setBautyp] = useState<"altbau" | "neubau">("altbau");
   const [flaeche, setFlaeche] = useState(65);
@@ -91,10 +92,11 @@ export default function RentCheckView({ districts }: Props) {
       <h3 style={{ margin: "0 0 12px", fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.6rem", letterSpacing: "-0.03em", textAlign: "center" }}>
         Mietrechner
       </h3>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginBottom: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, marginBottom: 16 }}>
         {([
           { key: "pruefen", label: "Miete prüfen" },
           { key: "leistbarkeit", label: "Leistbarkeit" },
+          { key: "kaufen", label: "Kaufen?" },
         ] as const).map((m) => (
           <button
             key={m.key}
@@ -115,7 +117,9 @@ export default function RentCheckView({ districts }: Props) {
         ))}
       </div>
 
-      {modus === "leistbarkeit" ? (
+      {modus === "kaufen" ? (
+        <KaufenView districts={districts} />
+      ) : modus === "leistbarkeit" ? (
         <AffordabilityView districts={districts} />
       ) : (
       <>
