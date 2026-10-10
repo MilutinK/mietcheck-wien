@@ -3,6 +3,7 @@ import type { District } from "../types/district";
 import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
 import MiniChart from "./MiniChart";
 import { useGemeindebau } from "../hooks/useGemeindebau";
+import Slider from "./Slider";
 
 interface Props {
   district: District;
@@ -78,15 +79,7 @@ export default function DistrictPanel({ district }: Props) {
           <label style={{ fontSize: "0.75rem", color: "var(--text-secondary)", whiteSpace: "nowrap" }}>
             Wohnfläche
           </label>
-          <input
-            type="range"
-            min={20}
-            max={150}
-            step={5}
-            value={flaeche}
-            onChange={(e) => setFlaeche(Number(e.target.value))}
-            style={{ flex: 1 }}
-          />
+          <Slider min={20} max={150} step={5} value={flaeche} onChange={setFlaeche} ariaLabel="Wohnfläche" />
           <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
             <input
               type="number"

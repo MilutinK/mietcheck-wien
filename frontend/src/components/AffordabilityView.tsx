@@ -5,6 +5,7 @@ import {
   MIETE_DURCHSCHNITT_WIEN,
   gemeindebauGrenze,
 } from "../types/district";
+import Slider from "./Slider";
 
 interface Props {
   districts: District[];
@@ -183,16 +184,7 @@ export default function AffordabilityView({ districts }: Props) {
             Gewünschte Wohnfläche
           </label>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <input
-              id="aff-flaeche"
-              type="range"
-              min={20}
-              max={150}
-              step={5}
-              value={flaeche}
-              onChange={(e) => setFlaeche(Number(e.target.value))}
-              style={{ flex: 1 }}
-            />
+            <Slider id="aff-flaeche" min={20} max={150} step={5} value={flaeche} onChange={setFlaeche} ariaLabel="Wohnfläche" />
             <span style={{ fontSize: "0.85rem", fontWeight: 500, minWidth: 48, textAlign: "right" }}>
               {flaeche} m²
             </span>
