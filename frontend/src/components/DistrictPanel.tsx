@@ -5,6 +5,7 @@ import MiniChart from "./MiniChart";
 import { useGemeindebau } from "../hooks/useGemeindebau";
 import Slider from "./Slider";
 import NumberField from "./NumberField";
+import MietVerlaufChart from "./MietVerlaufChart";
 
 interface Props {
   district: District;
@@ -220,6 +221,8 @@ export default function DistrictPanel({ district }: Props) {
           </div>
         </div>
       )}
+
+      <MietVerlaufChart bezirkId={district.id} bezirkName={district.name} />
 
       {/* ── Welcher Mietzins gilt? ── */}
       {wst && (
