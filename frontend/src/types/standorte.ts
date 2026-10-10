@@ -16,6 +16,7 @@ export type FaktorId =
   | "spielplatz"
   | "schule"
   | "kindergarten"
+  | "nahversorgung"
   | "hausarzt"
   | "apotheke"
   | "markt";

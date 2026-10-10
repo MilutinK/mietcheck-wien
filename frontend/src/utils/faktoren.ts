@@ -77,6 +77,17 @@ export const FAKTOREN: FaktorDef[] = [
     beschreibe: (n) => (n === 0 ? "keine Schule" : `${zahl(n)} ${n === 1 ? "Schule" : "Schulen"}`),
   },
   {
+    id: "nahversorgung",
+    gruppe: "Gesundheit und Alltag",
+    label: "Supermärkte und Lebensmittel",
+    farbe: { hell: "#558b2f", dunkel: "#aed581" },
+    messwert: "anzahl",
+    zeigeRang: true,
+    standardAufKarte: false,
+    naechsteLabel: "Nächstes Geschäft",
+    beschreibe: (n) => (n === 0 ? "kein Geschäft" : `${zahl(n)} ${n === 1 ? "Geschäft" : "Geschäfte"}`),
+  },
+  {
     id: "hausarzt",
     gruppe: "Gesundheit und Alltag",
     label: "Hausärzte",

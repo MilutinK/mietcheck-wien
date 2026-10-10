@@ -42,6 +42,7 @@
   --faktor-spielplatz: #16a085;
   --faktor-kindergarten: #e67e22;
   --faktor-schule: #b7950b;
+  --faktor-nahversorgung: #558b2f;
   --faktor-hausarzt: #c2185b;
   --faktor-apotheke: #00838f;
   --faktor-markt: #8d6e63;
@@ -83,6 +84,7 @@
     --faktor-spielplatz: #48c9b0;
     --faktor-kindergarten: #f0a35e;
     --faktor-schule: #e0b84a;
+    --faktor-nahversorgung: #aed581;
     --faktor-hausarzt: #f06292;
     --faktor-apotheke: #4dd0e1;
     --faktor-markt: #bcaaa4;
@@ -124,6 +126,7 @@
   --faktor-spielplatz: #48c9b0;
   --faktor-kindergarten: #f0a35e;
   --faktor-schule: #e0b84a;
+  --faktor-nahversorgung: #aed581;
   --faktor-hausarzt: #f06292;
   --faktor-apotheke: #4dd0e1;
   --faktor-markt: #bcaaa4;

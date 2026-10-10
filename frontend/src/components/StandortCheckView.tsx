@@ -229,7 +229,7 @@ export default function StandortCheckView({
             ihrer Fläche (Mittelpunkt im Umkreis), Hausärzte sind Praxen für Allgemeinmedizin. Die Mieten sind der
             Bezirksdurchschnitt, es gibt keine Preise pro Adresse. Entfernungen sind Luftlinie. Quellen: Stadt Wien –
             data.wien.gv.at (Wiener Linien, Gemeindebau, Parkanlagen, Spielplätze, Schulen, Kindergärten, Ärzte,
-            Apotheken, Märkte).
+            Apotheken, Märkte). Supermärkte und Lebensmittelgeschäfte: © OpenStreetMap-Mitwirkende (ODbL).
           </div>
         </>
       )}
