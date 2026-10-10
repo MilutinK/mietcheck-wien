@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import ViennaMap from "./components/ViennaMap";
 import DistrictPanel from "./components/DistrictPanel";
 import FilterBar from "./components/FilterBar";
@@ -13,6 +13,7 @@ import { useStandort } from "./hooks/useStandort";
 import type { LonLat } from "./utils/geo";
 import type { Radius } from "./utils/standort";
 import { leseStandortParams, schreibeStandortParams } from "./utils/standortUrl";
+import { leseMonatParam, schreibeMonatParam } from "./utils/monatUrl";
 import { STANDARD_AUF_KARTE } from "./utils/faktoren";
 import type { FaktorId } from "./types/standorte";
 import { useTheme } from "./hooks/useTheme";
@@ -38,6 +39,9 @@ function App() {
   // Karte auf den geteilten Punkt zoomen, bis der Nutzer selbst etwas wählt
   const [standortZentrieren, setStandortZentrieren] = useState(geteilt !== null);
 
+  // Gewählter Monat der Zeitreise auf der Karte, aus ?monat=2019-05
+  const [zeitMonat, setZeitMonat] = useState<string | null>(() => leseMonatParam(window.location.search));
+
   const [copied, setCopied] = useState(false);
   const { preference, resolved, choose } = useTheme();
   const standort = useStandort(showStandort ? standortPunkt : null, standortRadius);
@@ -53,9 +57,8 @@ function App() {
     });
   }, [geteilt]);
 
-  // URL mit Bezirk oder Standort synchron halten (nie beides)
-  useEffect(() => {
-    if (districts.length === 0) return; // erst nach dem Laden, sonst gehen die Parameter verloren
+  // Link zum aktuellen Stand: Bezirk oder Standort (nie beides), dazu der Monat der Zeitreise
+  const aktuelleUrl = useCallback((): URL => {
     const url = new URL(window.location.href);
     const stand =
       showStandort && standortPunkt
@@ -64,16 +67,27 @@ function App() {
     schreibeStandortParams(url.searchParams, stand);
     if (!stand && selected) url.searchParams.set("bezirk", String(selected.id));
     else url.searchParams.delete("bezirk");
-    window.history.replaceState(null, "", url);
-  }, [selected, districts.length, showStandort, standortPunkt, standortRadius, standortSichtbar]);
+    // Die Zeitreise gibt es nur bei der Gesamtmiete
+    schreibeMonatParam(url.searchParams, metric === "bruttomiete_m2" ? zeitMonat : null);
+    return url;
+  }, [selected, showStandort, standortPunkt, standortRadius, standortSichtbar, metric, zeitMonat]);
+
+  // Adressleiste nachführen. Verzögert, weil das Abspielen der Zeitreise den Monat mehrmals pro Sekunde
+  // ändert und Browser (Safari) die Zahl der replaceState-Aufrufe begrenzen.
+  useEffect(() => {
+    if (districts.length === 0) return; // erst nach dem Laden, sonst gehen die Parameter verloren
+    const t = window.setTimeout(() => window.history.replaceState(null, "", aktuelleUrl()), 300);
+    return () => window.clearTimeout(t);
+  }, [aktuelleUrl, districts.length]);
 
   const handleShare = async () => {
+    const link = aktuelleUrl().href; // frisch gebaut, nicht aus der (evtl. noch verzögerten) Adressleiste
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(link);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      window.prompt("Link kopieren:", window.location.href);
+      window.prompt("Link kopieren:", link);
     }
   };
 
@@ -205,6 +219,8 @@ function App() {
             standort={standort}
             standortSichtbar={standortSichtbar}
             standortZentrieren={standortZentrieren}
+            zeitMonat={zeitMonat}
+            onZeitMonatChange={setZeitMonat}
             onStandortClick={(lat, lon) => {
               setStandortZentrieren(false);
               setStandortPunkt({ lat, lon });

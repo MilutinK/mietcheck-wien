@@ -28,6 +28,9 @@ interface Props {
     standortSichtbar: FaktorId[];
     /** Karte beim ersten Anzeigen auf den Standort zoomen (geteilter Link) */
     standortZentrieren: boolean;
+    /** Gewählter Monat der Zeitreise ("2019-05"), null = aktuelle Daten */
+    zeitMonat: string | null;
+    onZeitMonatChange: (monat: string | null) => void;
     onStandortClick: (lat: number, lon: number) => void;
 }
 
@@ -49,6 +52,8 @@ export default function ViennaMap({
     standort,
     standortSichtbar,
     standortZentrieren,
+    zeitMonat,
+    onZeitMonatChange,
     onStandortClick,
 }: Props) {
     const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
@@ -58,8 +63,10 @@ export default function ViennaMap({
     // Zeitreise: Bezirke nach Monat einfärben (nur für die Gesamtmiete, dort gibt es die lange Reihe)
     const verlauf = useMietverlauf();
     const zeit = useMemo(() => (verlauf ? zeitreiseAus(verlauf) : null), [verlauf]);
-    const [zeitIndex, setZeitIndex] = useState<number | null>(null);
     const zeitMoeglich = metric === "bruttomiete_m2" && zeit !== null && verlauf !== null;
+    // Monat -> Index in der Zeitreihe; unbekannte oder zu frühe Monate (vor dem ersten 12-Monats-Fenster) zählen nicht
+    const gefundenerIndex = zeitMonat && verlauf ? verlauf.monate.indexOf(zeitMonat) : -1;
+    const zeitIndex = zeit && gefundenerIndex >= zeit.erster ? gefundenerIndex : null;
     const zeitAktiv = zeitMoeglich && zeitIndex !== null;
 
     useEffect(() => {
@@ -213,7 +220,7 @@ export default function ViennaMap({
                     erster={zeit!.erster}
                     letzter={zeit!.letzter}
                     index={zeitIndex}
-                    onChange={setZeitIndex}
+                    onChange={(i) => onZeitMonatChange(i === null ? null : verlauf!.monate[i])}
                 />
             )}
 
