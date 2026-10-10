@@ -58,6 +58,7 @@ export function useStandort(punkt: LonLat | null, radiusM: number): StandortErge
       spielplatz: standorte.spielplatz,
       schule: standorte.schule,
       kindergarten: standorte.kindergarten,
+      nahversorgung: standorte.nahversorgung,
       hausarzt: standorte.hausarzt,
       apotheke: standorte.apotheke,
       markt: standorte.markt,

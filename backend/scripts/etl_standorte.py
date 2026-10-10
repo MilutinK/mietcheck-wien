@@ -24,6 +24,8 @@ import re
 import urllib.request
 from datetime import date
 
+from etl_nahversorgung import lade_nahversorgung
+
 BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "..")
 RAW_DIR = os.path.join(BASE_DIR, "data", "raw")
 OUT_FILE = os.path.join(BASE_DIR, "frontend", "public", "data", "standorte.json")
@@ -89,6 +91,7 @@ def main():
         "spielplatz": [],
         "schule": [],
         "kindergarten": [],
+        "nahversorgung": [],
         "hausarzt": [],
         "apotheke": [],
         "markt": [],
@@ -122,13 +125,19 @@ def main():
         p = f["properties"]
         faktoren["apotheke"].append(eintrag(f, p.get("BEZEICHNUNG"), p.get("ADRESSE")))
 
+    # Supermärkte und Lebensmittelgeschäfte aus OpenStreetMap (ODbL)
+    arten = {"supermarket": "Supermarkt", "convenience": "Nahversorger", "greengrocer": "Obst und Gemüse"}
+    for p in lade_nahversorgung():
+        name = p["name"] or arten.get(p["shop"], "Geschäft")
+        faktoren["nahversorgung"].append([p["lon"], p["lat"], text(name), arten.get(p["shop"], ""), 1])
+
     for f in lade("maerkte"):
         p = f["properties"]
         faktoren["markt"].append(eintrag(f, p.get("NAME"), p.get("MARKTKATEGORIE")))
 
     out = {
         "meta": {
-            "quelle": "Stadt Wien - data.wien.gv.at, Standorte (Parks, Spielplätze, Schulen, Kindergärten, Ärzte, Apotheken, Märkte)",
+            "quelle": "Stadt Wien - data.wien.gv.at, Standorte (Parks, Spielplätze, Schulen, Kindergärten, Ärzte, Apotheken, Märkte); Geschäfte: (c) OpenStreetMap contributors, ODbL",
             "stand": date.today().isoformat(),
             "spalten": ["lon", "lat", "name", "detail", "gewicht"],
             "anzahl": {k: len(v) for k, v in faktoren.items()},
