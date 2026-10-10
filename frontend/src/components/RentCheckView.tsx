@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { District } from "../types/district";
 import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
 import AffordabilityView from "./AffordabilityView";
+import Slider from "./Slider";
 
 interface Props {
   districts: District[];
@@ -199,15 +200,7 @@ export default function RentCheckView({ districts }: Props) {
             Wohnfläche
           </label>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <input
-              type="range"
-              min={20}
-              max={150}
-              step={5}
-              value={flaeche}
-              onChange={(e) => setFlaeche(Number(e.target.value))}
-              style={{ flex: 1 }}
-            />
+            <Slider min={20} max={150} step={5} value={flaeche} onChange={setFlaeche} ariaLabel="Wohnfläche" />
             <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
               <input
                 type="number"
