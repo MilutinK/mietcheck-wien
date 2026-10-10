@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { District } from "../types/district";
+import Dropdown from "./Dropdown";
 import {
   MIETE_DURCHSCHNITT_WIEN,
   gemeindebauGrenze,
@@ -165,21 +166,16 @@ export default function AffordabilityView({ districts }: Props) {
         </div>
 
         <div>
-          <label style={labelStyle} htmlFor="aff-personen">
+          <label style={labelStyle} id="aff-personen-label">
             Personen im Haushalt
           </label>
-          <select
-            id="aff-personen"
+          <Dropdown
+            variant="feld"
+            ariaLabelledBy="aff-personen-label"
             value={personen}
-            onChange={(e) => setPersonen(Number(e.target.value))}
-            style={{ ...fieldStyle, width: "100%", fontSize: "0.85rem", fontWeight: 400 }}
-          >
-            {[1, 2, 3, 4, 5, 6].map((n) => (
-              <option key={n} value={n}>
-                {n} {n === 1 ? "Person" : "Personen"}
-              </option>
-            ))}
-          </select>
+            onChange={setPersonen}
+            options={[1, 2, 3, 4, 5, 6].map((n) => ({ value: n, label: `${n} ${n === 1 ? "Person" : "Personen"}` }))}
+          />
         </div>
 
         <div>

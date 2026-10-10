@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { District } from "../types/district";
 import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
 import AffordabilityView from "./AffordabilityView";
+import Dropdown from "./Dropdown";
 
 interface Props {
   districts: District[];
@@ -130,28 +131,16 @@ export default function RentCheckView({ districts }: Props) {
       }}>
         {/* Bezirk */}
         <div>
-          <label style={{ fontSize: "0.7rem", color: "var(--text-secondary)", display: "block", marginBottom: 4 }}>
+          <label id="rc-bezirk-label" style={{ fontSize: "0.7rem", color: "var(--text-secondary)", display: "block", marginBottom: 4 }}>
             Bezirk
           </label>
-          <select
+          <Dropdown
+            variant="feld"
+            ariaLabelledBy="rc-bezirk-label"
             value={bezirkId}
-            onChange={(e) => setBezirkId(Number(e.target.value))}
-            style={{
-              width: "100%",
-              padding: "8px 10px",
-              borderRadius: 6,
-              border: "1px solid var(--border-color)",
-              fontSize: "0.85rem",
-              background: "var(--panel-bg)",
-              color: "inherit",
-            }}
-          >
-            {districts.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.id}. {d.name}
-              </option>
-            ))}
-          </select>
+            onChange={setBezirkId}
+            options={districts.map((d) => ({ value: d.id, label: `${d.id}. ${d.name}` }))}
+          />
         </div>
 
         {/* Bautyp Toggle */}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { District, MetricKey } from "../types/district";
 import { METRIC_LABELS, getMetricValue, formatMetricValue } from "../types/district";
+import Dropdown from "./Dropdown";
 
 interface Props {
   districts: District[];
@@ -82,21 +83,14 @@ export default function RankingView({ districts, onSelect }: Props) {
                     {c.label}
                   </button>
                 ))}
-                <select
-                  className={`rk-chip rk-select${!isRent ? " rk-chip-on" : ""}`}
-                  aria-label="Weitere Kennzahl"
-                  value={isRent ? "" : metric}
-                  onChange={(e) => e.target.value && setMetric(e.target.value as MetricKey)}
-                >
-                  <option value="" disabled>
-                    Mehr …
-                  </option>
-                  {OTHER_METRICS.map((k) => (
-                    <option key={k} value={k}>
-                      {METRIC_LABELS[k]}
-                    </option>
-                  ))}
-                </select>
+                <Dropdown
+                  triggerClassName={`rk-chip rk-select${!isRent ? " rk-chip-on" : ""}`}
+                  ariaLabel="Weitere Kennzahl"
+                  placeholder="Mehr …"
+                  value={isRent ? null : metric}
+                  onChange={setMetric}
+                  options={OTHER_METRICS.map((k) => ({ value: k, label: METRIC_LABELS[k] }))}
+                />
               </div>
               <button className="rk-sort" onClick={() => setDesc(!desc)}>
                 {desc ? "▼ höchste zuerst" : "▲ niedrigste zuerst"}
