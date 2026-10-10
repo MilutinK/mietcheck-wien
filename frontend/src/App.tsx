@@ -8,6 +8,10 @@ import { loadDistricts } from "./services/api";
 import RentCheckView from "./components/RentCheckView";
 import RankingView from "./components/RankingView";
 import ThemeToggle from "./components/ThemeToggle";
+import StandortCheckView from "./components/StandortCheckView";
+import { useStandort } from "./hooks/useStandort";
+import type { LonLat } from "./utils/geo";
+import type { Radius } from "./utils/standort";
 import { useTheme } from "./hooks/useTheme";
 
 import "leaflet/dist/leaflet.css";
@@ -22,9 +26,13 @@ function App() {
   const [showCompare, setShowCompare] = useState(false);
   const [showRentCheck, setShowRentCheck] = useState(false);
   const [showRanking, setShowRanking] = useState(false);
+  const [showStandort, setShowStandort] = useState(false);
+  const [standortPunkt, setStandortPunkt] = useState<LonLat | null>(null);
+  const [standortRadius, setStandortRadius] = useState<Radius>(500);
 
   const [copied, setCopied] = useState(false);
   const { preference, resolved, choose } = useTheme();
+  const standort = useStandort(showStandort ? standortPunkt : null, standortRadius);
   // Wird beim ersten Render gelesen, bevor die URL-Synchronisierung sie überschreibt
   const sharedId = useRef(Number(new URLSearchParams(window.location.search).get("bezirk")));
 
@@ -75,6 +83,7 @@ function App() {
     setShowCompare(true);
     setShowRentCheck(false);
     setShowRanking(false);
+    setShowStandort(false);
     setSelected(null);
     setCompareA(null);
     setCompareB(null);
@@ -90,6 +99,7 @@ function App() {
     setShowRentCheck(true);
     setShowCompare(false);
     setShowRanking(false);
+    setShowStandort(false);
     setSelected(null);
     setCompareA(null);
     setCompareB(null);
@@ -103,6 +113,7 @@ function App() {
     setShowRanking(true);
     setShowCompare(false);
     setShowRentCheck(false);
+    setShowStandort(false);
     setSelected(null);
     setCompareA(null);
     setCompareB(null);
@@ -110,6 +121,27 @@ function App() {
 
   const handleExitRanking = () => {
     setShowRanking(false);
+  };
+
+  const handleStartStandort = () => {
+    setShowStandort(true);
+    setShowCompare(false);
+    setShowRentCheck(false);
+    setShowRanking(false);
+    setSelected(null);
+    setCompareA(null);
+    setCompareB(null);
+  };
+
+  const handleExitStandort = () => {
+    setShowStandort(false);
+    setStandortPunkt(null);
+  };
+
+  const handleStandortOpenDistrict = (district: District) => {
+    setShowStandort(false);
+    setStandortPunkt(null);
+    setSelected(district);
   };
 
   const handleRankingSelect = (district: District) => {
@@ -154,6 +186,9 @@ function App() {
             compareB={compareB}
             onDistrictClick={handleDistrictClick}
             dark={resolved === "dark"}
+            standortAktiv={showStandort}
+            standort={standort}
+            onStandortClick={(lat, lon) => setStandortPunkt({ lat, lon })}
           />
         </div>
         )}
@@ -163,6 +198,10 @@ function App() {
               {showCompare ? (
                 <button className="btn btn-secondary" onClick={handleExitCompare} style={{ flex: 1, padding: "12px" }}>
                   ✕ Vergleich beenden
+                </button>
+              ) : showStandort ? (
+                <button className="btn btn-secondary" onClick={handleExitStandort} style={{ flex: 1, padding: "12px" }}>
+                  ✕ Standort-Check schließen
                 </button>
               ) : showRanking ? (
                 <button className="btn btn-secondary" onClick={handleExitRanking} style={{ flex: 1, padding: "12px" }}>
@@ -183,11 +222,22 @@ function App() {
                   <button className="btn btn-primary" onClick={handleStartRanking} style={{ flex: 1, padding: "12px" }}>
                     Ranking
                   </button>
+                  <button className="btn btn-primary" onClick={handleStartStandort} style={{ flex: 1, padding: "12px" }}>
+                    Standort-Check
+                  </button>
                 </>
               )}
           </div>
 
-          {showRanking ? (
+          {showStandort ? (
+            <StandortCheckView
+              districts={districts}
+              ergebnis={standort}
+              radius={standortRadius}
+              onRadiusChange={setStandortRadius}
+              onOpenDistrict={handleStandortOpenDistrict}
+            />
+          ) : showRanking ? (
             <div className="panel-empty">
               <p>Wähle eine Kennzahl und klicke einen Bezirk für die Details</p>
             </div>

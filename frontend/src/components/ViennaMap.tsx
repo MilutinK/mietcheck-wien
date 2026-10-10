@@ -7,6 +7,8 @@ import { getMetricValue, formatMetricValue, METRIC_LABELS } from "../types/distr
 import { getColorForValue, getMinMax, getLegendSteps } from "../utils/colors";
 import MapLibreLayer from "./MapLibreLayer";
 import { useGemeindebau } from "../hooks/useGemeindebau";
+import StandortLayer from "./StandortLayer";
+import type { StandortErgebnis } from "../hooks/useStandort";
 
 interface Props {
     districts: District[];
@@ -16,6 +18,10 @@ interface Props {
     compareB: District | null;
     onDistrictClick: (district: District) => void;
     dark: boolean;
+    /** Standort-Check: Klick auf die Karte setzt einen Punkt statt einen Bezirk zu wählen */
+    standortAktiv: boolean;
+    standort: StandortErgebnis | null;
+    onStandortClick: (lat: number, lon: number) => void;
 }
 
 // Wien mit etwas Rand – begrenzt Weit-Rauszoomen und Verschieben
@@ -32,6 +38,9 @@ export default function ViennaMap({
     compareB,
     onDistrictClick,
     dark,
+    standortAktiv,
+    standort,
+    onStandortClick,
 }: Props) {
     const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
     const geoJsonRef = useRef<LeafletGeoJSON | null>(null);
@@ -45,7 +54,7 @@ export default function ViennaMap({
     }, []);
 
     // GeoJSON neu rendern wenn sich Metric, Selection oder Daten ändern
-    const geoKey = [metric, selected?.id, compareA?.id, compareB?.id, districts.length].join("-");
+    const geoKey = [metric, selected?.id, compareA?.id, compareB?.id, districts.length, standortAktiv].join("-");
 
     if (!geoData || districts.length === 0) {
         return <div className="map-loading">Lade Karte...</div>;
@@ -95,7 +104,8 @@ export default function ViennaMap({
         );
 
         layer.on({
-            click: () => onDistrictClick(district),
+            click: (e: LeafletMouseEvent) =>
+                standortAktiv ? onStandortClick(e.latlng.lat, e.latlng.lng) : onDistrictClick(district),
             mouseover: (e: LeafletMouseEvent) => {
                 const target = e.target;
                 target.setStyle({ fillOpacity: 0.9, weight: 3 });
@@ -146,6 +156,10 @@ export default function ViennaMap({
                                 }}
                                 eventHandlers={{
                                     click: () => {
+                                        if (standortAktiv) {
+                                            onStandortClick(a.lat, a.lon);
+                                            return;
+                                        }
                                         const d = districts.find((x) => x.id === a.bezirk);
                                         if (d) onDistrictClick(d);
                                     },
@@ -161,6 +175,7 @@ export default function ViennaMap({
                         ))}
                     </Pane>
                 )}
+                {standortAktiv && standort && <StandortLayer ergebnis={standort} dark={dark} />}
             </MapContainer>
 
             {gemeindebau && (

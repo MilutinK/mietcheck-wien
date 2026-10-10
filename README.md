@@ -17,6 +17,7 @@ mietcheck wien visualisiert Wohn- und Mietdaten aller 23 Wiener Bezirke auf eine
 - **Interaktive Choropleth-Karte** – Bezirke einfärben nach Mietpreis (Gesamt/Altbau/Neubau), Einwohnerdichte, Öffi-Score, Altbau-Anteil u.v.m. Mietpreise laufen von Türkis (günstig) bis Tomatenrot (teuer); die Basiskarte (OpenFreeMap Positron) zeigt beim Zoomen Straßen und Beschriftungen
 - **Bezirksdetails** – Klick auf einen Bezirk zeigt Mietpreis, Bevölkerung, Wohnungsstruktur, Öffi-Anbindung
 - **Gemeindebau-Ebene** – Alle ca. 1.780 Gemeindebau-Anlagen als zuschaltbare Punkte auf der Karte (Größe = Wohnungszahl), im Bezirkspanel Anlagen und Wohnungen pro Bezirk
+- **Standort-Check** – Punkt auf der Karte wählen und sehen, wie viele Haltestellen und Gemeindebauten im Umkreis (300/500/800 m) liegen, eingeordnet gegenüber allen Wiener Lagen
 - **Bezirk teilen** – `?bezirk=7` in der URL öffnet direkt den Bezirk; der Button „Bezirk teilen“ kopiert den Link
 - **Ranking** – Alle 23 Bezirke als Balkenliste, nach Mietpreis oder jeder anderen Kennzahl sortierbar
 - **Mietrechner** – „Miete prüfen“ (ist meine Miete zu hoch?) und „Leistbarkeit“ (30-%-Budget, Gemeindewohnung-Einkommensgrenzen 2026, passende Bezirke)
@@ -53,7 +54,7 @@ Alle Daten stammen aus öffentlichen, frei zugänglichen Quellen:
 | [Gebäudeinformation Wien](https://www.data.gv.at/katalog/de/dataset/gebaeudeinformation-wien) | 58.000+ Gebäude mit Baujahr und Standort | CC BY 4.0 |
 | [Wiener Linien Haltestellen](https://www.data.gv.at/katalog/dataset/stadt-wien_wiaboreitungwienerlinieneaboreitungdatendrehscheibe) | 1.800+ Haltestellen mit Koordinaten | CC BY 4.0 |
 | [immopreise.at / derStandard.at](https://www.immopreise.at/Wien/Wohnung/Miete) | Bruttomieten pro Bezirk – Gesamt, Altbau, Neubau mit Größenkategorien (September 2026) | Presseaussendung |
-| [Gemeindebau Standorte Wien](https://www.data.gv.at/katalog/dataset/stadt-wien_gemeindebaustandortewien) | Standorte, Wohnungszahl und Baujahr der Gemeindebau-Anlagen (aufbereitet mit ackend/scripts/etl_gemeindebau.py) | siehe Datensatzseite |
+| [Gemeindebau Standorte Wien](https://www.data.gv.at/katalog/dataset/stadt-wien_gemeindebaustandortewien) | Standorte, Wohnungszahl und Baujahr der Gemeindebau-Anlagen (aufbereitet mit `backend/scripts/etl_gemeindebau.py`; die Haltestellen für den Standort-Check mit `etl_haltestellen.py`) | siehe Datensatzseite |
 | [MA 23 – Bezirke in Zahlen 2024](https://www.wien.gv.at/statistik/bezirksdaten) | Bevölkerung nach Wohnsitztyp pro Bezirk (Gemeindebau, Genossenschaft, freie Miete, Eigentum) | CC BY 4.0 |
 
 Datenquelle: Stadt Wien – data.wien.gv.at
