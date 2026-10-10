@@ -781,3 +781,47 @@ body {
   align-items: center;
   gap: 12px;
 }
+
+/* ── Ebenen-Schalter auf der Karte ───────────────────────── */
+.map-layer-toggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1.5px solid var(--text);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: 600 0.8rem var(--font);
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+}
+
+.map-layer-toggle[aria-pressed="true"] {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.map-layer-toggle:focus-visible {
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
+}
+
+.map-layer-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text);
+  box-shadow: 0 0 0 1.5px var(--surface);
+  flex-shrink: 0;
+}
+
+.map-layer-toggle[aria-pressed="true"] .map-layer-dot {
+  background: var(--bg);
+  box-shadow: none;
+}

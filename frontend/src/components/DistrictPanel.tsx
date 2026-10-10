@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import type { District } from "../types/district";
 import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
 import MiniChart from "./MiniChart";
+import { useGemeindebau } from "../hooks/useGemeindebau";
 
 interface Props {
   district: District;
@@ -16,6 +17,7 @@ export default function DistrictPanel({ district }: Props) {
   const mp = district.mietpreise;
 
   const wst = district.wohnsitztyp;
+  const gb = useGemeindebau()?.bezirke[String(district.id)];
   const bp = district.bauperioden;
 
   // Altbau-Anteil berechnen (vor 1961 als Proxy für MRG vor 1.7.1953)
@@ -265,6 +267,14 @@ export default function DistrictPanel({ district }: Props) {
               <span>Gemeindebau / öffentl. Wohnbau</span>
               <span>{wst.gemeindebau}%</span>
             </div>
+            {gb && (
+              <div className="detail-row">
+                <span>Gemeindebau-Anlagen</span>
+                <span>
+                  {gb.anlagen.toLocaleString("de-AT")} · {gb.wohnungen.toLocaleString("de-AT")} Wohnungen
+                </span>
+              </div>
+            )}
             <div className="detail-row">
               <span>Genossenschaft (gemeinnützig)</span>
               <span>{wst.genossenschaft}%</span>

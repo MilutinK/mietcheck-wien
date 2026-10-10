@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from "react";
-import { MapContainer, GeoJSON } from "react-leaflet";
+import { MapContainer, GeoJSON, Pane, CircleMarker, Tooltip } from "react-leaflet";
 import type { GeoJSON as LeafletGeoJSON, Layer, LeafletMouseEvent } from "leaflet";
 import type { Feature, FeatureCollection } from "geojson";
 import type { District, MetricKey } from "../types/district";
 import { getMetricValue, formatMetricValue, METRIC_LABELS } from "../types/district";
 import { getColorForValue, getMinMax, getLegendSteps } from "../utils/colors";
 import MapLibreLayer from "./MapLibreLayer";
+import { useGemeindebau } from "../hooks/useGemeindebau";
 
 interface Props {
     districts: District[];
@@ -34,6 +35,8 @@ export default function ViennaMap({
 }: Props) {
     const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
     const geoJsonRef = useRef<LeafletGeoJSON | null>(null);
+    const [showGemeindebau, setShowGemeindebau] = useState(false);
+    const gemeindebau = useGemeindebau();
 
     useEffect(() => {
         fetch("/data/bezirksgrenzen.json")
@@ -127,7 +130,49 @@ export default function ViennaMap({
                     style={style}
                     onEachFeature={onEachFeature}
                 />
+                {/* Eigene Ebene über den Bezirksflächen, damit sie beim Neuzeichnen oben bleibt */}
+                {showGemeindebau && gemeindebau && (
+                    <Pane name="gemeindebau" style={{ zIndex: 450 }}>
+                        {gemeindebau.anlagen.map((a, i) => (
+                            <CircleMarker
+                                key={i}
+                                center={[a.lat, a.lon]}
+                                radius={a.wohnungen ? Math.min(9, 2.5 + Math.sqrt(a.wohnungen) / 10) : 2.5}
+                                pathOptions={{
+                                    color: dark ? "#1a1d22" : "#f3eee4",
+                                    weight: 1,
+                                    fillColor: dark ? "#ece9e2" : "#16181d",
+                                    fillOpacity: 0.8,
+                                }}
+                                eventHandlers={{
+                                    click: () => {
+                                        const d = districts.find((x) => x.id === a.bezirk);
+                                        if (d) onDistrictClick(d);
+                                    },
+                                }}
+                            >
+                                <Tooltip sticky className="district-tooltip">
+                                    <strong>{a.adresse || a.name}</strong>
+                                    <br />
+                                    {a.wohnungen ? `${a.wohnungen.toLocaleString("de-AT")} Wohnungen` : "Wohnungszahl unbekannt"}
+                                    {a.baujahr ? ` · Baujahr ${a.baujahr}` : ""}
+                                </Tooltip>
+                            </CircleMarker>
+                        ))}
+                    </Pane>
+                )}
             </MapContainer>
+
+            {gemeindebau && (
+                <button
+                    className="map-layer-toggle"
+                    aria-pressed={showGemeindebau}
+                    onClick={() => setShowGemeindebau((v) => !v)}
+                >
+                    <span className="map-layer-dot" aria-hidden="true" />
+                    Gemeindebauten
+                </button>
+            )}
 
             <div className="map-legend">
                 <div className="legend-title">{METRIC_LABELS[metric]}</div>
