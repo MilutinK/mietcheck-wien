@@ -207,6 +207,8 @@ body {
 .map-container {
   flex: 1;
   position: relative;
+  /* eigener Stapelkontext: die hohen z-index-Werte von Leaflet bleiben unter Header und Dropdown */
+  z-index: 0;
 }
 
 .leaflet-map {
@@ -360,22 +362,103 @@ body {
   white-space: nowrap;
 }
 
-.filter-select {
-  font-family: var(--font);
-  font-size: 0.8rem;
-  padding: 5px 10px;
+.metric-select {
+  position: relative;
+}
+
+.metric-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 0 12px 0 16px;
   border: 1.5px solid var(--text);
   border-radius: 999px;
   background: transparent;
   color: var(--text);
-  font-weight: 600;
+  font: 600 0.8rem var(--font);
   cursor: pointer;
-  outline: none;
+  text-align: left;
 }
 
-.filter-select:focus-visible {
+.metric-trigger:hover {
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+}
+
+.metric-trigger:focus-visible {
   outline: 2px solid var(--danger);
   outline-offset: 2px;
+}
+
+.metric-wert {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metric-chevron {
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.metric-trigger[aria-expanded="true"] .metric-chevron {
+  transform: rotate(180deg);
+}
+
+.metric-popup {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 2000;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(320px, 92vw);
+  max-height: min(70vh, 460px);
+  overflow-y: auto;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--surface);
+  color: var(--text);
+  border: 1.5px solid var(--text);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+}
+
+.metric-gruppe {
+  padding: 10px 12px 4px;
+  font: 800 0.65rem var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.metric-gruppe-liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.metric-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.metric-option.is-aktiv {
+  background: var(--sel-bg);
+}
+
+.metric-option.is-gewaehlt {
+  font-weight: 700;
 }
 
 /* ── District Panel ─────────────────────────────────── */
@@ -644,18 +727,34 @@ body {
     flex-basis: 100%;
   }
 
-  .filter-select {
+  .filter-bar .metric-select {
     flex: 1;
+    min-width: 0;
+    /* Liste soll sich an der Kopfzeile ausrichten (sticky = Bezugspunkt), nicht am Button */
+    position: static;
+  }
+
+  .metric-trigger {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .metric-popup {
+    top: calc(100% + 4px);
+    left: 12px;
+    right: 12px;
+    width: auto;
+    min-width: 0;
     max-width: none;
+  }
+
+  .metric-option {
+    min-height: 44px;
   }
 
   .header-left h1 {
     font-size: 1.25rem;
     white-space: nowrap;
-  }
-
-  .filter-select {
-    text-overflow: ellipsis;
   }
 
   /* Ranking: Schließen-Button oben statt unter der langen Liste */
