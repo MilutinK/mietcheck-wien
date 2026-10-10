@@ -4,6 +4,7 @@ import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
 import AffordabilityView from "./AffordabilityView";
 import Slider from "./Slider";
 import Dropdown from "./Dropdown";
+import NumberField from "./NumberField";
 
 interface Props {
   districts: District[];
@@ -190,27 +191,7 @@ export default function RentCheckView({ districts }: Props) {
           </label>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Slider min={20} max={150} step={5} value={flaeche} onChange={setFlaeche} ariaLabel="Wohnfläche" />
-            <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
-              <input
-                type="number"
-                min={10}
-                max={300}
-                value={flaeche}
-                onChange={(e) => setFlaeche(Number(e.target.value) || 65)}
-                style={{
-                  width: 48,
-                  textAlign: "right",
-                  fontSize: "0.85rem",
-                  fontWeight: 500,
-                  border: "1px solid var(--border-color)",
-                  borderRadius: 4,
-                  padding: "2px 4px",
-                  background: "transparent",
-                  color: "inherit",
-                }}
-              />
-              <span style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>m²</span>
-            </div>
+            <NumberField size="klein" min={10} max={300} value={flaeche} onChange={(v) => setFlaeche(v === "" ? 65 : v)} unit="m²" ariaLabel="Wohnfläche in Quadratmetern" />
           </div>
         </div>
 
@@ -219,28 +200,7 @@ export default function RentCheckView({ districts }: Props) {
           <label style={{ fontSize: "0.7rem", color: "var(--text-secondary)", display: "block", marginBottom: 4 }}>
             Deine aktuelle Bruttomiete (inkl. BK)
           </label>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <input
-              type="number"
-              min={0}
-              max={10000}
-              step={10}
-              placeholder="z.B. 850"
-              value={miete}
-              onChange={(e) => setMiete(e.target.value === "" ? "" : Number(e.target.value))}
-              style={{
-                flex: 1,
-                padding: "8px 10px",
-                borderRadius: 6,
-                border: "1px solid var(--border-color)",
-                fontSize: "0.95rem",
-                fontWeight: 500,
-                background: "var(--panel-bg)",
-                color: "inherit",
-              }}
-            />
-            <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>€/Monat</span>
-          </div>
+          <NumberField min={0} max={10000} step={10} placeholder="z.B. 850" value={miete} onChange={setMiete} unit="€/Monat" ariaLabel="Aktuelle Bruttomiete pro Monat in Euro" />
         </div>
       </div>
 

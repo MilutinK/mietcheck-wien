@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { District } from "../types/district";
 import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
 import Slider from "./Slider";
+import NumberField from "./NumberField";
 
 interface Props {
   districtA: District | null;
@@ -151,27 +152,7 @@ export default function CompareView({ districtA, districtB }: Props) {
           Wohnfläche
         </label>
         <Slider min={20} max={150} step={5} value={flaeche} onChange={setFlaeche} ariaLabel="Wohnfläche" />
-        <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
-          <input
-            type="number"
-            min={10}
-            max={300}
-            value={flaeche}
-            onChange={(e) => setFlaeche(Number(e.target.value) || 70)}
-            style={{
-              width: 48,
-              textAlign: "right",
-              fontSize: "0.85rem",
-              fontWeight: 500,
-              border: "1px solid var(--border-color)",
-              borderRadius: 4,
-              padding: "2px 4px",
-              background: "transparent",
-              color: "inherit",
-            }}
-          />
-          <span style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>m²</span>
-        </div>
+        <NumberField size="klein" min={10} max={300} value={flaeche} onChange={(v) => setFlaeche(v === "" ? 70 : v)} unit="m²" ariaLabel="Wohnfläche in Quadratmetern" />
       </div>
 
       {/* ── Mietkosten Cards ── */}

@@ -1071,3 +1071,82 @@ body {
 .slider:active::-moz-range-thumb {
   transform: scale(1.12);
 }
+
+/* ── Zahlenfeld ──────────────────────────────────────────── */
+.zahlfeld {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--panel-bg);
+  color: var(--text);
+  cursor: text;
+}
+
+.zahlfeld:hover {
+  border-color: var(--text-secondary);
+}
+
+.zahlfeld:focus-within {
+  border-color: var(--text);
+  box-shadow: 0 0 0 1px var(--text);
+}
+
+.zahlfeld input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: 600 0.95rem var(--font);
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.zahlfeld input::-webkit-outer-spin-button,
+.zahlfeld input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.zahlfeld input::placeholder {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.zahlfeld-einheit {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* schmal neben dem Regler, Zahl rechtsbündig direkt vor der Einheit */
+.zahlfeld--klein {
+  flex: 0 0 auto;
+  width: 88px;
+  min-height: 36px;
+  padding: 0 10px;
+  gap: 4px;
+}
+
+.zahlfeld--klein input {
+  text-align: right;
+  font-size: 0.85rem;
+}
+
+.zahlfeld--normal {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .zahlfeld {
+    min-height: 44px;
+  }
+}

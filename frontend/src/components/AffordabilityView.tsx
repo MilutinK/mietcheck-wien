@@ -6,6 +6,7 @@ import {
   gemeindebauGrenze,
 } from "../types/district";
 import Slider from "./Slider";
+import NumberField from "./NumberField";
 
 interface Props {
   districts: District[];
@@ -22,16 +23,6 @@ const labelStyle = {
   color: "var(--text-secondary)",
   display: "block",
   marginBottom: 4,
-} as const;
-
-const fieldStyle = {
-  padding: "8px 10px",
-  borderRadius: 6,
-  border: "1px solid var(--border-color)",
-  fontSize: "0.95rem",
-  fontWeight: 500,
-  background: "var(--panel-bg)",
-  color: "inherit",
 } as const;
 
 export default function AffordabilityView({ districts }: Props) {
@@ -130,20 +121,7 @@ export default function AffordabilityView({ districts }: Props) {
           <label style={labelStyle} htmlFor="aff-einkommen">
             Netto-Haushaltseinkommen pro Monat
           </label>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <input
-              id="aff-einkommen"
-              type="number"
-              min={0}
-              max={50000}
-              step={50}
-              placeholder="z.B. 2800"
-              value={einkommen}
-              onChange={(e) => setEinkommen(e.target.value === "" ? "" : Number(e.target.value))}
-              style={{ ...fieldStyle, flex: 1, minWidth: 0 }}
-            />
-            <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>€</span>
-          </div>
+          <NumberField id="aff-einkommen" min={0} max={50000} step={50} placeholder="z.B. 2800" value={einkommen} onChange={setEinkommen} unit="€" />
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginTop: 6 }}>
             {([14, 12] as const).map((n) => (
               <button
