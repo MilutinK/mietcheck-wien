@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { District } from "../types/district";
+import type { KaufEingaben } from "../utils/kaufenUrl";
 import { RICHTWERT_WIEN, MIETE_DURCHSCHNITT_WIEN } from "../types/district";
 import AffordabilityView from "./AffordabilityView";
 import KaufenView from "./KaufenView";
@@ -7,13 +8,20 @@ import Slider from "./Slider";
 import Dropdown from "./Dropdown";
 import NumberField from "./NumberField";
 
+export type RechnerModus = "pruefen" | "leistbarkeit" | "kaufen";
+
 interface Props {
   districts: District[];
   onExit: () => void;
+  modus: RechnerModus;
+  onModusChange: (modus: RechnerModus) => void;
+  kaufEingaben: KaufEingaben;
+  onKaufEingabenChange: (eingaben: KaufEingaben) => void;
+  onKaufShare: () => void;
+  kaufKopiert: boolean;
 }
 
-export default function RentCheckView({ districts }: Props) {
-  const [modus, setModus] = useState<"pruefen" | "leistbarkeit" | "kaufen">("pruefen");
+export default function RentCheckView({ districts, modus, onModusChange, kaufEingaben, onKaufEingabenChange, onKaufShare, kaufKopiert }: Props) {
   const [bezirkId, setBezirkId] = useState<number>(10);
   const [bautyp, setBautyp] = useState<"altbau" | "neubau">("altbau");
   const [flaeche, setFlaeche] = useState(65);
@@ -100,7 +108,7 @@ export default function RentCheckView({ districts }: Props) {
         ] as const).map((m) => (
           <button
             key={m.key}
-            onClick={() => setModus(m.key)}
+            onClick={() => onModusChange(m.key)}
             style={{
               padding: "8px",
               borderRadius: 6,
@@ -118,7 +126,7 @@ export default function RentCheckView({ districts }: Props) {
       </div>
 
       {modus === "kaufen" ? (
-        <KaufenView districts={districts} />
+        <KaufenView districts={districts} eingaben={kaufEingaben} onChange={onKaufEingabenChange} onShare={onKaufShare} kopiert={kaufKopiert} />
       ) : modus === "leistbarkeit" ? (
         <AffordabilityView districts={districts} />
       ) : (

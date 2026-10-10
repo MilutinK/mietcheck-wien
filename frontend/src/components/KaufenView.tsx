@@ -1,18 +1,23 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import type { District } from "../types/district";
 import { useKaufpreise } from "../hooks/useKaufpreise";
 import { useMietverlauf } from "../hooks/useMietverlauf";
 import { mietsteigerungProJahr, preisFuerFlaeche, vergleiche, type JahresStand } from "../utils/kaufen";
 import { monatsname } from "../utils/verlauf";
+import { KAUF_ZAHLEN, type KaufEingaben, type Zahl } from "../utils/kaufenUrl";
 import Dropdown from "./Dropdown";
 import NumberField from "./NumberField";
 import Slider from "./Slider";
 
 interface Props {
   districts: District[];
+  /** Alle Eingaben; liegen in App, damit sie in den Link kommen und beim Moduswechsel erhalten bleiben */
+  eingaben: KaufEingaben;
+  onChange: (eingaben: KaufEingaben) => void;
+  /** Kopiert den Link zu dieser Rechnung */
+  onShare: () => void;
+  kopiert: boolean;
 }
-
-type Zahl = number | "";
 
 const euro = (v: number) => `${Math.round(v).toLocaleString("de-AT")} €`;
 const euroKurz = (v: number) => (Math.abs(v) >= 1000 ? `${Math.round(v / 1000).toLocaleString("de-AT")} T€` : `${Math.round(v)} €`);
@@ -26,18 +31,8 @@ const karte = {
   marginBottom: 12,
 } as const;
 
-// Annahmen, die du im Bereich "Annahmen" ändern kannst
-const STANDARD = {
-  zins: 3.5,
-  laufzeit: 30,
-  horizont: 20,
-  nebenkosten: 10,
-  wertsteigerung: 2.5,
-  anlage: 3,
-  instandhaltung: 1,
-  verkaufskosten: 2,
-  mietsteigerung: 3,
-};
+// Standardwerte der Annahmen (siehe "Annahmen ändern")
+const STANDARD = KAUF_ZAHLEN;
 
 function Feld({ label, children, id }: { label: string; children: React.ReactNode; id: string }) {
   return (
@@ -96,24 +91,29 @@ function VermoegenChart({ jahre, breakEven }: { jahre: JahresStand[]; breakEven:
   );
 }
 
-export default function KaufenView({ districts }: Props) {
+export default function KaufenView({ districts, eingaben, onChange, onShare, kopiert }: Props) {
   const kaufpreise = useKaufpreise();
   const verlauf = useMietverlauf();
 
-  const [bezirkId, setBezirkId] = useState(10);
-  const [flaeche, setFlaeche] = useState<number>(60);
-  const [kaufpreisEingabe, setKaufpreisEingabe] = useState<Zahl>("");
-  const [mieteEingabe, setMieteEingabe] = useState<Zahl>("");
-  const [eigenkapital, setEigenkapital] = useState<Zahl>(60_000);
-  const [zins, setZins] = useState<Zahl>(STANDARD.zins);
-  const [laufzeit, setLaufzeit] = useState<Zahl>(STANDARD.laufzeit);
-  const [horizont, setHorizont] = useState<number>(STANDARD.horizont);
-  const [nebenkosten, setNebenkosten] = useState<Zahl>(STANDARD.nebenkosten);
-  const [wertsteigerung, setWertsteigerung] = useState<Zahl>(STANDARD.wertsteigerung);
-  const [anlage, setAnlage] = useState<Zahl>(STANDARD.anlage);
-  const [instandhaltung, setInstandhaltung] = useState<Zahl>(STANDARD.instandhaltung);
-  const [verkaufskosten, setVerkaufskosten] = useState<Zahl>(STANDARD.verkaufskosten);
-  const [mietsteigerungEingabe, setMietsteigerungEingabe] = useState<Zahl>("");
+  const { bezirkId, flaeche, eigenkapital, zins, laufzeit, horizont, nebenkosten, wertsteigerung, anlage, instandhaltung, verkaufskosten } = eingaben;
+  const kaufpreisEingabe = eingaben.kaufpreis;
+  const mieteEingabe = eingaben.miete;
+  const mietsteigerungEingabe = eingaben.mietsteigerung;
+  const setze = (teil: Partial<KaufEingaben>) => onChange({ ...eingaben, ...teil });
+  const setBezirkId = (v: number) => setze({ bezirkId: v });
+  const setFlaeche = (v: number) => setze({ flaeche: v });
+  const setKaufpreisEingabe = (v: Zahl) => setze({ kaufpreis: v });
+  const setMieteEingabe = (v: Zahl) => setze({ miete: v });
+  const setEigenkapital = (v: Zahl) => setze({ eigenkapital: v });
+  const setZins = (v: Zahl) => setze({ zins: v });
+  const setLaufzeit = (v: Zahl) => setze({ laufzeit: v });
+  const setHorizont = (v: number) => setze({ horizont: v });
+  const setNebenkosten = (v: Zahl) => setze({ nebenkosten: v });
+  const setWertsteigerung = (v: Zahl) => setze({ wertsteigerung: v });
+  const setAnlage = (v: Zahl) => setze({ anlage: v });
+  const setInstandhaltung = (v: Zahl) => setze({ instandhaltung: v });
+  const setVerkaufskosten = (v: Zahl) => setze({ verkaufskosten: v });
+  const setMietsteigerungEingabe = (v: Zahl) => setze({ mietsteigerung: v });
 
   const district = districts.find((d) => d.id === bezirkId);
 
@@ -280,6 +280,10 @@ export default function KaufenView({ districts }: Props) {
 
       {ergebnis && kaufpreis !== null && miete !== null && (
         <>
+          <button className="btn btn-secondary" style={{ marginBottom: 12 }} onClick={onShare}>
+            {kopiert ? "Link kopiert ✓" : "Rechnung teilen"}
+          </button>
+
           {/* Ergebnis */}
           <div
             style={{

@@ -5,7 +5,7 @@ import FilterBar from "./components/FilterBar";
 import CompareView from "./components/CompareView";
 import type { District, MetricKey } from "./types/district";
 import { loadDistricts } from "./services/api";
-import RentCheckView from "./components/RentCheckView";
+import RentCheckView, { type RechnerModus } from "./components/RentCheckView";
 import RankingView from "./components/RankingView";
 import ThemeToggle from "./components/ThemeToggle";
 import StandortCheckView from "./components/StandortCheckView";
@@ -14,6 +14,7 @@ import type { LonLat } from "./utils/geo";
 import type { Radius } from "./utils/standort";
 import { leseStandortParams, schreibeStandortParams } from "./utils/standortUrl";
 import { leseMonatParam, schreibeMonatParam } from "./utils/monatUrl";
+import { KAUF_STANDARD, leseKaufParams, schreibeKaufParams, type KaufEingaben } from "./utils/kaufenUrl";
 import { STANDARD_AUF_KARTE } from "./utils/faktoren";
 import type { FaktorId } from "./types/standorte";
 import { useTheme } from "./hooks/useTheme";
@@ -28,7 +29,13 @@ function App() {
   const [compareB, setCompareB] = useState<District | null>(null);
   const [metric, setMetric] = useState<MetricKey>("bruttomiete_m2");
   const [showCompare, setShowCompare] = useState(false);
-  const [showRentCheck, setShowRentCheck] = useState(false);
+  // Geteilter Kauf-Rechner aus ?rechner=kaufen&... (wird einmal beim Start gelesen; ein geteilter Standort geht vor)
+  const [geteilteKaufRechnung] = useState(() =>
+    leseStandortParams(window.location.search) ? null : leseKaufParams(window.location.search)
+  );
+  const [showRentCheck, setShowRentCheck] = useState(geteilteKaufRechnung !== null);
+  const [rechnerModus, setRechnerModus] = useState<RechnerModus>(geteilteKaufRechnung ? "kaufen" : "pruefen");
+  const [kaufEingaben, setKaufEingaben] = useState<KaufEingaben>(geteilteKaufRechnung ?? KAUF_STANDARD);
   const [showRanking, setShowRanking] = useState(false);
   // Geteilter Standort aus ?standort=lat,lon&r=500&karte=... (wird einmal beim Start gelesen)
   const [geteilt] = useState(() => leseStandortParams(window.location.search));
@@ -67,11 +74,13 @@ function App() {
     schreibeStandortParams(url.searchParams, stand);
     if (!stand && selected) url.searchParams.set("bezirk", String(selected.id));
     else url.searchParams.delete("bezirk");
+    // Der Kauf-Rechner steckt komplett im Link, solange er offen ist
+    schreibeKaufParams(url.searchParams, showRentCheck && rechnerModus === "kaufen" ? kaufEingaben : null);
     // Die Zeitreise gibt es nur bei den drei Miet-Kennzahlen
     const hatZeitreise = metric === "bruttomiete_m2" || metric === "miete_altbau" || metric === "miete_neubau";
     schreibeMonatParam(url.searchParams, hatZeitreise ? zeitMonat : null);
     return url;
-  }, [selected, showStandort, standortPunkt, standortRadius, standortSichtbar, metric, zeitMonat]);
+  }, [selected, showStandort, standortPunkt, standortRadius, standortSichtbar, metric, zeitMonat, showRentCheck, rechnerModus, kaufEingaben]);
 
   // Adressleiste nachführen. Verzögert, weil das Abspielen der Zeitreise den Monat mehrmals pro Sekunde
   // ändert und Browser (Safari) die Zahl der replaceState-Aufrufe begrenzen.
@@ -285,7 +294,16 @@ function App() {
               <p>Wähle eine Kennzahl und klicke einen Bezirk für die Details</p>
             </div>
           ) : showRentCheck ? (
-            <RentCheckView districts={districts} onExit={handleExitRentCheck} />
+            <RentCheckView
+              districts={districts}
+              onExit={handleExitRentCheck}
+              modus={rechnerModus}
+              onModusChange={setRechnerModus}
+              kaufEingaben={kaufEingaben}
+              onKaufEingabenChange={setKaufEingaben}
+              onKaufShare={handleShare}
+              kaufKopiert={copied}
+            />
           ) : showCompare ? (
             <CompareView districtA={compareA} districtB={compareB} />
           ) : selected ? (

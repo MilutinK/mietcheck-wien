@@ -22,7 +22,7 @@ mietcheck wien visualisiert Wohn- und Mietdaten aller 23 Wiener Bezirke auf eine
 - **Zeitreise auf der Karte** – Regler unter der Karte färbt die Bezirke nach Monat ein (Miete gesamt, Altbau oder Neubau, 2014 bis heute, feste Farbskala je Kennzahl), mit Abspielen und "Heute"-Knopf; der Monat steckt im Link (`?monat=2019-05`)
 - **Bezirk teilen** – `?bezirk=7` in der URL öffnet direkt den Bezirk; der Button „Bezirk teilen“ kopiert den Link
 - **Ranking** – Alle 23 Bezirke als Balkenliste, nach Mietpreis oder jeder anderen Kennzahl sortierbar
-- **Mietrechner** – „Miete prüfen“ (ist meine Miete zu hoch?), „Leistbarkeit“ (30-%-Budget, Gemeindewohnung-Einkommensgrenzen 2026, passende Bezirke) und „Kaufen?“ (Mieten oder kaufen: Vermögen über bis zu 40 Jahre, Break-even, einstellbare Annahmen)
+- **Mietrechner** – „Miete prüfen“ (ist meine Miete zu hoch?), „Leistbarkeit“ (30-%-Budget, Gemeindewohnung-Einkommensgrenzen 2026, passende Bezirke) und „Kaufen?“ (Mieten oder kaufen: Vermögen über bis zu 40 Jahre, Break-even, einstellbare Annahmen; jede Rechnung ist per Link teilbar, z. B. `?rechner=kaufen&kb=7&kp=420000&kz=4`)
 - **Mietpreise** – Aktuelle Bruttomieten pro m² mit Altbau/Neubau-Aufschlüsselung und Größenkategorien (immopreise.at)
 - **Mietzins-Info** – Welcher Mietzins gilt? Wohnsitztyp-Verteilung, Richtwert vs. Marktpreis, Mietzinsarten erklärt
 - **Bezirksvergleich** – Zwei Bezirke side-by-side vergleichen
