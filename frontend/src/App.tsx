@@ -12,6 +12,7 @@ import StandortCheckView from "./components/StandortCheckView";
 import { useStandort } from "./hooks/useStandort";
 import type { LonLat } from "./utils/geo";
 import type { Radius } from "./utils/standort";
+import { leseStandortParams, schreibeStandortParams } from "./utils/standortUrl";
 import { STANDARD_AUF_KARTE } from "./utils/faktoren";
 import type { FaktorId } from "./types/standorte";
 import { useTheme } from "./hooks/useTheme";
@@ -28,10 +29,14 @@ function App() {
   const [showCompare, setShowCompare] = useState(false);
   const [showRentCheck, setShowRentCheck] = useState(false);
   const [showRanking, setShowRanking] = useState(false);
-  const [showStandort, setShowStandort] = useState(false);
-  const [standortPunkt, setStandortPunkt] = useState<LonLat | null>(null);
-  const [standortRadius, setStandortRadius] = useState<Radius>(500);
-  const [standortSichtbar, setStandortSichtbar] = useState<FaktorId[]>(STANDARD_AUF_KARTE);
+  // Geteilter Standort aus ?standort=lat,lon&r=500&karte=... (wird einmal beim Start gelesen)
+  const [geteilt] = useState(() => leseStandortParams(window.location.search));
+  const [showStandort, setShowStandort] = useState(geteilt !== null);
+  const [standortPunkt, setStandortPunkt] = useState<LonLat | null>(geteilt?.punkt ?? null);
+  const [standortRadius, setStandortRadius] = useState<Radius>(geteilt?.radius ?? 500);
+  const [standortSichtbar, setStandortSichtbar] = useState<FaktorId[]>(geteilt?.sichtbar ?? STANDARD_AUF_KARTE);
+  // Karte auf den geteilten Punkt zoomen, bis der Nutzer selbst etwas wählt
+  const [standortZentrieren, setStandortZentrieren] = useState(geteilt !== null);
 
   const [copied, setCopied] = useState(false);
   const { preference, resolved, choose } = useTheme();
@@ -44,18 +49,23 @@ function App() {
     loadDistricts().then((loaded) => {
       setDistricts(loaded);
       const shared = loaded.find((d) => d.id === sharedId.current);
-      if (shared) setSelected(shared);
+      if (shared && !geteilt) setSelected(shared);
     });
-  }, []);
+  }, [geteilt]);
 
-  // URL mit dem gewählten Bezirk synchron halten
+  // URL mit Bezirk oder Standort synchron halten (nie beides)
   useEffect(() => {
-    if (districts.length === 0) return; // erst nach dem Laden, sonst geht ?bezirk verloren
+    if (districts.length === 0) return; // erst nach dem Laden, sonst gehen die Parameter verloren
     const url = new URL(window.location.href);
-    if (selected) url.searchParams.set("bezirk", String(selected.id));
+    const stand =
+      showStandort && standortPunkt
+        ? { punkt: standortPunkt, radius: standortRadius, sichtbar: standortSichtbar }
+        : null;
+    schreibeStandortParams(url.searchParams, stand);
+    if (!stand && selected) url.searchParams.set("bezirk", String(selected.id));
     else url.searchParams.delete("bezirk");
     window.history.replaceState(null, "", url);
-  }, [selected, districts.length]);
+  }, [selected, districts.length, showStandort, standortPunkt, standortRadius, standortSichtbar]);
 
   const handleShare = async () => {
     try {
@@ -128,6 +138,7 @@ function App() {
 
   const handleStartStandort = () => {
     setShowStandort(true);
+    setStandortZentrieren(false);
     setShowCompare(false);
     setShowRentCheck(false);
     setShowRanking(false);
@@ -139,6 +150,7 @@ function App() {
   const handleExitStandort = () => {
     setShowStandort(false);
     setStandortPunkt(null);
+    setStandortZentrieren(false);
   };
 
   const handleStandortOpenDistrict = (district: District) => {
@@ -192,7 +204,11 @@ function App() {
             standortAktiv={showStandort}
             standort={standort}
             standortSichtbar={standortSichtbar}
-            onStandortClick={(lat, lon) => setStandortPunkt({ lat, lon })}
+            standortZentrieren={standortZentrieren}
+            onStandortClick={(lat, lon) => {
+              setStandortZentrieren(false);
+              setStandortPunkt({ lat, lon });
+            }}
           />
         </div>
         )}
@@ -240,6 +256,8 @@ function App() {
               radius={standortRadius}
               onRadiusChange={setStandortRadius}
               onOpenDistrict={handleStandortOpenDistrict}
+              onShare={handleShare}
+              kopiert={copied}
               sichtbar={standortSichtbar}
               onToggleSichtbar={(id) =>
                 setStandortSichtbar((aktuell) => (aktuell.includes(id) ? aktuell.filter((x) => x !== id) : [...aktuell, id]))

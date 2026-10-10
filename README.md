@@ -17,7 +17,7 @@ mietcheck wien visualisiert Wohn- und Mietdaten aller 23 Wiener Bezirke auf eine
 - **Interaktive Choropleth-Karte** – Bezirke einfärben nach Mietpreis (Gesamt/Altbau/Neubau), Einwohnerdichte, Öffi-Score, Altbau-Anteil u.v.m. Mietpreise laufen von Türkis (günstig) bis Tomatenrot (teuer); die Basiskarte (OpenFreeMap Positron) zeigt beim Zoomen Straßen und Beschriftungen
 - **Bezirksdetails** – Klick auf einen Bezirk zeigt Mietpreis, Bevölkerung, Wohnungsstruktur, Öffi-Anbindung
 - **Gemeindebau-Ebene** – Alle ca. 1.780 Gemeindebau-Anlagen als zuschaltbare Punkte auf der Karte (Größe = Wohnungszahl), im Bezirkspanel Anlagen und Wohnungen pro Bezirk
-- **Standort-Check** – Punkt auf der Karte wählen und sehen, was im Umkreis (300/500/800 m) liegt: Öffi, Parks, Spielplätze, Kindergärten, Schulen, Hausärzte, Apotheken, Märkte und Gemeindebauten, jeweils eingeordnet gegenüber allen Wiener Lagen; die Orte lassen sich einzeln auf der Karte zeigen
+- **Standort-Check** – Punkt auf der Karte wählen und sehen, was im Umkreis (300/500/800 m) liegt: Öffi, Parks, Spielplätze, Kindergärten, Schulen, Hausärzte, Apotheken, Märkte und Gemeindebauten, jeweils eingeordnet gegenüber allen Wiener Lagen; die Orte lassen sich einzeln auf der Karte zeigen; der Standort ist per Link teilbar (`?standort=48.2,16.37&r=500`)
 - **Bezirk teilen** – `?bezirk=7` in der URL öffnet direkt den Bezirk; der Button „Bezirk teilen“ kopiert den Link
 - **Ranking** – Alle 23 Bezirke als Balkenliste, nach Mietpreis oder jeder anderen Kennzahl sortierbar
 - **Mietrechner** – „Miete prüfen“ (ist meine Miete zu hoch?) und „Leistbarkeit“ (30-%-Budget, Gemeindewohnung-Einkommensgrenzen 2026, passende Bezirke)

@@ -13,6 +13,9 @@ interface Props {
   /** Faktoren, die auf der Karte gezeigt werden */
   sichtbar: FaktorId[];
   onToggleSichtbar: (id: FaktorId) => void;
+  /** Kopiert den Link zum aktuellen Standort */
+  onShare: () => void;
+  kopiert: boolean;
 }
 
 const fmtM = (m: number) => (m >= 1000 ? `${(m / 1000).toFixed(1).replace(".", ",")} km` : `${Math.round(m)} m`);
@@ -108,6 +111,8 @@ export default function StandortCheckView({
   onOpenDistrict,
   sichtbar,
   onToggleSichtbar,
+  onShare,
+  kopiert,
 }: Props) {
   const district = ergebnis?.bezirkId != null ? districts.find((d) => d.id === ergebnis.bezirkId) : undefined;
   const mp = district?.mietpreise;
@@ -176,6 +181,10 @@ export default function StandortCheckView({
 
       {ergebnis && ergebnis.bezirkId !== null && (
         <>
+          <button className="btn btn-secondary" style={{ marginBottom: 12 }} onClick={onShare}>
+            {kopiert ? "Link kopiert ✓" : "Standort teilen"}
+          </button>
+
           {/* Bezirk */}
           <div style={karte}>
             <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)" }}>Lage</div>

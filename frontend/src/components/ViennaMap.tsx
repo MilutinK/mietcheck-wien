@@ -23,6 +23,8 @@ interface Props {
     standortAktiv: boolean;
     standort: StandortErgebnis | null;
     standortSichtbar: FaktorId[];
+    /** Karte beim ersten Anzeigen auf den Standort zoomen (geteilter Link) */
+    standortZentrieren: boolean;
     onStandortClick: (lat: number, lon: number) => void;
 }
 
@@ -43,6 +45,7 @@ export default function ViennaMap({
     standortAktiv,
     standort,
     standortSichtbar,
+    standortZentrieren,
     onStandortClick,
 }: Props) {
     const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
@@ -178,7 +181,7 @@ export default function ViennaMap({
                         ))}
                     </Pane>
                 )}
-                {standortAktiv && standort && <StandortLayer ergebnis={standort} sichtbar={standortSichtbar} dark={dark} />}
+                {standortAktiv && standort && <StandortLayer ergebnis={standort} sichtbar={standortSichtbar} dark={dark} zentrieren={standortZentrieren} />}
             </MapContainer>
 
             {gemeindebau && (

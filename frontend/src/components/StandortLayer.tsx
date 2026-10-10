@@ -1,4 +1,5 @@
-import { Circle, CircleMarker, Pane } from "react-leaflet";
+import { useEffect } from "react";
+import { Circle, CircleMarker, Pane, useMap } from "react-leaflet";
 import type { StandortErgebnis } from "../hooks/useStandort";
 import { FAKTOREN } from "../utils/faktoren";
 import type { FaktorId } from "../types/standorte";
@@ -8,10 +9,20 @@ interface Props {
   /** Faktoren, deren Orte auf der Karte gezeigt werden */
   sichtbar: FaktorId[];
   dark: boolean;
+  /** Beim ersten Anzeigen auf den Punkt zoomen (geteilter Link) */
+  zentrieren?: boolean;
 }
 
 /** Zeichnet Radius, gewählten Punkt und die Orte der ausgewählten Faktoren im Umkreis. */
-export default function StandortLayer({ ergebnis, sichtbar, dark }: Props) {
+export default function StandortLayer({ ergebnis, sichtbar, dark, zentrieren = false }: Props) {
+  const map = useMap();
+  const { lat, lon } = ergebnis.punkt;
+
+  // Nur beim ersten Anzeigen: ein geteilter Link soll direkt den Ausschnitt zeigen
+  useEffect(() => {
+    if (zentrieren) map.setView([lat, lon], Math.max(map.getZoom(), 14), { animate: false });
+  }, [map, lat, lon, zentrieren]);
+
   const ink = dark ? "#ece9e2" : "#16181d";
   const ring = dark ? "#1a1d22" : "#f3eee4";
   const center: [number, number] = [ergebnis.punkt.lat, ergebnis.punkt.lon];
