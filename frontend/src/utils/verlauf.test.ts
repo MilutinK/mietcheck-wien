@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ersterUndLetzterWert, gleitenderMedian, median, monatsname, veraenderungProzent, wienMedian, zeitreiseAus } from "./verlauf";
+import { ersterUndLetzterWert, gleitenderMedian, median, monatsname, veraenderungProzent, wienMedian, zeitreiseAus, reihenFuerArt } from "./verlauf";
 import type { Mietverlauf } from "../types/mietverlauf";
 
 describe("median", () => {
@@ -97,5 +97,32 @@ describe("zeitreiseAus", () => {
 
   it("liefert null, wenn kein Bezirk genug Werte hat", () => {
     expect(zeitreiseAus({ monate: ["2024-01"], objekte: [1], bezirke: { "1": [10] } })).toBeNull();
+  });
+});
+
+describe("Altbau und Neubau", () => {
+  const monate = Array.from({ length: 14 }, (_, i) => `2024-${String((i % 12) + 1).padStart(2, "0")}`);
+  const verlauf: Mietverlauf = {
+    monate,
+    objekte: monate.map(() => 1),
+    bezirke: { "1": monate.map(() => 20) },
+    altbau: { "1": monate.map(() => 15) },
+    neubau: { "1": monate.map((_, i) => (i < 3 ? null : 25)) },
+  };
+
+  it("wählt die Reihen je Art", () => {
+    expect(reihenFuerArt(verlauf, "gesamt")["1"][0]).toBe(20);
+    expect(reihenFuerArt(verlauf, "altbau")["1"][0]).toBe(15);
+    expect(reihenFuerArt(verlauf, "neubau")["1"][0]).toBeNull();
+  });
+
+  it("liefert leere Reihen, wenn die Art in den Daten fehlt", () => {
+    expect(reihenFuerArt({ ...verlauf, altbau: undefined }, "altbau")).toEqual({});
+  });
+
+  it("berechnet die Zeitreise je Art mit eigener Skala", () => {
+    expect(zeitreiseAus(verlauf, "altbau")?.max).toBe(15);
+    expect(zeitreiseAus(verlauf, "neubau")?.min).toBe(25);
+    expect(zeitreiseAus({ ...verlauf, altbau: undefined }, "altbau")).toBeNull();
   });
 });

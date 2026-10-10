@@ -67,8 +67,9 @@ function App() {
     schreibeStandortParams(url.searchParams, stand);
     if (!stand && selected) url.searchParams.set("bezirk", String(selected.id));
     else url.searchParams.delete("bezirk");
-    // Die Zeitreise gibt es nur bei der Gesamtmiete
-    schreibeMonatParam(url.searchParams, metric === "bruttomiete_m2" ? zeitMonat : null);
+    // Die Zeitreise gibt es nur bei den drei Miet-Kennzahlen
+    const hatZeitreise = metric === "bruttomiete_m2" || metric === "miete_altbau" || metric === "miete_neubau";
+    schreibeMonatParam(url.searchParams, hatZeitreise ? zeitMonat : null);
     return url;
   }, [selected, showStandort, standortPunkt, standortRadius, standortSichtbar, metric, zeitMonat]);
 

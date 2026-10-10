@@ -57,6 +57,15 @@ export function monatsname(monat: string): string {
   return `${namen[m - 1]} ${jahr}`;
 }
 
+export type Art = "gesamt" | "altbau" | "neubau";
+
+/** Die Zeitreihen je Bezirk für die gewählte Art; leer, wenn die Daten sie nicht enthalten. */
+export function reihenFuerArt(verlauf: Mietverlauf, art: Art): Record<string, Reihe> {
+  if (art === "altbau") return verlauf.altbau ?? {};
+  if (art === "neubau") return verlauf.neubau ?? {};
+  return verlauf.bezirke;
+}
+
 export interface Zeitreise {
   /** Geglättete Reihe (12-Monats-Median) je Bezirksnummer */
   reihen: Record<number, Reihe>;
@@ -69,12 +78,12 @@ export interface Zeitreise {
 }
 
 /** Bereitet die Zeitreihen für die Karte auf; null, wenn es keine Werte gibt. */
-export function zeitreiseAus(verlauf: Mietverlauf): Zeitreise | null {
+export function zeitreiseAus(verlauf: Mietverlauf, art: Art = "gesamt"): Zeitreise | null {
   const reihen: Record<number, Reihe> = {};
   let min = Infinity;
   let max = -Infinity;
   let erster = Infinity;
-  for (const [id, roh] of Object.entries(verlauf.bezirke)) {
+  for (const [id, roh] of Object.entries(reihenFuerArt(verlauf, art))) {
     const glatt = gleitenderMedian(roh, 12, 8);
     reihen[Number(id)] = glatt;
     const grenzen = ersterUndLetzterWert(glatt);

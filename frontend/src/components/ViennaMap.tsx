@@ -10,7 +10,7 @@ import { useGemeindebau } from "../hooks/useGemeindebau";
 import StandortLayer from "./StandortLayer";
 import KartenZeitregler from "./KartenZeitregler";
 import { useMietverlauf } from "../hooks/useMietverlauf";
-import { monatsname, zeitreiseAus } from "../utils/verlauf";
+import { monatsname, zeitreiseAus, type Art } from "../utils/verlauf";
 import type { StandortErgebnis } from "../hooks/useStandort";
 import type { FaktorId } from "../types/standorte";
 
@@ -62,8 +62,11 @@ export default function ViennaMap({
     const gemeindebau = useGemeindebau();
     // Zeitreise: Bezirke nach Monat einfärben (nur für die Gesamtmiete, dort gibt es die lange Reihe)
     const verlauf = useMietverlauf();
-    const zeit = useMemo(() => (verlauf ? zeitreiseAus(verlauf) : null), [verlauf]);
-    const zeitMoeglich = metric === "bruttomiete_m2" && zeit !== null && verlauf !== null;
+    // Welche Reihe zur Kennzahl gehört; andere Kennzahlen haben keine Zeitreise
+    const zeitArt: Art | null =
+        metric === "bruttomiete_m2" ? "gesamt" : metric === "miete_altbau" ? "altbau" : metric === "miete_neubau" ? "neubau" : null;
+    const zeit = useMemo(() => (verlauf && zeitArt ? zeitreiseAus(verlauf, zeitArt) : null), [verlauf, zeitArt]);
+    const zeitMoeglich = zeitArt !== null && zeit !== null && verlauf !== null;
     // Monat -> Index in der Zeitreihe; unbekannte oder zu frühe Monate (vor dem ersten 12-Monats-Fenster) zählen nicht
     const gefundenerIndex = zeitMonat && verlauf ? verlauf.monate.indexOf(zeitMonat) : -1;
     const zeitIndex = zeit && gefundenerIndex >= zeit.erster ? gefundenerIndex : null;
@@ -220,6 +223,7 @@ export default function ViennaMap({
                     erster={zeit!.erster}
                     letzter={zeit!.letzter}
                     index={zeitIndex}
+                    label={METRIC_LABELS[metric]}
                     onChange={(i) => onZeitMonatChange(i === null ? null : verlauf!.monate[i])}
                 />
             )}

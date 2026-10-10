@@ -8,13 +8,15 @@ interface Props {
     letzter: number;
     /** null = Zeitreise aus (aktuelle Daten) */
     index: number | null;
+    /** Name der gefärbten Kennzahl, z. B. "Miete Altbau €/m²" */
+    label: string;
     onChange: (index: number | null) => void;
 }
 
 const SCHRITT_MS = 140;
 
 /** Regler für die Kartenfärbung nach Monat (Zeitreise): Abspielen, Monat wählen, zurück zu "heute". */
-export default function KartenZeitregler({ monate, erster, letzter, index, onChange }: Props) {
+export default function KartenZeitregler({ monate, erster, letzter, index, label, onChange }: Props) {
     const [spielt, setSpielt] = useState(false);
 
     // Läuft nur, solange noch Monate übrig sind: am Ende hält das Abspielen von selbst an
@@ -52,7 +54,7 @@ export default function KartenZeitregler({ monate, erster, letzter, index, onCha
         <div className="map-zeit" role="group" aria-label="Zeitreise: Mietpreise nach Monat">
             <div className="map-zeit-kopf">
                 <strong>{monatsname(monate[index])}</strong>
-                <span className="map-zeit-hinweis">Miete gesamt, 12-Monats-Median, feste Skala</span>
+                <span className="map-zeit-hinweis">{label}, 12-Monats-Median, feste Skala</span>
                 <button
                     className="map-zeit-zu"
                     onClick={() => {

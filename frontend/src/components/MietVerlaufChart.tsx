@@ -4,6 +4,8 @@ import {
   ersterUndLetzterWert,
   gleitenderMedian,
   monatsname,
+  reihenFuerArt,
+  type Art,
   veraenderungProzent,
   wienMedian,
   type Reihe,
@@ -22,6 +24,12 @@ const BEREICHE = [
   { key: "2", label: "2 Jahre", monate: 24 },
 ] as const;
 type BereichKey = (typeof BEREICHE)[number]["key"];
+
+const ARTEN: { key: Art; label: string }[] = [
+  { key: "gesamt", label: "Gesamt" },
+  { key: "altbau", label: "Altbau" },
+  { key: "neubau", label: "Neubau" },
+];
 
 // Zeichenfläche
 const W = 348;
@@ -45,27 +53,63 @@ function achsenwerte(min: number, max: number): number[] {
 export default function MietVerlaufChart({ bezirkId, bezirkName }: Props) {
   const daten = useMietverlauf();
   const [bereich, setBereich] = useState<BereichKey>("alles");
+  const [art, setArt] = useState<Art>("gesamt");
   const [auswahl, setAuswahl] = useState<number | null>(null); // Index in daten.monate, null = letzter Monat
   const clipId = useId();
 
   const reihen = useMemo(() => {
     if (!daten) return null;
-    const roh: Reihe = daten.bezirke[String(bezirkId)] ?? [];
-    const alle = Object.values(daten.bezirke);
+    const alleReihen = reihenFuerArt(daten, art);
+    const roh: Reihe = alleReihen[String(bezirkId)] ?? [];
+    const alle = Object.values(alleReihen);
     return {
       roh,
       bezirk: gleitenderMedian(roh, 12, 8),
       wien: gleitenderMedian(wienMedian(alle), 12, 8),
     };
-  }, [daten, bezirkId]);
+  }, [daten, bezirkId, art]);
 
   if (!daten || !reihen) return null;
 
   const letzter = daten.monate.length - 1;
-  const gewaehlt = auswahl ?? letzter;
   const monateSicht = BEREICHE.find((b) => b.key === bereich)!.monate;
-  // Erster Monat, für den es eine geglättete Linie gibt (12-Monats-Fenster)
-  const ersterGlatt = ersterUndLetzterWert(reihen.bezirk)?.[0] ?? 0;
+
+  // Welche Art (Gesamt, Altbau, Neubau) angezeigt wird; Altbau und Neubau gibt es nur, wenn die Daten sie enthalten
+  const artAuswahl = (
+    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }} role="group" aria-label="Art der Wohnung">
+      {ARTEN.filter((a) => a.key === "gesamt" || daten[a.key] !== undefined).map((a) => (
+        <button
+          key={a.key}
+          className="faktor-toggle"
+          aria-pressed={art === a.key}
+          onClick={() => {
+            setArt(a.key);
+            setAuswahl(null);
+          }}
+        >
+          {a.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  // Erster und letzter Monat, für den es eine geglättete Linie gibt (12-Monats-Fenster; bei Altbau in kleinen Bezirken oft später)
+  const bezirkGlatt = ersterUndLetzterWert(reihen.bezirk);
+  if (!bezirkGlatt) {
+    return (
+      <div className="panel-section" style={{ marginBottom: 16 }}>
+        <h3>Mieten im Zeitverlauf</h3>
+        {artAuswahl}
+        <p style={{ fontSize: "0.8rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>
+          Für {bezirkName} gibt es bei dieser Art zu wenige Inserate, um einen Verlauf zu zeigen. Wähle „Gesamt“ oder
+          eine andere Art.
+        </p>
+      </div>
+    );
+  }
+  const [ersterGlatt, ende] = bezirkGlatt;
+  // Ohne eigene Wahl zeigt die Auswahl den letzten Monat mit Wert für diesen Bezirk
+  const gewaehlt = auswahl ?? ende;
   const start = Math.max(ersterGlatt, Number.isFinite(monateSicht) ? letzter - monateSicht + 1 : 0);
   const anzahl = letzter - start + 1;
 
@@ -104,7 +148,7 @@ export default function MietVerlaufChart({ bezirkId, bezirkName }: Props) {
   }
 
   // Veränderung im sichtbaren Zeitraum (geglättet)
-  const aenderungBezirk = veraenderungProzent(reihen.bezirk[start], reihen.bezirk[letzter]);
+  const aenderungBezirk = veraenderungProzent(reihen.bezirk[start], reihen.bezirk[ende]);
   const aenderungWien = veraenderungProzent(reihen.wien[start], reihen.wien[letzter]);
 
   const zeigeAuswahl = Math.min(Math.max(gewaehlt, start), letzter);
@@ -130,6 +174,8 @@ export default function MietVerlaufChart({ bezirkId, bezirkName }: Props) {
     <div className="panel-section" style={{ marginBottom: 16 }}>
       <h3>Mieten im Zeitverlauf</h3>
 
+      {artAuswahl}
+
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
         {BEREICHE.map((b) => (
           <button
@@ -152,7 +198,7 @@ export default function MietVerlaufChart({ bezirkId, bezirkName }: Props) {
             {fmtProzent(aenderungBezirk)}
           </span>
           <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginLeft: 6 }}>
-            seit {monatsname(daten.monate[start])}
+            {ende < letzter ? `${monatsname(daten.monate[start])} bis ${monatsname(daten.monate[ende])}` : `seit ${monatsname(daten.monate[start])}`}
           </span>
         </div>
         <span style={{ fontSize: "0.75rem", color: "var(--text-secondary)" }}>Wien {fmtProzent(aenderungWien)}</span>
@@ -229,7 +275,7 @@ export default function MietVerlaufChart({ bezirkId, bezirkName }: Props) {
 
       <div style={{ fontSize: "0.6rem", color: "var(--text-secondary)", lineHeight: 1.5, marginTop: 8 }}>
         Gleitender 12-Monats-Median der Angebotspreise (brutto, €/m²), blass die Einzelmonate. „Wien“ ist der Median der
-        23 Bezirke, ungewichtet. Die Zahl der berücksichtigten Inserate schwankt über die Jahre stark, frühe Werte sind
+        23 Bezirke, ungewichtet (bei Altbau und Neubau nur der Bezirke mit Angaben). Die Zahl der berücksichtigten Inserate schwankt über die Jahre stark, frühe Werte sind
         weniger belastbar. Quelle: immopreise.at / derStandard.at.
       </div>
     </div>
