@@ -12,6 +12,8 @@ import StandortCheckView from "./components/StandortCheckView";
 import { useStandort } from "./hooks/useStandort";
 import type { LonLat } from "./utils/geo";
 import type { Radius } from "./utils/standort";
+import { STANDARD_AUF_KARTE } from "./utils/faktoren";
+import type { FaktorId } from "./types/standorte";
 import { useTheme } from "./hooks/useTheme";
 
 import "leaflet/dist/leaflet.css";
@@ -29,6 +31,7 @@ function App() {
   const [showStandort, setShowStandort] = useState(false);
   const [standortPunkt, setStandortPunkt] = useState<LonLat | null>(null);
   const [standortRadius, setStandortRadius] = useState<Radius>(500);
+  const [standortSichtbar, setStandortSichtbar] = useState<FaktorId[]>(STANDARD_AUF_KARTE);
 
   const [copied, setCopied] = useState(false);
   const { preference, resolved, choose } = useTheme();
@@ -188,6 +191,7 @@ function App() {
             dark={resolved === "dark"}
             standortAktiv={showStandort}
             standort={standort}
+            standortSichtbar={standortSichtbar}
             onStandortClick={(lat, lon) => setStandortPunkt({ lat, lon })}
           />
         </div>
@@ -236,6 +240,10 @@ function App() {
               radius={standortRadius}
               onRadiusChange={setStandortRadius}
               onOpenDistrict={handleStandortOpenDistrict}
+              sichtbar={standortSichtbar}
+              onToggleSichtbar={(id) =>
+                setStandortSichtbar((aktuell) => (aktuell.includes(id) ? aktuell.filter((x) => x !== id) : [...aktuell, id]))
+              }
             />
           ) : showRanking ? (
             <div className="panel-empty">

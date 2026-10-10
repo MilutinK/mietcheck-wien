@@ -37,6 +37,15 @@
   --blue: #2e86c1;
   --card-low: #1f7a6d;
   --card-high: #b93a20;
+  --faktor-oeffi: #2e86c1;
+  --faktor-gruen: #1e8449;
+  --faktor-spielplatz: #16a085;
+  --faktor-kindergarten: #e67e22;
+  --faktor-schule: #b7950b;
+  --faktor-hausarzt: #c2185b;
+  --faktor-apotheke: #00838f;
+  --faktor-markt: #8d6e63;
+  --faktor-gemeindebau: #e74c3c;
   color-scheme: light;
 }
 
@@ -69,6 +78,15 @@
     --blue: #6db3e3;
     --card-low: #1d6f63;
     --card-high: #a8381f;
+    --faktor-oeffi: #6db3e3;
+    --faktor-gruen: #4fc08a;
+    --faktor-spielplatz: #48c9b0;
+    --faktor-kindergarten: #f0a35e;
+    --faktor-schule: #e0b84a;
+    --faktor-hausarzt: #f06292;
+    --faktor-apotheke: #4dd0e1;
+    --faktor-markt: #bcaaa4;
+    --faktor-gemeindebau: #e74c3c;
     color-scheme: dark;
   }
 }
@@ -101,6 +119,15 @@
   --blue: #6db3e3;
   --card-low: #1d6f63;
   --card-high: #a8381f;
+  --faktor-oeffi: #6db3e3;
+  --faktor-gruen: #4fc08a;
+  --faktor-spielplatz: #48c9b0;
+  --faktor-kindergarten: #f0a35e;
+  --faktor-schule: #e0b84a;
+  --faktor-hausarzt: #f06292;
+  --faktor-apotheke: #4dd0e1;
+  --faktor-markt: #bcaaa4;
+  --faktor-gemeindebau: #e74c3c;
   color-scheme: dark;
 }
 
@@ -824,4 +851,35 @@ body {
 .map-layer-toggle[aria-pressed="true"] .map-layer-dot {
   background: var(--bg);
   box-shadow: none;
+}
+
+/* ── Standort-Check: Schalter "Karte" je Faktor ──────────── */
+.faktor-toggle {
+  min-height: 36px;
+  min-width: 56px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  font: 600 0.72rem var(--font);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.faktor-toggle[aria-pressed="true"] {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.faktor-toggle:focus-visible {
+  outline: 2px solid var(--danger);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .faktor-toggle {
+    min-height: 44px;
+  }
 }

@@ -1,7 +1,8 @@
 import type { District } from "../types/district";
-import type { StandortErgebnis } from "../hooks/useStandort";
+import type { FaktorId } from "../types/standorte";
+import type { FaktorErgebnis, StandortErgebnis } from "../hooks/useStandort";
+import { FAKTOREN, type FaktorDef } from "../utils/faktoren";
 import { RADIEN_M, einstufung, type Radius } from "../utils/standort";
-import { distanzM } from "../utils/geo";
 
 interface Props {
   districts: District[];
@@ -9,10 +10,12 @@ interface Props {
   radius: Radius;
   onRadiusChange: (radius: Radius) => void;
   onOpenDistrict: (district: District) => void;
+  /** Faktoren, die auf der Karte gezeigt werden */
+  sichtbar: FaktorId[];
+  onToggleSichtbar: (id: FaktorId) => void;
 }
 
 const fmtM = (m: number) => (m >= 1000 ? `${(m / 1000).toFixed(1).replace(".", ",")} km` : `${Math.round(m)} m`);
-const fmtZahl = (n: number) => n.toLocaleString("de-AT");
 const fmtPreis = (v: number | null | undefined) => (v != null ? `${v.toFixed(1).replace(".", ",")} €` : "k. A.");
 
 const karte = {
@@ -23,29 +26,99 @@ const karte = {
   marginBottom: 12,
 } as const;
 
-/** Balken mit Prozentrang: wie die Lage im Vergleich zu allen Wiener Lagen abschneidet */
-function RangBalken({ rang, farbe }: { rang: number; farbe: string }) {
+/** Farbpunkt: Farbe je Hell/Dunkel über CSS-Variablen, damit der Dunkelmodus ohne Neurendern passt */
+const punktStil = (def: FaktorDef) =>
+  ({
+    display: "inline-block",
+    width: 9,
+    height: 9,
+    borderRadius: "50%",
+    marginRight: 8,
+    background: `var(--faktor-${def.id})`,
+  }) as const;
+
+function FaktorZeile({
+  def,
+  erg,
+  radius,
+  aufKarte,
+  onToggle,
+}: {
+  def: FaktorDef;
+  erg: FaktorErgebnis;
+  radius: number;
+  aufKarte: boolean;
+  onToggle: () => void;
+}) {
   return (
-    <div style={{ marginTop: 8 }}>
-      <div style={{ height: 8, background: "var(--track)", borderRadius: 4, overflow: "hidden" }}>
-        <div style={{ width: `${Math.max(rang, 3)}%`, height: "100%", background: farbe, borderRadius: 4, transition: "width 0.3s ease" }} />
+    <div style={{ padding: "10px 0", borderTop: "1px solid var(--border-color)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+        <span style={{ fontWeight: 600, fontSize: "0.85rem" }}>
+          <span style={punktStil(def)} />
+          {def.label}
+        </span>
+        <button
+          aria-pressed={aufKarte}
+          onClick={onToggle}
+          title={aufKarte ? "Von der Karte ausblenden" : "Auf der Karte zeigen"}
+          className="faktor-toggle"
+        >
+          Karte
+        </button>
       </div>
-      <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", marginTop: 4 }}>
-        mehr als {rang} % der Wiener Lagen (gleicher Umkreis)
+
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 8, fontSize: "0.8rem", marginTop: 4 }}>
+        <span>{erg.anzahl === 0 ? `${def.beschreibe(0, 0)} im Umkreis von ${radius} m` : `${def.beschreibe(erg.anzahl, erg.summe)}`}</span>
+        {erg.rang !== null && (
+          <span style={{ fontSize: "0.72rem", fontWeight: 600, color: `var(--faktor-${def.id})`, whiteSpace: "nowrap" }}>
+            {einstufung(erg.rang)}
+          </span>
+        )}
       </div>
+
+      {erg.rang !== null && (
+        <div style={{ height: 6, background: "var(--track)", borderRadius: 3, overflow: "hidden", marginTop: 6 }}>
+          <div
+            style={{
+              width: `${Math.max(erg.rang, 3)}%`,
+              height: "100%",
+              background: `var(--faktor-${def.id})`,
+              borderRadius: 3,
+              transition: "width 0.3s ease",
+            }}
+          />
+        </div>
+      )}
+
+      {erg.naechster && erg.naechsteM !== null && (
+        <div style={{ fontSize: "0.7rem", color: "var(--text-secondary)", marginTop: 4 }}>
+          {def.naechsteLabel}: {erg.naechster.name}
+          {erg.naechster.detail && def.id !== "gruen" ? ` (${erg.naechster.detail})` : ""} · {fmtM(erg.naechsteM)}
+        </div>
+      )}
     </div>
   );
 }
 
-export default function StandortCheckView({ districts, ergebnis, radius, onRadiusChange, onOpenDistrict }: Props) {
+export default function StandortCheckView({
+  districts,
+  ergebnis,
+  radius,
+  onRadiusChange,
+  onOpenDistrict,
+  sichtbar,
+  onToggleSichtbar,
+}: Props) {
   const district = ergebnis?.bezirkId != null ? districts.find((d) => d.id === ergebnis.bezirkId) : undefined;
   const mp = district?.mietpreise;
 
-  const naechsteHalte = ergebnis
-    ? [...ergebnis.oeffi.treffer]
-        .sort((a, b) => distanzM(ergebnis.punkt, a) - distanzM(ergebnis.punkt, b))
-        .slice(0, 3)
-    : [];
+  // Faktoren nach Gruppe, Reihenfolge wie in FAKTOREN
+  const gruppen: { name: string; defs: FaktorDef[] }[] = [];
+  for (const def of FAKTOREN) {
+    const gruppe = gruppen.find((g) => g.name === def.gruppe);
+    if (gruppe) gruppe.defs.push(def);
+    else gruppen.push({ name: def.gruppe, defs: [def] });
+  }
 
   return (
     <div style={{ padding: "0 4px" }}>
@@ -121,72 +194,42 @@ export default function StandortCheckView({ districts, ergebnis, radius, onRadiu
             )}
           </div>
 
-          {/* Öffi */}
-          <div style={karte}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
-              <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>
-                <span style={{ display: "inline-block", width: 9, height: 9, borderRadius: "50%", background: "var(--blue)", marginRight: 8 }} />
-                Öffentlicher Verkehr
-              </span>
-              {ergebnis.rang && (
-                <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--blue)" }}>
-                  {einstufung(ergebnis.rang.oeffi)}
-                </span>
-              )}
-            </div>
-            <div style={{ fontSize: "0.8rem", marginTop: 6 }}>
-              {ergebnis.oeffi.treffer.length === 0
-                ? `Keine Haltestelle im Umkreis von ${radius} m.`
-                : `${fmtZahl(ergebnis.oeffi.treffer.length)} Haltestellen im Umkreis von ${radius} m.`}
-            </div>
-            {naechsteHalte.length > 0 && (
-              <ul style={{ margin: "6px 0 0", paddingLeft: 18, fontSize: "0.75rem", color: "var(--text-secondary)" }}>
-                {naechsteHalte.map((h, i) => (
-                  <li key={i}>
-                    {h.name} ({fmtM(distanzM(ergebnis.punkt, h))})
-                  </li>
-                ))}
-              </ul>
-            )}
-            {ergebnis.oeffi.treffer.length === 0 && ergebnis.oeffi.naechster && ergebnis.oeffi.naechsteM !== null && (
-              <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginTop: 4 }}>
-                Nächste: {ergebnis.oeffi.naechster.name} ({fmtM(ergebnis.oeffi.naechsteM)})
+          {/* Faktoren nach Gruppe */}
+          {gruppen.map((g) => (
+            <div key={g.name} style={karte}>
+              <div
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 800,
+                  fontSize: "1rem",
+                  letterSpacing: "-0.01em",
+                  marginBottom: 2,
+                }}
+              >
+                {g.name}
               </div>
-            )}
-            {ergebnis.rang && <RangBalken rang={ergebnis.rang.oeffi} farbe="var(--blue)" />}
-          </div>
-
-          {/* Gemeindebau */}
-          <div style={karte}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
-              <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>
-                <span style={{ display: "inline-block", width: 9, height: 9, borderRadius: "50%", background: "#e74c3c", marginRight: 8 }} />
-                Gemeindebau
-              </span>
-              {ergebnis.rang && (
-                <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--red)" }}>
-                  Dichte {einstufung(ergebnis.rang.gemeindebau)}
-                </span>
-              )}
+              {g.defs.map((def) => {
+                const erg = ergebnis.faktoren.find((f) => f.id === def.id);
+                return erg ? (
+                  <FaktorZeile
+                    key={def.id}
+                    def={def}
+                    erg={erg}
+                    radius={radius}
+                    aufKarte={sichtbar.includes(def.id)}
+                    onToggle={() => onToggleSichtbar(def.id)}
+                  />
+                ) : null;
+              })}
             </div>
-            <div style={{ fontSize: "0.8rem", marginTop: 6 }}>
-              {ergebnis.gemeindebau.treffer.length === 0
-                ? `Keine Gemeindebau-Anlage im Umkreis von ${radius} m.`
-                : `${fmtZahl(ergebnis.gemeindebau.treffer.length)} Anlagen mit ${fmtZahl(ergebnis.gemeindebau.wohnungen)} Wohnungen im Umkreis von ${radius} m.`}
-            </div>
-            {ergebnis.gemeindebau.naechster && ergebnis.gemeindebau.naechsteM !== null && (
-              <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", marginTop: 4 }}>
-                Nächste Anlage: {ergebnis.gemeindebau.naechster.adresse || ergebnis.gemeindebau.naechster.name} (
-                {fmtM(ergebnis.gemeindebau.naechsteM)})
-              </div>
-            )}
-            {ergebnis.rang && <RangBalken rang={ergebnis.rang.gemeindebau} farbe="var(--red)" />}
-          </div>
+          ))}
 
           <div style={{ fontSize: "0.6rem", color: "var(--text-secondary)", lineHeight: 1.5, padding: "0 4px", marginBottom: 8 }}>
-            Die Mieten stammen vom Bezirksdurchschnitt, es gibt keine Preise pro Adresse. Der Vergleich nutzt ein
-            500-m-Raster über ganz Wien. Entfernungen sind Luftlinie. Quellen: Wiener Linien Haltestellen und Gemeindebau
-            Standorte, Stadt Wien – data.wien.gv.at.
+            Die Einstufung vergleicht deine Lage mit einem 500-m-Raster über ganz Wien im selben Umkreis. Parks zählen mit
+            ihrer Fläche (Mittelpunkt im Umkreis), Hausärzte sind Praxen für Allgemeinmedizin. Die Mieten sind der
+            Bezirksdurchschnitt, es gibt keine Preise pro Adresse. Entfernungen sind Luftlinie. Quellen: Stadt Wien –
+            data.wien.gv.at (Wiener Linien, Gemeindebau, Parkanlagen, Spielplätze, Schulen, Kindergärten, Ärzte,
+            Apotheken, Märkte).
           </div>
         </>
       )}

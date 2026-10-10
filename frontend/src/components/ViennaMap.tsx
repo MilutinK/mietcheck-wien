@@ -9,6 +9,7 @@ import MapLibreLayer from "./MapLibreLayer";
 import { useGemeindebau } from "../hooks/useGemeindebau";
 import StandortLayer from "./StandortLayer";
 import type { StandortErgebnis } from "../hooks/useStandort";
+import type { FaktorId } from "../types/standorte";
 
 interface Props {
     districts: District[];
@@ -21,6 +22,7 @@ interface Props {
     /** Standort-Check: Klick auf die Karte setzt einen Punkt statt einen Bezirk zu wählen */
     standortAktiv: boolean;
     standort: StandortErgebnis | null;
+    standortSichtbar: FaktorId[];
     onStandortClick: (lat: number, lon: number) => void;
 }
 
@@ -40,6 +42,7 @@ export default function ViennaMap({
     dark,
     standortAktiv,
     standort,
+    standortSichtbar,
     onStandortClick,
 }: Props) {
     const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
@@ -175,7 +178,7 @@ export default function ViennaMap({
                         ))}
                     </Pane>
                 )}
-                {standortAktiv && standort && <StandortLayer ergebnis={standort} dark={dark} />}
+                {standortAktiv && standort && <StandortLayer ergebnis={standort} sichtbar={standortSichtbar} dark={dark} />}
             </MapContainer>
 
             {gemeindebau && (
